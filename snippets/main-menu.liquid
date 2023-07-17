@@ -37,7 +37,11 @@
       </li>
       {%- endif -%}
       {%- else -%}
-      <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {% if link.title == "Barbie" %}
+          <li><a class= "blink-style" href="{{ link.url }}">{{ link.title }}</a></li>
+        {% else %}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {% endif %}
       {%- endif -%}
       {%- endfor -%}
       {%- if section.settings.extra_menu_item_enable -%}
