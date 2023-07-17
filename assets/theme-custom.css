@@ -1,24 +1,3 @@
-.blink-style {
-  text-align: center;
-  font-family: Verdana, serif;
-  color: #F837A1;
-  animation: blink-text .75s linear infinite;
-  font-size: 28px;
-  font-weight:700;
-  text-shadow: 2px 2px 4px #000000;
-  padding-left: 12%;
-}
-@keyframes blink-text {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
 /* Default CSS */
 input, textarea, select{
   border-radius: 0;
