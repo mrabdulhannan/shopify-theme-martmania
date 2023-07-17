@@ -113,7 +113,12 @@
               {%- endif -%}
               {%- else -%}
               <li class="ltn__category-menu-item">
-                <a href="{{ link.url }}">{{ link.title }}</a>
+                  {% if link.title == "Barbie" %}
+                      <a href="{{ link.url }}">{{ link.title }}<span class="blink-style">Sale</span></a>
+                  {% else %}
+                      <a href="{{ link.url }}">{{ link.title }}</a>
+                  {% endif %}
+
               </li>
               {%- endif -%}
               {%- endfor -%}
