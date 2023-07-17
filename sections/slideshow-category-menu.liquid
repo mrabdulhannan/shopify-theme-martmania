@@ -4,27 +4,7 @@
     background: {{ section.settings.category_bg_color }};
     color: {{ section.settings.category_color }};
   }
-  .blink-style {
-      text-align: center;
-      font-family: Verdana, serif;
-      color: #F837A1;
-      animation: blink-text .75s linear infinite;
-      font-size: 28px;
-      font-weight:700;
-      text-shadow: 2px 2px 4px #000000;
-      padding-left: 12%;
-  }
-  @keyframes blink-text {
-      0% {
-          opacity: 0;
-      }
-      50% {
-          opacity: 1;
-      }
-      100% {
-          opacity: 0;
-      }
-  }
+
 </style>
 {%- endif -%}
 
@@ -135,7 +115,7 @@
               {%- else -%}
               <li class="ltn__category-menu-item">
                   {% if link.title == "Barbie" %}
-                      <a href="{{ link.url }}">{{ link.title }}<span class="blink-style">Sale</span></a>
+                      <a href="{{ link.url }}">{{ link.title }}</a>
                   {% else %}
                       <a href="{{ link.url }}">{{ link.title }}</a>
                   {% endif %}
