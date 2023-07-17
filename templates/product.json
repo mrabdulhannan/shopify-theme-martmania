@@ -1,1 +1,296 @@
-{"sections":{"main":{"type":"product-template","blocks":{"4d316c61-31bb-4a57-9951-18d39063afec":{"type":"review","settings":{}},"487f8865-8dc3-4283-aea2-2315be32bf7e":{"type":"title","settings":{}},"bf204acc-4721-49ca-b288-3e9f4d643663":{"type":"price","settings":{}},"d88e3132-716a-45d4-90f2-a964d758574c":{"type":"description","settings":{"product_description_handle":"short_description","truncatewords_count_handle":15}},"6afbd4c7-e2e4-42cf-8d60-5b1115bbed4b":{"type":"organization","settings":{"product_sku_enable":false,"product_sku_title":"SKU:","product_inventory_enable":false,"availability_title":"Availability:","in_stock_title":"In stock","left_in_stock_title":"left in stock","out_of_stock_title":"Out of stock","product_vendor_enable":false,"product_vendor_title":"Vendor:","product_type_enable":false,"product_type_title":"Type:"}},"2a6f1de6-7da1-4847-af42-b20c3b31d4f8":{"type":"countdown","settings":{}},"4ff34694-8bd6-4f5f-904d-d8d6bb7b3615":{"type":"variants","settings":{"product_variant_handle":"product_variant_swatch_option","show_variant_image":true,"swatch_large_image_enable":true,"customer_choose_option_enable":false,"text_transform":"capitalize"}},"0b1aa8c5-4bb0-485e-96ce-2aafb791af43":{"type":"action_buttons","settings":{"quantity_title":"qty:","dynamic_checkout_button_enable":true,"compare_button_title":"","contact_form_enable":false,"contact_form_button_title":"Ask about this product","contact_form_title":"Have a question?","name_placeholder":"Name","email_placeholder":"Email","url_placeholder":"Product URL","message_placeholder":"Message","form_button_name":"Send","section_color_enable":false,"buynow_button_text_color":"#ffffff","buynow_button_bg_color":"#071c1f","buynow_button_text_hover_color":"#ffffff","buynow_button_bg_hover_color":"#071c1f"}},"f35f858d-dc63-40fd-9c88-2be28aa5bc36":{"type":"share_and_payment","settings":{"social_share_enable":false,"share_title":"Share:","payment_option_enable":false,"payment_information":"<p>Secure Payment Gateway<\/p>","secure_badge_enable":false,"payment_icon":"automatic","amazon_payments":true,"american_express":false,"apple_pay":true,"bitcoin":true,"dankort":false,"diners_club":false,"discover":false,"dogecoin":false,"dwolla":false,"Forbrugsforeningen":false,"google_pay":true,"jcb":false,"klarna":false,"litecoin":false,"maestro":false,"master":false,"paypal":true,"shopify_pay":false,"sofort":false,"visa":true}},"a39b564c-c19e-4752-88c4-a8b946b124fb":{"type":"complementary","settings":{}}},"block_order":["4d316c61-31bb-4a57-9951-18d39063afec","487f8865-8dc3-4283-aea2-2315be32bf7e","bf204acc-4721-49ca-b288-3e9f4d643663","d88e3132-716a-45d4-90f2-a964d758574c","6afbd4c7-e2e4-42cf-8d60-5b1115bbed4b","2a6f1de6-7da1-4847-af42-b20c3b31d4f8","4ff34694-8bd6-4f5f-904d-d8d6bb7b3615","0b1aa8c5-4bb0-485e-96ce-2aafb791af43","f35f858d-dc63-40fd-9c88-2be28aa5bc36","a39b564c-c19e-4752-88c4-a8b946b124fb"],"settings":{"product_media_enable":true,"content_handle":"content_in_right","product_zoom_enable":true,"zoom_type":"inner","product_popup_enable":true,"view_on_space_title":"View on Space","sticky_cart_enable":true}},"single-product-tab":{"type":"single-product-tab","blocks":{"19c5d1b1-f6ec-4a12-8971-5c54c1b0ae02":{"type":"custom_tab","disabled":true,"settings":{"custom_tab_title":"Shipping Policy","custom_tab_handle":"shipping-policy"}},"c9caa75f-591f-4a5f-b116-b41661b4df09":{"type":"custom_tab","disabled":true,"settings":{"custom_tab_title":"Size Guide","custom_tab_handle":"size-chart"}}},"block_order":["19c5d1b1-f6ec-4a12-8971-5c54c1b0ae02","c9caa75f-591f-4a5f-b116-b41661b4df09"],"settings":{"product_tab_enable":true,"tab_active_handle":"info_tab","product_info_tab_enable":true,"product_info_tab_title":"Description","product_review_tab_enable":true,"product_review_tab_title":"Reviews","review_handle":"shopify_review","product_video_title":"Video","product_comments_enable":false,"product_comments_title":"Comments","product_page_comments_box":"facebook_comment","facebook_comments_post_limit":"10","disqus_shortname":"demo-store"}},"related-product":{"type":"related-product","settings":{"related_products_enable":true,"section_sub_title":"\/\/ YOU MAY ALSO LIKE","section_title":"Related Products<span>.<\/span>","related_product_limit_handle":8,"product_column":4,"product_column_md":3,"product_column_sm":2,"autoplay_true":false,"autoplay_speed":7000}},"recently-viewed-product":{"type":"recently-viewed-product","settings":{"section_title":"Recently Viewed","section_sub_title":"","related_product_limit_handle":4,"product_column":4,"product_column_md":3,"product_column_sm":2,"autoplay_true":false,"autoplay_speed":7000}},"alireviews-section-00256384-c10d-447d-aa4d-8b37b0ead8b2":{"type":"apps","blocks":{"0dc04a4d-b4a1-4c1a-a9e4-62a5f8b69fc6":{"type":"shopify:\/\/apps\/ali-reviews-product-reviews\/blocks\/widget-box\/bf2eea72-0400-4db1-8908-44b7418f9a88","settings":{"product":"","name":"Review Box","vertical_alignment":"2","rating_color":"#1f1f1f","section_color":"#ffffff","primary_text_color":"#1f1f1f"}}},"block_order":["0dc04a4d-b4a1-4c1a-a9e4-62a5f8b69fc6"],"settings":{}},"15e27fff-7c9b-4b19-a136-ee005354faee":{"type":"call-to-action","disabled":true,"blocks":{"template--19810074755394__15e27fff-7c9b-4b19-a136-ee005354faee-168874245810eae535-0":{"type":"section_padding","settings":{"section_padding_top":20,"section_padding_bottom":20,"section_padding_top_md":20,"section_padding_bottom_md":20,"section_padding_top_xs":20,"section_padding_bottom_xs":20}},"template--19810074755394__15e27fff-7c9b-4b19-a136-ee005354faee-168874245810eae535-1":{"type":"section_background","settings":{"section_bg_color":"#e8edee"}}},"block_order":["template--19810074755394__15e27fff-7c9b-4b19-a136-ee005354faee-168874245810eae535-0","template--19810074755394__15e27fff-7c9b-4b19-a136-ee005354faee-168874245810eae535-1"],"settings":{"title":"Title for CTA","action_title":"MAKE A CALL","url":""}},"e714046d-ac71-49f9-a9e5-03cbaab0b0a2":{"type":"custom-liquid","disabled":true,"blocks":{"template--19810074755394__e714046d-ac71-49f9-a9e5-03cbaab0b0a2-168874277378b8ce37-0":{"type":"section_padding","disabled":true,"settings":{"section_padding_top":0,"section_padding_bottom":100,"section_padding_top_md":0,"section_padding_bottom_md":80,"section_padding_top_xs":0,"section_padding_bottom_xs":60}}},"block_order":["template--19810074755394__e714046d-ac71-49f9-a9e5-03cbaab0b0a2-168874277378b8ce37-0"],"settings":{"section_sub_title":"","section_title":"","custom_liquid":"<div class=\"accordion\">\n  {% for item in accordion_items %}\n    <div class=\"accordion-item\">\n      <div class=\"accordion-header\">\n        <button class=\"accordion-button\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapse{{ forloop.index }}\">\n          {{ item.title }}\n        <\/button>\n      <\/div>\n      <div id=\"collapse{{ forloop.index }}\" class=\"accordion-collapse collapse{% if forloop.first %} show{% endif %}\">\n        <div class=\"accordion-body\">\n          {{ item.content }}\n        <\/div>\n      <\/div>\n    <\/div>\n  {% endfor %}\n<\/div>"}}},"order":["main","single-product-tab","related-product","recently-viewed-product","alireviews-section-00256384-c10d-447d-aa4d-8b37b0ead8b2","15e27fff-7c9b-4b19-a136-ee005354faee","e714046d-ac71-49f9-a9e5-03cbaab0b0a2"]}
+{
+  "sections": {
+    "main": {
+      "type": "product-template",
+      "blocks": {
+        "4d316c61-31bb-4a57-9951-18d39063afec": {
+          "type": "review",
+          "settings": {
+          }
+        },
+        "487f8865-8dc3-4283-aea2-2315be32bf7e": {
+          "type": "title",
+          "settings": {
+          }
+        },
+        "bf204acc-4721-49ca-b288-3e9f4d643663": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "d88e3132-716a-45d4-90f2-a964d758574c": {
+          "type": "description",
+          "settings": {
+            "product_description_handle": "short_description",
+            "truncatewords_count_handle": 15
+          }
+        },
+        "6afbd4c7-e2e4-42cf-8d60-5b1115bbed4b": {
+          "type": "organization",
+          "disabled": true,
+          "settings": {
+            "product_sku_enable": false,
+            "product_sku_title": "SKU:",
+            "product_inventory_enable": false,
+            "availability_title": "Availability:",
+            "in_stock_title": "In stock",
+            "left_in_stock_title": "left in stock",
+            "out_of_stock_title": "Out of stock",
+            "product_vendor_enable": false,
+            "product_vendor_title": "Vendor:",
+            "product_type_enable": false,
+            "product_type_title": "Type:"
+          }
+        },
+        "2a6f1de6-7da1-4847-af42-b20c3b31d4f8": {
+          "type": "countdown",
+          "settings": {
+          }
+        },
+        "4ff34694-8bd6-4f5f-904d-d8d6bb7b3615": {
+          "type": "variants",
+          "settings": {
+            "product_variant_handle": "product_variant_swatch_option",
+            "show_variant_image": true,
+            "swatch_large_image_enable": true,
+            "customer_choose_option_enable": false,
+            "text_transform": "capitalize"
+          }
+        },
+        "0b1aa8c5-4bb0-485e-96ce-2aafb791af43": {
+          "type": "action_buttons",
+          "settings": {
+            "quantity_title": "qty:",
+            "dynamic_checkout_button_enable": true,
+            "compare_button_title": "",
+            "contact_form_enable": false,
+            "contact_form_button_title": "Ask about this product",
+            "contact_form_title": "Have a question?",
+            "name_placeholder": "Name",
+            "email_placeholder": "Email",
+            "url_placeholder": "Product URL",
+            "message_placeholder": "Message",
+            "form_button_name": "Send",
+            "section_color_enable": false,
+            "buynow_button_text_color": "#ffffff",
+            "buynow_button_bg_color": "#071c1f",
+            "buynow_button_text_hover_color": "#ffffff",
+            "buynow_button_bg_hover_color": "#071c1f"
+          }
+        },
+        "f35f858d-dc63-40fd-9c88-2be28aa5bc36": {
+          "type": "share_and_payment",
+          "settings": {
+            "social_share_enable": false,
+            "share_title": "Share:",
+            "payment_option_enable": false,
+            "payment_information": "<p>Secure Payment Gateway<\/p>",
+            "secure_badge_enable": false,
+            "payment_icon": "automatic",
+            "amazon_payments": true,
+            "american_express": false,
+            "apple_pay": true,
+            "bitcoin": true,
+            "dankort": false,
+            "diners_club": false,
+            "discover": false,
+            "dogecoin": false,
+            "dwolla": false,
+            "Forbrugsforeningen": false,
+            "google_pay": true,
+            "jcb": false,
+            "klarna": false,
+            "litecoin": false,
+            "maestro": false,
+            "master": false,
+            "paypal": true,
+            "shopify_pay": false,
+            "sofort": false,
+            "visa": true
+          }
+        },
+        "a39b564c-c19e-4752-88c4-a8b946b124fb": {
+          "type": "complementary",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "4d316c61-31bb-4a57-9951-18d39063afec",
+        "487f8865-8dc3-4283-aea2-2315be32bf7e",
+        "bf204acc-4721-49ca-b288-3e9f4d643663",
+        "d88e3132-716a-45d4-90f2-a964d758574c",
+        "6afbd4c7-e2e4-42cf-8d60-5b1115bbed4b",
+        "2a6f1de6-7da1-4847-af42-b20c3b31d4f8",
+        "4ff34694-8bd6-4f5f-904d-d8d6bb7b3615",
+        "0b1aa8c5-4bb0-485e-96ce-2aafb791af43",
+        "f35f858d-dc63-40fd-9c88-2be28aa5bc36",
+        "a39b564c-c19e-4752-88c4-a8b946b124fb"
+      ],
+      "settings": {
+        "product_media_enable": true,
+        "content_handle": "content_in_right",
+        "product_zoom_enable": true,
+        "zoom_type": "inner",
+        "product_popup_enable": true,
+        "view_on_space_title": "View on Space",
+        "sticky_cart_enable": true
+      }
+    },
+    "single-product-tab": {
+      "type": "single-product-tab",
+      "blocks": {
+        "19c5d1b1-f6ec-4a12-8971-5c54c1b0ae02": {
+          "type": "custom_tab",
+          "disabled": true,
+          "settings": {
+            "custom_tab_title": "Shipping Policy",
+            "custom_tab_handle": "shipping-policy"
+          }
+        },
+        "c9caa75f-591f-4a5f-b116-b41661b4df09": {
+          "type": "custom_tab",
+          "disabled": true,
+          "settings": {
+            "custom_tab_title": "Size Guide",
+            "custom_tab_handle": "size-chart"
+          }
+        }
+      },
+      "block_order": [
+        "19c5d1b1-f6ec-4a12-8971-5c54c1b0ae02",
+        "c9caa75f-591f-4a5f-b116-b41661b4df09"
+      ],
+      "settings": {
+        "product_tab_enable": true,
+        "tab_active_handle": "info_tab",
+        "product_info_tab_enable": true,
+        "product_info_tab_title": "Description",
+        "product_review_tab_enable": true,
+        "product_review_tab_title": "Reviews",
+        "review_handle": "shopify_review",
+        "product_video_title": "Video",
+        "product_comments_enable": false,
+        "product_comments_title": "Comments",
+        "product_page_comments_box": "facebook_comment",
+        "facebook_comments_post_limit": "10",
+        "disqus_shortname": "demo-store"
+      }
+    },
+    "related-product": {
+      "type": "related-product",
+      "settings": {
+        "related_products_enable": true,
+        "section_sub_title": "\/\/ YOU MAY ALSO LIKE",
+        "section_title": "Related Products<span>.<\/span>",
+        "related_product_limit_handle": 8,
+        "product_column": 4,
+        "product_column_md": 3,
+        "product_column_sm": 2,
+        "autoplay_true": false,
+        "autoplay_speed": 7000
+      }
+    },
+    "recently-viewed-product": {
+      "type": "recently-viewed-product",
+      "settings": {
+        "section_title": "Recently Viewed",
+        "section_sub_title": "",
+        "related_product_limit_handle": 4,
+        "product_column": 4,
+        "product_column_md": 3,
+        "product_column_sm": 2,
+        "autoplay_true": false,
+        "autoplay_speed": 7000
+      }
+    },
+    "alireviews-section-00256384-c10d-447d-aa4d-8b37b0ead8b2": {
+      "type": "apps",
+      "blocks": {
+        "0dc04a4d-b4a1-4c1a-a9e4-62a5f8b69fc6": {
+          "type": "shopify:\/\/apps\/ali-reviews-product-reviews\/blocks\/widget-box\/bf2eea72-0400-4db1-8908-44b7418f9a88",
+          "settings": {
+            "product": "",
+            "name": "Review Box",
+            "vertical_alignment": "2",
+            "rating_color": "#1f1f1f",
+            "section_color": "#ffffff",
+            "primary_text_color": "#1f1f1f"
+          }
+        }
+      },
+      "block_order": [
+        "0dc04a4d-b4a1-4c1a-a9e4-62a5f8b69fc6"
+      ],
+      "settings": {
+      }
+    },
+    "15e27fff-7c9b-4b19-a136-ee005354faee": {
+      "type": "call-to-action",
+      "disabled": true,
+      "blocks": {
+        "template--19810074755394__15e27fff-7c9b-4b19-a136-ee005354faee-168874245810eae535-0": {
+          "type": "section_padding",
+          "settings": {
+            "section_padding_top": 20,
+            "section_padding_bottom": 20,
+            "section_padding_top_md": 20,
+            "section_padding_bottom_md": 20,
+            "section_padding_top_xs": 20,
+            "section_padding_bottom_xs": 20
+          }
+        },
+        "template--19810074755394__15e27fff-7c9b-4b19-a136-ee005354faee-168874245810eae535-1": {
+          "type": "section_background",
+          "settings": {
+            "section_bg_color": "#e8edee"
+          }
+        }
+      },
+      "block_order": [
+        "template--19810074755394__15e27fff-7c9b-4b19-a136-ee005354faee-168874245810eae535-0",
+        "template--19810074755394__15e27fff-7c9b-4b19-a136-ee005354faee-168874245810eae535-1"
+      ],
+      "settings": {
+        "title": "Title for CTA",
+        "action_title": "MAKE A CALL",
+        "url": ""
+      }
+    },
+    "e714046d-ac71-49f9-a9e5-03cbaab0b0a2": {
+      "type": "custom-liquid",
+      "disabled": true,
+      "blocks": {
+        "template--19810074755394__e714046d-ac71-49f9-a9e5-03cbaab0b0a2-168874277378b8ce37-0": {
+          "type": "section_padding",
+          "disabled": true,
+          "settings": {
+            "section_padding_top": 0,
+            "section_padding_bottom": 100,
+            "section_padding_top_md": 0,
+            "section_padding_bottom_md": 80,
+            "section_padding_top_xs": 0,
+            "section_padding_bottom_xs": 60
+          }
+        }
+      },
+      "block_order": [
+        "template--19810074755394__e714046d-ac71-49f9-a9e5-03cbaab0b0a2-168874277378b8ce37-0"
+      ],
+      "settings": {
+        "section_sub_title": "",
+        "section_title": "",
+        "custom_liquid": "<div class=\"accordion\">\n  {% for item in accordion_items %}\n    <div class=\"accordion-item\">\n      <div class=\"accordion-header\">\n        <button class=\"accordion-button\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapse{{ forloop.index }}\">\n          {{ item.title }}\n        <\/button>\n      <\/div>\n      <div id=\"collapse{{ forloop.index }}\" class=\"accordion-collapse collapse{% if forloop.first %} show{% endif %}\">\n        <div class=\"accordion-body\">\n          {{ item.content }}\n        <\/div>\n      <\/div>\n    <\/div>\n  {% endfor %}\n<\/div>"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "single-product-tab",
+    "related-product",
+    "recently-viewed-product",
+    "alireviews-section-00256384-c10d-447d-aa4d-8b37b0ead8b2",
+    "15e27fff-7c9b-4b19-a136-ee005354faee",
+    "e714046d-ac71-49f9-a9e5-03cbaab0b0a2"
+  ]
+}
