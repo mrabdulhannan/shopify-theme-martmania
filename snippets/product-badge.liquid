@@ -1,0 +1,39 @@
+<div class="product-badge">
+  <ul>
+    {%- if sold_out -%}
+    <li class="soldout-badge">{{ settings.soldout_title }}</li>
+    {%- else -%}
+    
+    {%- if product.description contains '[new_products]' -%}      
+    {%- assign new_products_first = product.description | split:'[/new_products]' | first -%}
+    {%- assign new_products_final = new_products_first | split:'[new_products]' | last -%} 
+    {%- comment %}Date calculate{% endcomment -%}
+    {%- assign date_pub_y = product.published_at | date:'%Y' -%}
+    {%- assign date_pub_d = product.published_at | date:'%j' -%}
+    {%- assign date_now_y = 'now' | date:'%Y' -%}
+    {%- assign date_now_d = 'now' | date:'%j' -%}
+    {%- assign dates_diff_y = date_now_y | minus: date_pub_y | times: 365 -%}
+    {%- assign dates_diff_d = date_now_d | minus: date_pub_d -%}
+    {%- assign dates_diff = dates_diff_y | plus: dates_diff_d -%}
+    {%- assign new_products_period = new_products_final | plus: 0 -%} 
+    {%- if dates_diff <= new_products_period -%}
+    <li class="new-badge">{{ settings.new_title }}</li>
+    {%- endif -%}
+    {%- endif -%}
+    
+    {%- if on_sale -%}
+    {%- if settings.sale_title != '' or settings.sale_percent_enable -%}
+    <li class="sale-badge">
+      {%- if settings.sale_title != '' -%}
+      {{ settings.sale_title }}
+      {%- endif -%}
+      {%- if settings.sale_percent_enable -%}
+      -{{ product.selected_or_first_available_variant.compare_at_price | minus: product.selected_or_first_available_variant.price | times: 100.0 | divided_by: product.selected_or_first_available_variant.compare_at_price | money_without_currency | replace: ',', '.' | times: 100 | remove: '.0'}}%
+      {%- endif -%}
+    </li>
+    {%- endif -%}
+    {%- endif -%}
+    
+    {%- endif -%}
+  </ul>
+</div>

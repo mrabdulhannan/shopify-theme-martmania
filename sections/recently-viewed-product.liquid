@@ -1,0 +1,149 @@
+{{ '//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js' | script_tag }}
+<script src="{{ 'recently-view.js' | asset_url }}"></script>
+
+<section class="recently-viewed-products" id="section-{{ section.id }}" data-section="RecentlyViewedProduct">
+  <div class="container">
+    {%- if section.settings.section_title != '' or section.settings.section_sub_title != '' -%}
+    <div class="row" id="recently-viewed-products" style="display: none;">
+      <div class="col-lg-12">
+        <div class="ttt section-title-area ltn__section-title-2 text-center">
+          {%- if section.settings.section_sub_title != '' -%}
+          <h6 class="section-subtitle ltn__secondary-color">{{ section.settings.section_sub_title }}</h6>
+          {%- endif -%}
+          {%- if section.settings.section_title != '' -%}
+          <h1 class="section-title">{{ section.settings.section_title }}</h1>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+    <div class="row">
+      <div class="col-12">
+        <div class="">
+          {% raw %}
+          <script id="recently-viewed-product-template" type="text/x-jquery-tmpl">
+            <div class="recently-viewed-product product-item product-wrapper col-6 col-sm-6 col-md-6 col-lg-3">
+            	<div class="ltn__product-item ltn__product-item-3 text-center">
+                  <div class="product-img">
+                      <a href="${url}">
+                        <img src="${Shopify.Products.resizeImage(featured_image, "large")}" />
+                      </a>
+                  </div>
+                  <div class="product-info">
+                    <h2 class="product-title">
+                      <a href="${url}">${title}</a>
+                    </h2>
+                    <div class="product-price">
+                    	  {{if compare_at_price > price}}
+                          <del>{{html Shopify.formatMoney(compare_at_price, window.money_format)}}</del>
+                          <span>{{html Shopify.formatMoney(price, window.money_format)}}</span>
+                          {{else}}
+                          <span>{{html Shopify.formatMoney(price, window.money_format)}}</span>
+                          {{/if}}
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </script>
+          {% endraw %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  setTimeout(function () {
+      $('.recently-viewed-product').parents('.recently-viewed-products').addClass('pb-70');
+    },1000);
+    
+</script>
+
+
+{% schema %}
+  {
+    "name": "Recently Viewed Product",
+    "settings": [
+		{
+		  "type": "header",
+          "content": "Section Heading"
+        },
+		{
+          "type": "text",
+          "id": "section_title",
+          "label": "Section Title",
+          "default": "Section Title Here"
+      	},
+		{
+          "type": "textarea",
+          "id": "section_sub_title",
+          "label": "Section Sub Title",
+          "default": "Section Sub Title Here"
+      	},
+		{
+            "type": "header",
+            "content": "Product Options"
+        },
+		{
+            "type": "range",
+            "id": "related_product_limit_handle",
+            "min": 1,
+            "max": 20,
+            "step": 1,
+            "label": "Product Limit",
+            "default": 4
+        },
+		{
+			"type": "header",
+            "content": "Product Column"
+        },
+		{
+            "type": "range",
+            "id": "product_column",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "label": "Desktop",
+            "default": 4
+        },
+		{
+            "type": "range",
+            "id": "product_column_md",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "label": "Tablet",
+            "default": 3
+        },
+		{
+            "type": "range",
+            "id": "product_column_sm",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "label": "Mobile",
+            "default": 2
+        },
+		{
+			"type": "header",
+            "content": "Options"
+        },
+		{
+          "type": "checkbox",
+          "id": "autoplay_true",
+          "label": "Autoplay Enable",
+          "default": false
+      	},
+		{
+            "type": "range",
+            "id": "autoplay_speed",
+            "min": 1000,
+            "max": 9000,
+            "step": 1000,
+            "label": "Autoplay Speed",
+            "unit": "ms",
+            "default": 7000
+        }
+	]
+  }
+{% endschema %}

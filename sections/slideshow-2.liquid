@@ -1,0 +1,641 @@
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }} .slick-dots li {
+    background-color: {{ section.settings.dot_color }};
+  }
+  #section-{{ section.id }} .slick-dots li:hover, #section-{{ section.id }} .slick-dots li.slick-active {
+    background-color: {{ section.settings.dot_active_color }};
+  }
+  #section-{{ section.id }} .slick-slide-arrow-1 .slick-arrow {
+    border: 1px solid {{ section.settings.arrow_border_color }};
+    color: {{ section.settings.arrow_color }} !important;
+  }
+  #section-{{ section.id }} .slick-slide-arrow-1 .slick-arrow:hover {
+    background-color: {{ section.settings.arrow_hover_bg_color }};
+    border-color: {{ section.settings.arrow_hover_bg_color }};
+    color: {{ section.settings.arrow_hover_color }} !important;
+  }
+</style>
+{%- endif -%}
+
+{%- for block in section.blocks -%}
+{%- case block.type -%}
+{%- when 'slide' -%}
+{%- if block.settings.block_color_enable -%}
+<style>
+  #block-{{ block.id }} .ltn__secondary-color {
+    color: {{ block.settings.sub_title_color }} !important;
+  }
+  #block-{{ block.id }} .slide-title {
+    color: {{ block.settings.title_color }};
+  }
+  #block-{{ block.id }} .slide-brief p{
+    color: {{ block.settings.content_color }};
+  }
+  #block-{{ block.id }}.ltn__slide-item-2 .text-right .slide-brief {
+    border-right: 1px solid {{ block.settings.content_border_color }};
+  }
+  #block-{{ block.id }} .theme-btn-1 {
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+  }
+  #block-{{ block.id }} .btn-effect-1:hover {
+    color: {{ block.settings.button_text_hover_color }};
+  }
+  #block-{{ block.id }} .theme-btn-1:hover {
+    background-color: {{ block.settings.button_bg_hover_color }};
+  }
+  #block-{{ block.id }} .btn-effect-1:after {
+    background: {{ block.settings.button_bg_hover_active_color }};
+  }
+  #block-{{ block.id }} .btn-transparent.white-color {
+    background-color: {{ block.settings.button_2_bg_color }};
+    color: {{ block.settings.button_2_text_color }};
+    border-color: {{ block.settings.button_2_border_color }};
+  }
+  #block-{{ block.id }} .btn-effect-3:hover {
+    color: {{ block.settings.button_2_text_hover_color }};
+  }
+  #block-{{ block.id }} .btn-transparent:hover{
+  	background-color: {{ block.settings.button_2_bg_hover_color }};
+  }
+  #block-{{ block.id }} .btn-effect-3:after {
+    background-color: {{ block.settings.button_2_bg_hover_active_color }};
+  }
+  #block-{{ block.id }}.bg-overlay-theme-black-80:before {
+    background-color: {{ block.settings.overlay_color | color_modify: 'alpha', block.settings.overlay_color_opatity }};
+  }
+  #block-{{ block.id }} .call-to-circle-1{
+    background-color: {{ block.settings.circle_color }};
+  }
+</style>
+{%- endif -%}
+{%- endcase -%}
+{%- endfor -%}
+
+{%- render 'section-style' -%}
+
+<!-- SLIDER AREA START (slider-6) -->
+<div class="ltn__slider-area ltn__slider-3 ltn__slider-6 section-bg-1" id="section-{{ section.id }}" data-section="slideshowTwoActivation">
+  {%- capture data_slick_activation -%}
+  data-slick='{
+    {%- if section.settings.autoplay_true -%}
+    "autoplay": true,
+    "autoplaySpeed": {{ section.settings.autoplay_speed }}
+    {%- endif -%}
+  }'
+  {%- endcapture -%}
+  <div class="ltn__slide-one-active slick-slide-arrow-1 slick-slide-dots-1 arrow-white" {{ data_slick_activation }}>
+	{%- for block in section.blocks -%}
+    {%- case block.type -%}
+    {%- when 'slide' -%}
+    <div id="block-{{ block.id }}" class="ltn__slide-item {% if block.settings.large_padding_mobile %}ltn__slide-item-2{% endif %} ltn__slide-item-3 ltn__slide-item-5 text-color-white bg-overlay-theme-black-80 {% if block.settings.slide_bg_image %}bg-image{% endif %}" 
+          {% if block.settings.slide_bg_image %}data-bg="{{ block.settings.slide_bg_image | img_url: 'master' }}"{% endif %}>
+      <div class="ltn__slide-item-inner {% if block.settings.content_position_right %}text-right{% endif %}">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12 align-self-center">
+              <div class="slide-item-info">
+                <div class="slide-item-info-inner ltn__slide-animation">
+                  {%- if block.settings.slide_sub_title != '' -%}
+                  <h6 class="slide-sub-title ltn__secondary-color animated">{{ block.settings.slide_sub_title }}</h6>
+                  {%- endif -%}
+                  {%- if block.settings.slide_title != '' -%}
+                  <h1 class="slide-title animated">{{ block.settings.slide_title }}</h1>
+                  {%- endif -%}
+                  <div class="slide-brief animated">
+                    {{ block.settings.slide_content }}
+                  </div>
+                  {%- if block.settings.slide_button_1 != '' or block.settings.slide_button_2 != '' -%}
+                  <div class="btn-wrapper animated">
+                    {%- if block.settings.slide_button_1 != '' -%}
+                    <a href="{{ block.settings.slide_button_1_url }}" class="theme-btn-1 btn btn-effect-1">{{ block.settings.slide_button_1 }}</a>
+                    {%- endif -%}
+                    {%- if block.settings.slide_button_2 != '' -%}
+                    <a href="{{ block.settings.slide_button_2_url }}" class="btn btn-transparent btn-effect-2 white-color">{{ block.settings.slide_button_2 }}</a>
+                    {%- endif -%}
+                  </div>
+                  {%- endif -%}
+                </div>
+              </div>
+              {%- if block.settings.slide_image_enable -%}
+              <div class="slide-item-img">
+                {%- if block.settings.slide_image -%}
+                {%- assign image = block.settings.slide_image -%}
+                <a href="{{ block.settings.slide_button_url }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+                  <img srcset="{% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                               {% if image.width >= 320 %}{{ image | img_url: '320x' }} 320w,{% endif %}
+                               {% if image.width >= 345 %}{{ image | img_url: '345x' }} 345w,{% endif %}
+                               {% if image.width >= 440 %}{{ image | img_url: '450x' }} 450w,{% endif %}
+                               {% if image.width >= 480 %}{{ image | img_url: '575x' }} 575w,{% endif %}
+                               {% if image.width >= 570 %}{{ image | img_url: '600x' }} 600w,{% endif %}
+                               {% if image.width >= 600 %}{{ image | img_url: '664x' }} 664w,{% endif %}
+                               {% if image.width >= 1100 %}{{ image | img_url: '1100x' }} 1100w,{% endif %}
+                               {% if image.width >= 1920 %}{{ image | img_url: '1920x' }} 1920w{% endif %}"
+                       loading="lazy"
+                       src="{{ image | img_url: '664x' }}"
+                       sizes="100vw"
+                       width="{{ image.width }}"
+                       height="{{ image.height }}"
+                       alt="{{ image.alt | escape }}"
+                       class="image-position-size"
+                       >
+                </a>
+              	{%- else -%}
+                <img src="https://via.placeholder.com/664x640" alt="Slide Image">
+                {%- endif -%}
+                {%- if block.settings.animated_circle_enable -%}
+                <span class="call-to-circle-1"></span>
+                {%- endif -%}
+              </div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+<!-- SLIDER AREA END -->
+
+{% schema %}
+  {
+    "name": "Slideshow (2)",
+    "settings": [
+		{
+			"type": "header",
+            "content": "Options"
+        },
+		{
+          "type": "checkbox",
+          "id": "autoplay_true",
+          "label": "Autoplay Enable",
+          "default": false
+      	},
+		{
+            "type": "range",
+            "id": "autoplay_speed",
+            "min": 1000,
+            "max": 9000,
+            "step": 1000,
+            "label": "Autoplay Speed",
+            "unit": "ms",
+            "default": 7000
+        },
+		{
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "arrow_color",
+          "label": "Arrow Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "arrow_border_color",
+          "label": "Arrow Border Color",
+          "default": "#576466"
+        },
+        {
+          "type": "color",
+          "id": "arrow_hover_bg_color",
+          "label": "Arrow Hover/Active BG Color",
+          "default": "#e53e29"
+        },
+        {
+          "type": "color",
+          "id": "arrow_hover_color",
+          "label": "Arrow Hover/Active Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "dot_color",
+          "label": "Dot Color",
+          "default": "#c0c0c0"
+        },
+        {
+          "type": "color",
+          "id": "dot_active_color",
+          "label": "Active Dot Color",
+          "default": "#e53e29"
+        }
+	],
+	"blocks":[
+	   {
+          "type": "slide",
+          "name": "Slide",
+		  "limit": 5,
+          "settings": [
+            {
+              "type": "checkbox",
+              "id": "animated_circle_enable",
+              "label": "Show Animated Circle",
+              "default": true
+            },
+            {
+              "type": "header",
+              "content": "Background Image"
+            },
+            {
+              "type": "image_picker",
+              "id": "slide_bg_image",
+              "label": "BG Image",
+              "info": "Recommended Size: 1920 x 900px"
+            },
+            {
+              "type": "header",
+              "content": "Thumb Image"
+            },
+            {
+              "type": "checkbox",
+              "id": "slide_image_enable",
+              "label": "Show Image",
+              "default": true
+            },
+            {
+              "type": "image_picker",
+              "id": "slide_image",
+              "label": "Image",
+              "info": "Recommended Size: 600 x 600px"
+            },
+            {
+              "type": "header",
+              "content": "Content"
+            },
+            {
+              "type": "checkbox",
+              "id": "content_position_right",
+              "label": "Content Position Right Enable",
+              "default": false
+            },
+            {
+              "type": "text",
+              "id": "slide_sub_title",
+              "label": "Sub Title",
+              "default": "Slide Sub Title"
+            },
+            {
+              "type": "textarea",
+              "id": "slide_title",
+              "label": "Title",
+              "default": "Slide Title"
+            },
+            {
+              "type": "richtext",
+              "id": "slide_content",
+              "label": "Content",
+			  "default": "<p>Slide content here</p>"
+            },
+            {
+              "type": "text",
+              "id": "slide_button_1",
+              "label": "Button Title (One)",
+              "default": "Button Title 1"
+            },
+            {
+              "type": "url",
+              "id": "slide_button_1_url",
+              "label": "URL (One)"
+            },
+            {
+              "type": "text",
+              "id": "slide_button_2",
+              "label": "Button Title (Two)",
+              "default": "Button Title 2"
+            },
+            {
+              "type": "url",
+              "id": "slide_button_2_url",
+              "label": "URL (One)"
+            },
+            {
+              "type": "checkbox",
+              "id": "large_padding_mobile",
+              "label": "Large padding enable for mobile device",
+              "default": true
+            },
+              {
+                "type": "header",
+                "content": "Color"
+              },
+              {
+                "type": "checkbox",
+                "id": "block_color_enable",
+                "label": "Color Enable",
+                "default": false,
+          		"info": "Enable the field for color customization"
+              },
+              {
+                "type": "color",
+                "id": "overlay_color",
+                "label": "Overlay Color",
+                "default": "#071c1f"
+              },
+              {
+                  "type": "range",
+                  "id": "overlay_color_opatity",
+                  "min": 0.0,
+                  "max": 1,
+                  "step": 0.1,
+                  "label": "Overlay Color Opacity",
+                  "default": 0.8
+              },
+              {
+                "type": "color",
+                "id": "circle_color",
+                "label": "Circle Color",
+                "default": "#e53e29"
+              },
+              {
+                "type": "header",
+                "content": "Content Color"
+              },
+              {
+                "type": "color",
+                "id": "sub_title_color",
+                "label": "Sub Title Color",
+                "default": "#e53e29"
+              },
+              {
+                "type": "color",
+                "id": "title_color",
+                "label": "Title Color",
+                "default": "#fff"
+              },
+              {
+                "type": "color",
+                "id": "content_color",
+                "label": "Content Color",
+                "default": "#fff"
+              },
+              {
+                "type": "color",
+                "id": "content_border_color",
+                "label": "Content Border Color",
+                "default": "#576466"
+              },
+              {
+                "type": "header",
+                "content": "Button One"
+              },
+              {
+                "type": "color",
+                "id": "button_text_color",
+                "label": "Button Text Color",
+                "default": "#fff"
+              },
+              {
+                "type": "color",
+                "id": "button_bg_color",
+                "label": "Button BG Color",
+                "default": "#e53e29"
+              },
+              {
+                "type": "color",
+                "id": "button_text_hover_color",
+                "label": "Button Text Hover Color",
+                "default": "#071c1f"
+              },
+              {
+                "type": "color",
+                "id": "button_bg_hover_color",
+                "label": "Button BG Hover Color",
+                "default": "#071c1f"
+              },
+              {
+                "type": "color",
+                "id": "button_bg_hover_active_color",
+                "label": "Button BG Hover Active Color",
+                "default": "#fff"
+              },
+              {
+                "type": "header",
+                "content": "Button Two"
+              },
+              {
+                "type": "color",
+                "id": "button_2_text_color",
+                "label": "Button text Color",
+                "default": "#fff"
+              },
+              {
+                "type": "color",
+                "id": "button_2_bg_color",
+                "label": "Button BG Color"
+              },
+              {
+                "type": "color",
+                "id": "button_2_border_color",
+                "label": "Button Border Color",
+                "default": "#ddd"
+              },
+              {
+                "type": "color",
+                "id": "button_2_text_hover_color",
+                "label": "Button text Hover Color",
+                "default": "#071c1f"
+              },
+              {
+                "type": "color",
+                "id": "button_2_bg_hover_color",
+                "label": "Button BG Hover Color",
+                "default": "#fff"
+              },
+              {
+                "type": "color",
+                "id": "button_2_bg_hover_active_color",
+                "label": "Button BG Hover Active Color",
+                "default": "#fff"
+              }
+          ]
+       },
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Slideshow (2)",
+		  "category": "1. hero/slideshow",
+		  "blocks":[
+				{
+					"type": "slide"
+				},
+				{
+					"type": "slide"
+				},
+				{
+					"type": "section_margin"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

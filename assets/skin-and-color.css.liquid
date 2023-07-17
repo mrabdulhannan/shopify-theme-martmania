@@ -1,0 +1,254 @@
+/* Responsive CSS */
+/* Large screen desktop */
+@media (min-width: 1365px) and (max-width: 1500px){
+
+}
+
+@media (min-width: 1200px) and (max-width: 1299px){
+
+}
+
+@media (min-width: 1170px) and (max-width: 1299px){
+
+}
+
+/* Normal desktop :992px. */
+@media (min-width: 992px) and (max-width: 1169px) {
+
+}
+
+/* Tablet desktop :768px. */
+@media (min-width: 768px) and (max-width: 991px) {
+  .cart-total {
+    margin-top: 30px;
+  }
+  #moda-compare .modal-dialog {
+    max-width: 80%;
+  }
+  .featured-product-iamge {
+    padding-right: 0;
+  }
+  .featured-product-content {
+    padding-left: 0;
+  }
+  .blog-sidebar{
+    margin-top: 60px;
+  }
+  .ltn__shop-sidebar {
+    margin-bottom: 60px;
+  }
+  .modal-product-info {
+    padding-left: 0;
+  }
+}
+
+/* Small and large mobile :320px. */
+@media (max-width: 767px) {
+  .cart-total {
+    margin-top: 30px;
+  }
+  .search-item-image {
+    width: 100%;
+  }
+  .search-item-content {
+    width: 100%;
+    padding-left: 0;
+    margin-top: 30px;
+  }
+  #moda-compare .modal-dialog {
+    max-width: 90%;
+  }
+  .featured-product-content{
+    margin-top: 30px;
+  }
+  .featured-product-iamge {
+    padding-right: 0;
+  }
+  .featured-product-content {
+    padding-left: 0;
+  }
+  .mmy-ops input.gv-btn-search {
+    margin-top: 30px !important;
+  }
+  .ltn__breadcrumb-area {
+    margin-bottom: 60px;
+  }
+  .ltn__blog-area.mb-100, .ltn__product-area.mb-120 {
+    margin-bottom: 60px;
+  }
+  .blog-sidebar{
+  	margin-top: 60px;
+  }
+  .ltn__shop-sidebar{
+  	margin-bottom: 60px;
+  }
+  .modal-product-info {
+    padding-left: 0;
+  }
+  .ltn__tab-menu {
+    margin-bottom: 30px;
+  }
+  .swatch-element.color.swatch-bg-image>label {
+    height: 30px;
+    width: 30px;
+  }
+  .ltn__product-slider-area.ltn__product-gutter.pb-70 {
+    padding-bottom: 50px;
+  }
+  .ltn__page-details-area.ltn__blog-details-area.mb-120 {
+    margin-bottom: 60px;
+  }
+  .mobile-prev-artile .blog-prev.blog-next {
+    display: none;
+  }
+  .ltn__prev-next-btn.row.mb-50.mobile-prev-artile {
+    margin-bottom: 0;
+  }
+  .mobile-prev-artile .blog-prev {
+    margin-bottom: 0;
+  }
+  .mobile-prev-artile.ltn__prev-next-btn::before{
+  	display: none;
+  }
+  .ltn__comment-reply-area.ltn__form-box.mb-60 {
+    margin-bottom: 0;
+  }
+  .ltn__page-details-area.ltn__service-details-area.mb-105 {
+    margin-bottom: 60px;
+  }
+  aside.sidebar-area.ltn__right-sidebar {
+    margin-top: 60px;
+  }
+  .list-product-collection hr {
+    margin: 20px 0 60px;
+  }
+  .list-product-collection {
+    margin-bottom: 20px;
+  }
+  
+  #quickViewModal.ltn__sp-modal .cart-plus-minus, #quickViewModal.ltn__sp-modal .dec.qtybutton, #quickViewModal.ltn__sp-modal .inc.qtybutton {
+    line-height: 44px;
+  }
+  #quickViewModal.ltn__sp-modal .cart-plus-minus {
+    height: 48px;
+  }
+  .shopify-policy__container {
+    margin-bottom: 60px !important;
+  }
+  .ltn__pricing-plan-area .row.justify-content-center.mt-50 {
+	margin-top: 0;
+  }
+}
+
+/* Large Mobile :480px. */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+}
+
+/* Small Mobile :320px. */
+@media only screen and (max-width: 479px) {
+  .login-form-container {
+    padding: 30px 20px;
+  }
+  .form-action-button .theme-default-button + .theme-default-button, 
+  .cart-buttons .theme-default-button + .theme-default-button{
+    margin-left: 0;
+    margin-top: 20px;
+  }
+  .form-action-button .theme-default-button,
+  .cart-buttons .theme-default-button,
+  .guest-form-container .theme-default-button{
+    float: left;
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .cart-page input[type=submit].theme-default-button{
+  	width: 100%;
+  }
+}
+/* Newsletter PopUp */
+{%- if settings.newsletter_bg_img and settings.newsletter_style_handle == 'newsletter_style_1' -%}
+.newsletter_popup_inner{
+  background: url("{{ settings.newsletter_bg_img | img_url: '1024x1024' }}") no-repeat scroll center center / cover;
+    }
+{%- endif -%}
+.subscribe_area > h2, .subscribe-content > h2 {
+  color: {{ settings.popup_newsletter_title_color }};
+}
+.subscribe_area > p, .subscribe-content > p {
+  color: {{ settings.popup_newsletter_description_color }};
+}
+.grid__item h1{
+  color: {{ settings.section_title_color }};
+}
+.subscribe-form-input {
+  border: 1px solid {{ settings.input_field_color }};
+  color: {{ settings.input_field_color }};
+}
+.subscribe-form-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: {{ settings.input_field_color }} !important;
+}
+.subscribe-form-input::-moz-placeholder { /* Firefox 19+ */
+  color: {{ settings.input_field_color }} !important;
+}
+.subscribe-form-input:-ms-input-placeholder { /* IE 10+ */
+  color: {{ settings.input_field_color }} !important;
+}
+.subscribe-form-input:placeholder { /* Firefox 18- */
+  color: {{ settings.input_field_color }} !important;
+}
+.newsletter-btn {
+  background: {{ settings.newsletter_button_bg_color }} none repeat scroll 0 0;
+  color: {{ settings.newsletter_button_color }};
+}
+.newsletter-btn:hover{
+  background: {{ settings.newsletter_button_hover_bg_color }} none repeat scroll 0 0;
+  color: {{ settings.newsletter_button_hover_color }};
+}
+.popup_off{
+  color: {{ settings.close_icon_color }};
+}
+.newsletter_popup_inner:before {
+  background: {{ settings.newsletter_overlay_color }};
+  opacity: {{ settings.newsletter_overlay_opacicty }};
+}
+.form-group.subscribe-form-group p {
+  color: {{ settings.dont_show_title_color }};
+}
+/* Custom and Customer Page */
+.theme-default-margin, .shopify-challenge__container {
+  padding-top: {{ settings.customer_page_padding_top }}px;
+  padding-bottom: {{ settings.customer_page_padding_bottom }}px;
+}
+@media (max-width: 767px) {
+  .theme-default-margin, .shopify-challenge__container{
+    padding-top: {{ settings.customer_page_padding_top_xs }}px;
+    padding-bottom: {{ settings.customer_page_padding_bottom_xs }}px;
+  }
+}
+
+.create-custom-page{
+  padding-top: {{ settings.custom_page_padding_top }}px;
+  padding-bottom: {{ settings.custom_page_padding_bottom }}px;
+}
+@media (max-width: 767px) {
+  .create-custom-page{
+    padding-top: {{ settings.custom_page_padding_top_xs }}px;
+    padding-bottom: {{ settings.custom_page_padding_bottom_xs }}px;
+  }
+}
+/* End Custom Page */
+/* QuickView */
+{% unless settings.quickview_product_variant_enable %}
+.quick-view-select{
+  display: none;
+}
+{% endunless %}
+/* End Quickview */
+
+
+
+
+/* ======================================================================
+Name: Your Theme Color CSS file
+====================================================================== */

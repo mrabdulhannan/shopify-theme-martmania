@@ -1,0 +1,709 @@
+{%- for block in section.blocks -%}
+{%- case block.type -%}
+{%- when 'service' -%}
+{%- if block.settings.block_color_enable -%}
+<style>
+  #block-{{ block.id }}.ltn__feature-item-3 .ltn__feature-icon {
+    color: {{ block.settings.icon_color }};
+  }
+  #block-{{ block.id }} h2 {
+    color: {{ block.settings.title_color }};
+  }
+  #block-{{ block.id }} h2 a:hover{
+    color: {{ block.settings.title_hover_color }};
+  }
+  #block-{{ block.id }} p{
+    color: {{ block.settings.content_color }};
+  }
+</style>
+{%- endif -%}
+{%- when 'service_right' -%}
+{%- if block.settings.block_color_enable -%}
+<style>
+  #block-{{ block.id }}.ltn__feature-item-3 .ltn__feature-icon {
+    color: {{ block.settings.icon_color }};
+  }
+  #block-{{ block.id }} h2 {
+    color: {{ block.settings.title_color }};
+  }
+  #block-{{ block.id }} h2 a:hover{
+    color: {{ block.settings.title_hover_color }};
+  }
+  #block-{{ block.id }} p{
+    color: {{ block.settings.content_color }};
+  }
+</style>
+{%- endif -%}
+{%- endcase -%}
+{%- endfor -%}
+
+{%- render 'section-style' -%}
+
+<!-- FEATURE AREA START ( Feature - 3) -->
+<div class="ltn__feature-area" id="section-{{ section.id }}" data-section="serviceFeature">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-title-area ltn__section-title-2 section-title-style-3">
+          {%- if section.settings.blockquote_content != '' -%}
+          <div class="section-brief-in">
+            {{ section.settings.blockquote_content }}
+          </div>
+          {%- endif -%}
+          <div class="section-title-in">
+            {%- if section.settings.section_sub_title != '' -%}
+            <h6 class="section-subtitle ltn__secondary-color">{{ section.settings.section_sub_title }}</h6>
+            {%- endif -%}
+            {%- if section.settings.section_title != '' -%}
+            <h1 class="section-title">{{ section.settings.section_title }}</h1>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="row  justify-content-center">
+          {%- for block in section.blocks -%}
+          {%- case block.type -%}
+          {%- when 'service' -%}
+          <div class="col-lg-12 col-md-6 col-12">
+            <div class="ltn__feature-item ltn__feature-item-3 text-right" id="block-{{ block.id }}">
+              {%- if block.settings.icon_image_enable and block.settings.service_icon -%}
+              <div class="ltn__feature-icon">
+                <img src="{{ block.settings.service_icon | img_url: '100x' }}" alt="{{ block.settings.service_icon.alt }}" loading="lazy">
+              </div>
+              {%- elsif block.settings.service_icon_enable -%}
+              <div class="ltn__feature-icon">
+                {%- if block.settings.service_icon_select == 'parts' -%}
+                <span><i class="icon-car-parts"></i></span>
+                {%- elsif block.settings.service_icon_select == 'parts_2' -%}
+                <span><i class="icon-car-parts-1"></i></span>
+                {%- elsif block.settings.service_icon_select == 'parts_3' -%}
+                <span><i class="icon-car-parts-3"></i></span>
+                {%- elsif block.settings.service_icon_select == 'parts_6' -%}
+                <span><i class="icon-car-parts-6"></i></span>
+                {%- elsif block.settings.service_icon_select == 'parts_7' -%}
+                <span><i class="icon-car-parts-7"></i></span>
+                {%- elsif block.settings.service_icon_select == 'parts_8' -%}
+                <span><i class="icon-car-parts-8"></i></span>
+                {%- elsif block.settings.service_icon_select == 'mechanic_one' -%}
+                <span><i class="icon-car"></i></span>
+                {%- elsif block.settings.service_icon_select == 'mechanic_two' -%}
+                <span><i class="icon-mechanic"></i></span>
+                {%- elsif block.settings.service_icon_select == 'car_service' -%}
+                <span><i class="icon-car-service"></i></span>
+                {%- elsif block.settings.service_icon_select == 'settings' -%}
+                <span><i class="icon-cog"></i></span>
+                {%- elsif block.settings.service_icon_select == 'automobile' -%}
+                <span><i class="icon-automobile"></i></span>
+                {%- elsif block.settings.service_icon_select == 'exterior' -%}
+                <span><i class="icon-exterior"></i></span>
+                {%- endif -%}
+              </div>
+              {%- endif -%}
+              <div class="ltn__feature-info">
+                {%- if block.settings.service_title != '' -%}
+                <h2><a href="{{ block.settings.service_url }}">{{ block.settings.service_title }}</a></h2>
+                {%- endif -%}
+                {%- if block.settings.service_content != '' -%}
+                {{ block.settings.service_content }}
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+          {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="feature-banner-img text-center mb-30">
+          {%- if section.settings.image -%}
+          {%- assign image = section.settings.image -%}
+          <img srcset="{% if image.width >= 265 %}{{ image | img_url: '265x' }} 265w,{% endif %}
+                       {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                       {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                       {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                       {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                       {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w,{% endif %}
+                       {% if image.width >= 770 %}{{ image | img_url: '770x' }} 1100w,{% endif %}
+                       {% if image.width >= 900 %}{{ image | img_url: '900x' }} 900w,{% endif %}
+                       {% if image.width >= 970 %}{{ image | img_url: '970x' }} 970w,{% endif %}
+                       {% if image.width >= 1100 %}{{ image | img_url: '1100x' }} 1100w,{% endif %}
+                       {% if image.width >= 1200 %}{{ image | img_url: '1200x' }} 1200w{% endif %}"
+               loading="lazy"
+               src="{{ image | img_url: '265x' }}"
+               sizes="100vw"
+               width="{{ image.width }}"
+               height="{{ image.height }}"
+               alt="{{ image.alt | escape }}"
+               >
+          {%- else -%}
+          <img src="https://via.placeholder.com/267x587" alt="Service Image">
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="row  justify-content-center">
+          {%- for block in section.blocks -%}
+          {%- case block.type -%}
+          {%- when 'service_right' -%}
+          <div class="col-lg-12 col-md-6 col-12">
+            <div class="ltn__feature-item ltn__feature-item-3" id="block-{{ block.id }}">
+              {%- if block.settings.icon_image_enable and block.settings.service_icon -%}
+              <div class="ltn__feature-icon">
+                <img src="{{ block.settings.service_icon | img_url: '100x' }}" alt="{{ block.settings.service_icon.alt }}" loading="lazy">
+              </div>
+              {%- elsif block.settings.service_icon_enable -%}
+              <div class="ltn__feature-icon">
+                {%- if block.settings.service_icon_select == 'parts' -%}
+                <span><i class="icon-car-parts"></i></span>
+                {%- elsif block.settings.service_icon_select == 'parts_2' -%}
+                <span><i class="icon-car-parts-1"></i></span>
+                {%- elsif block.settings.service_icon_select == 'parts_3' -%}
+                <span><i class="icon-car-parts-3"></i></span>
+                {%- elsif block.settings.service_icon_select == 'parts_6' -%}
+                <span><i class="icon-car-parts-6"></i></span>
+                {%- elsif block.settings.service_icon_select == 'parts_7' -%}
+                <span><i class="icon-car-parts-7"></i></span>
+                {%- elsif block.settings.service_icon_select == 'parts_8' -%}
+                <span><i class="icon-car-parts-8"></i></span>
+                {%- elsif block.settings.service_icon_select == 'mechanic_one' -%}
+                <span><i class="icon-car"></i></span>
+                {%- elsif block.settings.service_icon_select == 'mechanic_two' -%}
+                <span><i class="icon-mechanic"></i></span>
+                {%- elsif block.settings.service_icon_select == 'car_service' -%}
+                <span><i class="icon-car-service"></i></span>
+                {%- elsif block.settings.service_icon_select == 'settings' -%}
+                <span><i class="icon-cog"></i></span>
+                {%- elsif block.settings.service_icon_select == 'automobile' -%}
+                <span><i class="icon-automobile"></i></span>
+                {%- elsif block.settings.service_icon_select == 'exterior' -%}
+                <span><i class="icon-exterior"></i></span>
+                {%- endif -%}
+              </div>
+              {%- endif -%}
+              <div class="ltn__feature-info">
+                {%- if block.settings.service_title != '' -%}
+                <h2><a href="{{ block.settings.service_url }}">{{ block.settings.service_title }}</a></h2>
+                {%- endif -%}
+                {%- if block.settings.service_content != '' -%}
+                {{ block.settings.service_content }}
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+          {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FEATURE AREA END -->
+
+{% schema %}
+  {
+    "name": "Service Feature",
+    "settings": [
+		{
+          "type": "text",
+          "id": "section_sub_title",
+          "label": "Section Sub Title",
+          "default": "// Sub Title"
+      	},
+		{
+          "type": "textarea",
+          "id": "section_title",
+          "label": "Section Title",
+		  "default": "Section Title <span>.</span>",
+		  "info": "Use <span> Tag for Highlight text"
+      	},
+        {
+          "type": "richtext",
+          "id": "blockquote_content",
+          "label": "Blockquote Content",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Recommended Size: 267 x 587px"
+        }
+	],
+	"blocks":[
+          {
+            "type": "service",
+            "name": "Service (Left)",
+			"limit": 4,
+            "settings": [
+              {
+                "type": "checkbox",
+                "id": "icon_image_enable",
+                "label": "Show Icon Image",
+                "default": true
+              },
+              {
+                "type": "image_picker",
+                "id": "service_icon",
+                "label": "Image",
+              	"info": "Recommended Size: 100 x 100px"
+              },
+              {
+                "type": "checkbox",
+                "id": "service_icon_enable",
+                "label": "Service Icon Enable",
+                "default": true
+              },
+              {
+                "type": "select",
+                "id": "service_icon_select",
+                "label": "Select Icon",
+                "options":[
+                      {
+                          "label": "Parts",
+                          "value": "parts"
+                      },
+                      {
+                          "label": "Parts (Two)",
+                          "value": "parts_2"
+                      },
+                      {
+                          "label": "Parts (Three)",
+                          "value": "parts_3"
+                      },
+                      {
+                          "label": "Parts (Six)",
+                          "value": "parts_6"
+                      },
+                      {
+                          "label": "Parts (Seven)",
+                          "value": "parts_7"
+                      },
+                      {
+                          "label": "Parts (Eight)",
+                          "value": "parts_8"
+                      },
+                      {
+                          "label": "Mechanic One",
+                          "value": "mechanic_one"
+                      },
+                      {
+                          "label": "Mechanic Two",
+                          "value": "mechanic_two"
+                      },
+                      {
+                          "label": "Car Service",
+                          "value": "car_service"
+                      },
+                      {
+                          "label": "Settings",
+                          "value": "settings"
+                      },
+                      {
+                          "label": "Automobile",
+                          "value": "automobile"
+                      },
+                      {
+                          "label": "Exterior",
+                          "value": "exterior"
+                      }
+                  ],
+                  "default": "parts"
+              },
+              {
+                "type": "text",
+                "id": "service_title",
+                "label": "Title",
+                "default": "Body Color"
+              },
+              {
+                "type": "richtext",
+                "id": "service_content",
+                "label": "Content",
+                "default": "<p>Lorem ipsum dolor sit amet, consect icing elit, sed do eiusmod tempor</p>"
+              },
+              {
+                "type": "url",
+                "id": "service_url",
+                "label": "URL"
+              },
+              {
+                "type": "header",
+                "content": "Color"
+              },
+              {
+                "type": "checkbox",
+                "id": "block_color_enable",
+                "label": "Color Enable",
+                "default": false,
+          		"info": "Enable the field for color customization"
+              },
+              {
+                "type": "color",
+                "id": "icon_color",
+                "label": "Icon Color",
+                "default": "#e53e29"
+              },
+              {
+                "type": "color",
+                "id": "title_color",
+                "label": "Title Color",
+                "default": "#071c1f"
+              },
+              {
+                "type": "color",
+                "id": "title_hover_color",
+                "label": "Title Hover Color",
+                "default": "#e53e29"
+              },
+              {
+                "type": "color",
+                "id": "content_color",
+                "label": "Content Color",
+                "default": "#071c1f"
+              }
+            ]
+         },
+          {
+            "type": "service_right",
+            "name": "Service (Right)",
+			"limit": 4,
+            "settings": [
+              {
+                "type": "checkbox",
+                "id": "icon_image_enable",
+                "label": "Show Icon Image",
+                "default": true
+              },
+              {
+                "type": "image_picker",
+                "id": "service_icon",
+                "label": "Image",
+              	"info": "Recommended Size: 100 x 100px"
+              },
+              {
+                "type": "checkbox",
+                "id": "service_icon_enable",
+                "label": "Service Icon Enable",
+                "default": true
+              },
+              {
+                "type": "select",
+                "id": "service_icon_select",
+                "label": "Select Icon",
+                "options":[
+                      {
+                          "label": "Parts",
+                          "value": "parts"
+                      },
+                      {
+                          "label": "Parts (Two)",
+                          "value": "parts_2"
+                      },
+                      {
+                          "label": "Parts (Three)",
+                          "value": "parts_3"
+                      },
+                      {
+                          "label": "Parts (Six)",
+                          "value": "parts_6"
+                      },
+                      {
+                          "label": "Parts (Seven)",
+                          "value": "parts_7"
+                      },
+                      {
+                          "label": "Parts (Eight)",
+                          "value": "parts_8"
+                      },
+                      {
+                          "label": "Mechanic One",
+                          "value": "mechanic_one"
+                      },
+                      {
+                          "label": "Mechanic Two",
+                          "value": "mechanic_two"
+                      },
+                      {
+                          "label": "Car Service",
+                          "value": "car_service"
+                      },
+                      {
+                          "label": "Settings",
+                          "value": "settings"
+                      },
+                      {
+                          "label": "Automobile",
+                          "value": "automobile"
+                      },
+                      {
+                          "label": "Exterior",
+                          "value": "exterior"
+                      }
+                  ],
+                  "default": "parts_7"
+              },
+              {
+                "type": "text",
+                "id": "service_title",
+                "label": "Title",
+                "default": "Tires Repair"
+              },
+              {
+                "type": "richtext",
+                "id": "service_content",
+                "label": "Content",
+                "default": "<p>Lorem ipsum dolor sit amet, consect icing elit, sed do eiusmod tempor</p>"
+              },
+              {
+                "type": "url",
+                "id": "service_url",
+                "label": "URL"
+              },
+              {
+                "type": "header",
+                "content": "Color"
+              },
+              {
+                "type": "checkbox",
+                "id": "block_color_enable",
+                "label": "Color Enable",
+                "default": false,
+          		"info": "Enable the field for color customization"
+              },
+              {
+                "type": "color",
+                "id": "icon_color",
+                "label": "Icon Color",
+                "default": "#e53e29"
+              },
+              {
+                "type": "color",
+                "id": "title_color",
+                "label": "Title Color",
+                "default": "#071c1f"
+              },
+              {
+                "type": "color",
+                "id": "title_hover_color",
+                "label": "Title Hover Color",
+                "default": "#e53e29"
+              },
+              {
+                "type": "color",
+                "id": "content_color",
+                "label": "Content Color",
+                "default": "#071c1f"
+              }
+            ]
+         },
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 115
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 80
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 75
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 50
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 55
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 35
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#fff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Service Feature",
+		  "category": "7. service",
+		  "blocks":[
+				{
+					"type": "service"
+				},
+				{
+					"type": "service"
+				},
+				{
+					"type": "service"
+				},
+				{
+					"type": "service_right"
+				},
+				{
+					"type": "service_right"
+				},
+				{
+					"type": "service_right"
+				},
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

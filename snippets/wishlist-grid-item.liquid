@@ -1,0 +1,40 @@
+<div class="col-lg-3 col-md-4 col-sm-6 col-6 wishlist-product-item product-tile-container wishlist-tile-container" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}">
+  <div class="wishlist-item ltn__product-item-3">
+    <div class="product-tile--tile-media">
+      <a class="tile-media--media-link" href="{{ product.url }}">
+        {%- assign image = product.featured_image.src -%}
+        <div class="media-link--image image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+          <img srcset="{% if image.width >= 150 %}{{ image | img_url: '152x' }} 152w,{% endif %}
+                       {% if image.width >= 243 %}{{ image | img_url: '266x' }} 266w,{% endif %}
+                       {% if image.width >= 366 %}{{ image | img_url: '366x' }} 366w,{% endif %}
+                       {% if image.width >= 576 %}{{ image | img_url: '576x' }} 576w,{% endif %}
+                       {% if image.width >= 600 %}{{ image | img_url: '600x' }} 600w,{% endif %}"
+               src="{{ image | img_url: '600x' }}"
+               sizes="100vw"
+               width="{{ image.width }}"
+               height="{{ image.height }}"
+               alt="{{ image.alt | escape }}"
+               loading="lazy"
+               class="image-position-size popup_cart_image"
+               >
+        </div>
+      </a>
+    </div>
+    <div class="product-tile--tile-content flex">
+      <div class="tile-content--text">
+        <h4 class="post-title"><a href="{{ product.url }}">{{ product.title }}</a></h4>
+        {% if product.compare_at_price > product.price %}
+        <p class="text--price pro-price">
+          <span class="price--sale">{{ product.price | money }}</span>
+          <del><span class="price--compare strike-through">{{ product.compare_at_price | money }}</span></del> 
+        </p>
+        {% else %}  
+        <p class="text--price pro-price">{{ product.price | money }}</p>
+        {% endif %}
+      </div>
+      <div class="product-tile--tile-actions flex">
+        {% render 'wishlist-button-2' with product as product %}
+      </div>
+    </div>
+  </div>  
+</div>

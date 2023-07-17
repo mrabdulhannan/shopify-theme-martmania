@@ -1,0 +1,36 @@
+<div class="service-page-content">
+  <div class="container">
+    {%- if section.settings.page_title_enable -%}
+    <h2>{{ page.title }}</h2>
+    {%- endif -%}
+    {%- if section.settings.page_content_enable -%}
+  	{{ page.content }}
+    {%- endif -%}
+  </div>
+</div>
+
+
+
+{% schema %}
+  {
+    "name": "Service Template",
+    "settings": [
+		{
+		  "type": "header",
+          "content": "Page Content"
+        },
+		{
+          "type": "checkbox",
+          "id": "page_title_enable",
+          "label": "Show Page Title",
+          "default": true
+      	},
+		{
+          "type": "checkbox",
+          "id": "page_content_enable",
+          "label": "Show Page Content",
+          "default": true
+      	}
+	]
+  }
+{% endschema %}

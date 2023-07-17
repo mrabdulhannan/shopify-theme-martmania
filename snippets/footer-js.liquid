@@ -1,0 +1,117 @@
+<script src="{{ 'plugins.js' | asset_url }}"></script>
+{% if content_for_layout contains 'Setmore_button_iframe' %}
+<script id="setmore_script" type="text/javascript" src="https://my.setmore.com/webapp/js/src/others/setmore_iframe.js" async="async"></script>
+{%- endif -%}
+<!-- Put all third-party JS files in the vendor.css file and minify the files -->
+<script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script>
+{%- if settings.wishlist_enable -%}
+<script src="{{ 'wishlist.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+<script async="async">
+  window.money_format = "{{ shop.money_with_currency_format }}"; 
+</script>
+
+{%- if settings.predictive_search_enabled -%}
+<script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+<script>
+  $('body').on('click', function() {
+    $('.predictive-search-item').attr('style',$('.predictive-search-item').attr('style')==='display: block;'?'display: none':'display: none;'); 
+    $('.predictive-search-input').click(function(){return false;});
+    $('.predictive-search__list-item a').click(function(){return false;});
+  });
+</script>
+{%- endif -%}
+
+<!-- Ajax Cart js -->
+<script src="{{ 'option_selection.js' | shopify_asset_url }}" defer="defer"></script>
+<script src="{{ 'api.jquery.js' | shopify_asset_url }}" defer="defer"></script>
+<script src="{{ 'cart.api.js' | asset_url }}" defer="defer"></script>
+<!-- Your main.js file upload this file -->
+<script src="{{ 'main.js' | asset_url }}" defer="defer"></script>
+
+<script src="{{ 'fastclick.min.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'timber.js' | asset_url }}" defer="defer"></script>
+
+{% comment %}
+Template-specific js
+{% endcomment %}
+<script>
+  {% if resetPassword %}
+  $(function() {
+    timber.resetPasswordSuccess();
+  });
+  {% endif %}
+</script>
+
+{%- unless settings.product_cart_type == 'without_ajax_cart' -%}
+{%- render 'popup_cart' -%}
+{%- endunless -%}
+
+{%- if settings.ajax_search_enable -%}
+{% render 'ajax-search-bar' %}
+{%- endif -%}
+
+{%- if settings.product_quickview_enalbe -%}
+{% render 'product-quickview' %}
+{%- endif -%}
+
+{% if settings.product_cart_type == 'ajax_spin_cart' %}
+<script defer="defer">
+  $('.ajax-spin-cart').on('click', function() {
+    $(this).addClass('loading add-item');
+    setTimeout(function () {
+      $('.ajax-spin-cart').removeClass('loading');
+    },1000);
+    setTimeout(function () {
+      $('.ajax-spin-cart').removeClass("add-item");
+    },2000);
+
+  });
+</script>
+{% endif %}
+
+{%- if content_for_layout contains 'data-countdown' -%}
+<script defer="defer">
+  $('[data-countdown].product-grid-countdown').each(function() {
+    var $this = $(this), finalDate = $(this).data('countdown');
+    $this.countdown(finalDate, function(event) {
+      $this.html(event.strftime('<div class="single-countdown"><span class="single-countdown__time">%D</span><span class="single-countdown__text">{{ settings.day_title }}</span></div><div class="single-countdown"><span class="single-countdown__time">%H</span><span class="single-countdown__text">{{ settings.hour_title }}</span></div><div class="single-countdown"><span class="single-countdown__time">%M</span><span class="single-countdown__text">{{ settings.minute_title }}</span></div><div class="single-countdown"><span class="single-countdown__time">%S</span><span class="single-countdown__text">{{ settings.second_title }}</span></div>'));
+    });
+  });
+</script>
+{%- endif -%}
+
+{%- if settings.currency_enable or settings.compare_product_enalbe -%}
+<ul class="d-none">
+  <li class="currency"><a href="#" class="dropdown-toggle"><span class="active-currency"><span class="current-currency">{{ shop.currency }}</span></span></a>
+    {% assign currency = settings.supported_currencies | split: '|' %}
+    <ul id="currencies">
+      {% for value in currency %}
+      {% assign array = value | split: ',' %}
+      {% assign iso_4217 = array[0] | upcase | strip %}
+      {% assign name = array[1] | strip %}
+      <li data-currency="{{ iso_4217 }}" class="currency__item"><a style="cursor: pointer">{{ name }}</a></li>
+      {% endfor %}
+    </ul>
+  </li>
+</ul>
+{%- render 'currency' -%}
+{%- endif -%}
+
+{%- if settings.scroll_top_enable -%}
+<script defer="defer">
+  /* --------------------------------------------------------
+            34. scrollUp active
+        -------------------------------------------------------- */
+  $.scrollUp({
+    scrollText: '<i class="fa fa-angle-up"></i>',
+    easingType: 'linear',
+    scrollSpeed: 900,
+    animation: 'fade'
+  });
+</script>
+{%- endif -%}
+
+{%- if settings.ltn_custom_script != '' -%}
+{{ settings.ltn_custom_script }}
+{%- endif -%}

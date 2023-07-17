@@ -1,0 +1,35 @@
+<!-- Share -->
+<div class="share-icons">
+
+  {% if template contains 'article' or template contains 'blog' %}
+  {% capture permalinkURL %}{{ shop.url }}{{ article.url }}{% endcapture %}
+  {% capture shareTitle %}{{ article.title | url_param_escape }}{% endcapture %}
+
+  {% elsif template contains 'product' %}
+  {% capture permalinkURL %}{{ shop.url }}{{ product.url }}{% endcapture %}
+  {% capture shareTitle %}{{ product.title | url_param_escape }}{% endcapture %}
+
+  {% elsif template == 'password' %}
+  {% capture permalinkURL %}{{ shop.url }}{% endcapture %}
+  {% capture shareTitle %}{% unless shop.description == blank %}{{ shop.description | url_param_escape }}{% else %}{{ shop.name | url_param_escape }}{% endunless %}{% endcapture %}
+
+  {% endif %}
+
+  {% assign shareButtonStyle = section.settings.social_sharing_style %}
+
+  <span>{{ section.settings.social_share_title }}</span>
+
+  {{ 'social/social-icons.css' | global_asset_url | stylesheet_tag }}
+  <style>
+    .social-links a { display: -moz-inline-stack; display: inline-block; zoom: 1; *display: inline; margin: 0; padding: 0.05em; color: #555!important; font-size: 24px!important; }
+  </style>
+  <span class="social-links">
+    <a href="//www.facebook.com/sharer.php?u={{ permalinkURL }}" title="Follow us on Facebook" target="_blank"><span class="shopify-social-icon-facebook-rounded color"></span></a>
+    <a href="//twitter.com/share?text={{ shareTitle }}&amp;url={{ permalinkURL }};source=webclient" title="Follow us on Twitter" target="_blank"><span class="shopify-social-icon-twitter-rounded color"></span></a>  
+    <a href="//plus.google.com/share?url={{ permalinkURL }}" title="Share on Google+" title="Follow us on Google+" target="_blank"><span class="shopify-social-icon-googleplus-rounded color"></span></a>
+    {% if product.featured_image or article.image  %}
+    <a href="//pinterest.com/pin/create/button/?url={{ permalinkURL }}&amp;media=http:{% if template contains 'product' %}{{ product | img_url: '1024x1024' }}{% else %}{{ article | img_url: '1024x1024' }}{% endif %}&amp;description={{ shareTitle }}" title="Follow us on Pinterest" target="_blank"><span class="shopify-social-icon-pinterest-rounded color"></span></a>
+    {% endif %}
+  </span>
+
+</div>

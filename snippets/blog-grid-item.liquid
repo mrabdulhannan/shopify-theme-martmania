@@ -1,0 +1,44 @@
+<div class="ltn__blog-brief">
+  <div class="ltn__blog-meta">
+    <ul>
+      {%- if section.settings.author_name_enable -%}
+      <li class="ltn__blog-author">
+        <a href="#"><i class="far fa-user"></i>by: {{ article.author }}</a>
+      </li>
+      {%- endif -%}
+      {% if blog.comments_enabled? and section.settings.comment_enable %}
+      <li class="ltn__blog-tags">
+        <a href="{{ article.url }}#comments"><i class="fas fa-comment"></i>{{ 'blogs.comments.with_count' | t: count: article.comments_count }}</a>
+      </li>
+      {%- endif -%}
+    </ul>
+  </div>
+  <h3 class="ltn__blog-title"><a href="{{ article.url }}">{{ article.title }}</a></h3>
+  {%- if section.settings.blog_description_enable -%}
+  {% if article.excerpt.size > 0 %}
+  {{ article.excerpt }}
+  {% else %}
+  {% if article.excerpt.size > 0 %}
+  {{ article.excerpt }}
+  {% else %}
+  <p>{{ article.content | strip_html | truncate: 150 }}</p>
+  {% endif %}
+  {% endif %}
+  {% endif %}
+  {%- if section.settings.blog_date_enable or section.settings.read_more_title != '' -%}
+  <div class="ltn__blog-meta-btn">
+    {%- if section.settings.blog_date_enable -%}
+    <div class="ltn__blog-meta">
+      <ul>
+        <li class="ltn__blog-date"><i class="far fa-calendar-alt"></i> {{ article.published_at | date: '%B %d' }}, {{ article.published_at | date: '%Y' }}</li>
+      </ul>
+    </div>
+    {%- endif -%}
+    {%- if section.settings.read_more_title != '' -%}
+    <div class="ltn__blog-btn">
+      <a href="{{ article.url }}">{{ section.settings.read_more_title }}</a>
+    </div>
+    {%- endif -%}
+  </div>
+  {%- endif -%}
+</div>

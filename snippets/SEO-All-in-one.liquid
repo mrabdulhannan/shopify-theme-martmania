@@ -1,0 +1,368 @@
+{%- if template contains 'index' -%}
+	{%- assign objMeta = shop.metafields.spseotool.config_home -%}
+	{%- assign obj = 'shop' -%}
+	{%- assign special_page = true -%}
+
+{%- elsif template contains 'product' -%} 
+	{%- assign metaJson = shop.metafields.spseotool.pro_template -%}
+	{%- assign objMeta = product.metafields.spseotool.config -%}
+	{%- assign obj = 'product' -%}
+	
+{%- elsif template contains 'collection' -%} 
+	{%- assign metaJson = shop.metafields.spseotool.col_template -%}
+	{%- if collection.title == 'Products' -%} 
+		{%- assign objMeta = shop.metafields.spseotool.config_allcollection -%}
+	{%- else -%}
+		{%- assign objMeta = collection.metafields.spseotool.config -%}
+		{%- assign sepapage = true -%}
+	{%- endif -%}
+	{%- assign obj = 'collection' -%}
+
+{%- elsif template contains 'list-collections' -%} 
+	{%- assign objMeta = shop.metafields.spseotool.config_allcollection -%}
+	{%- assign obj = 'collection' -%}
+
+{%- elsif template contains 'page' -%}
+	{%- assign metaJson = shop.metafields.spseotool.page_template -%}
+	{%- assign objMeta = page.metafields.spseotool.config -%}
+	{%- assign obj = 'page' -%}
+
+{%- elsif template contains 'blog' -%} 
+	{%- assign metaJson = shop.metafields.spseotool.blog_template -%}
+	{%- assign objMeta = blog.metafields.spseotool.config -%}
+	{%- assign obj = 'blog' -%}
+
+{%- elsif template contains 'article' -%} 
+	{%- assign metaJson = shop.metafields.spseotool.article_template -%}
+	{%- assign objMeta = article.metafields.spseotool.config -%}
+	{%- assign obj = 'article' -%}
+
+{%- elsif template contains 'search' -%}
+	{%- assign objMeta = shop.metafields.spseotool.config_search -%}
+	{%- assign obj = 'shop' -%}
+	{%- assign special_page = true -%}
+
+{%- elsif template contains '404' -%}
+	{%- assign objMeta = shop.metafields.spseotool.config_404 -%}
+	{%- assign obj = 'shop' -%}
+	{%- assign special_page = true -%}
+
+{%- endif -%}
+
+	{% capture nl %} {% endcapture %}
+	{%- comment -%} GLOBAL META {%- endcomment -%}
+    
+	{%- assign metaObj = metaJson | split : "$#$" -%}
+    {%- assign title_template = metaObj[0] -%}
+    {%- assign desc_template = metaObj[1] -%}
+    {%- assign kw_template = metaObj[2] -%}
+    {%- assign is_def = metaObj[3] -%}
+	{%- assign noindex_follow = metaObj[4] -%}
+
+	{%- comment -%} SITE CONFIG {%- endcomment -%}
+
+	{%- assign siteMetaJson = shop.metafields.spseotool.site_config -%}
+	{%- assign siteData = siteMetaJson | split : "$#$" -%}
+	{%- assign notranslate = siteData[0] -%}
+	{%- assign noodp = siteData[1] -%}
+	{%- assign nositelink = siteData[2] -%}
+	{%- assign set_unavail = siteData[3] -%}
+	{%- assign set_redirects = siteData[4] -%}
+	{%- assign show_keywords = siteData[5] -%}
+	{%- assign use_shopify_meta = siteData[6] -%}
+	
+	{%- comment -%} LOCAL META {%- endcomment -%}
+
+	{%- unless objMeta == blank -%}
+      {%- assign metaObj = objMeta | split : "$#$" -%}
+      {%- if sepapage == true or is_def == "false" or special_page == true-%}
+
+			{%- if metaObj[0] != empty or metaObj[0] != nil -%}
+				{%- assign title_template = metaObj[0] -%}
+			{%- endif -%}
+
+			{%- if metaObj[1] != empty or metaObj[1] != nil -%}
+				{%- assign desc_template = metaObj[1] -%}
+			{%- endif -%}
+
+      {%- endif -%}
+
+      {%- assign indexing = metaObj[2] -%}
+      {%- assign follow = metaObj[3] -%}
+      {%- assign noarchive = metaObj[4] -%}
+      {%- assign notranslate = metaObj[5] -%}
+      {%- assign nosnippet = metaObj[6] -%}
+      {%- assign noimageindex = metaObj[7] -%}
+      {%- assign noodp = metaObj[8] -%}
+	{%- endunless -%}
+
+	{%- if title_template == empty or title_template == nil or use_shopify_meta == "true" -%}
+		{%- assign title_template = page_title -%}
+	{%- endif -%}
+
+	{%- if desc_template == empty or desc_template == nil or use_shopify_meta == "true" -%}
+		{%- assign desc_template = page_description -%}
+	{%- endif -%}
+
+	{%- for tag in collection.all_tags -%}
+  		{%- if current_tags contains tag -%}
+			{%- capture title_template -%}{{ title_template }} - {{tag}}{%- endcapture -%}
+		{%- endif -%}
+	{%- endfor -%}
+
+	{%- assign obj_tags = [obj].tags -%}
+	{%- for objtag in obj_tags -%}
+		{%- capture mtag -%}{{ mtags }}, {{ objtag }}{%- endcapture -%}
+		{%- assign mtags = mtag -%}
+	{%- endfor -%}
+	{%- assign mtags = mtags | remove_first : ', ' -%}
+
+    {%- assign pro_price = product.price | money -%}
+    {%- assign title = title_template | replace : "${title}", [obj].title -%}
+    {%- assign title = title | replace : "${description}", [obj].description -%}
+    {%- assign title = title | replace : "${price}", pro_price -%}
+    {%- assign title = title | replace : "${vendor}", [obj].vendor -%}
+    {%- assign title = title | replace : "${tags}", mtags -%}
+    {%- assign title = title | replace : "${producttype}", [obj].type -%}
+	{%- assign title = title | replace : "${type}", [obj].type -%}
+    {%- assign title = title | replace : "${shop}", shop.name -%}
+	{%- assign title = title | replace : "${content}", [obj].content | strip_html -%}
+	{%- assign title = title | replace : "${author}", [obj].author -%}
+
+    {%- assign desc = desc_template | replace : "${title}", [obj].title -%}
+    {%- assign desc = desc | replace : "${description}", [obj].description | strip_html -%}
+    {%- assign desc = desc | replace : "${price}", pro_price -%}
+    {%- assign desc = desc | replace : "${vendor}", [obj].vendor -%}
+    {%- assign desc = desc | replace : "${tags}", mtags -%}
+    {%- assign desc = desc | replace : "${producttype}", [obj].type -%}
+	{%- assign desc = desc | replace : "${type}", [obj].type -%}
+    {%- assign desc = desc | replace : "${shop}", shop.name -%}
+	{%- assign desc = desc | replace : "${content}", [obj].content | strip_html -%}
+	{%- assign desc = desc | replace : "${author}", [obj].author -%}
+
+    {%- assign kw = kw_template | replace : "${title}", [obj].title -%}
+    {%- assign kw = kw | replace : "${description}", [obj].description -%}
+    {%- assign kw = kw | replace : "${price}", pro_price -%}
+    {%- assign kw = kw | replace : "${vendor}", [obj].vendor -%}
+    {%- assign kw = kw | replace : "${tags}", mtags -%}
+    {%- assign kw = kw | replace : "${producttype}", [obj].type -%}
+	{%- assign kw = kw | replace : "${type}", [obj].type -%}
+	{%- assign kw = kw | replace : "${content}", [obj].content | strip_html -%}
+	{%- assign kw = kw | replace : "${author}", [obj].author -%}
+    {%- assign kw = kw | replace : "${shop}", shop.name -%}
+
+<!-- SEO - All in One -->
+<title>{{ title }}</title>
+<meta name="description" content="{{ desc }}" />
+{%- if show_keywords == "true" -%}
+{{ nl }}
+<meta name="keywords" content="{{ kw }}" />
+{%- endif -%}
+
+{%- if noindex_follow == "true" -%}
+{{ nl }}
+<meta name="robots" content="noindex">
+<meta name="robots" content="follow">
+{%- else -%}
+{%- if indexing == "no" -%}
+{{ nl }}
+<meta name="robots" content="noindex">
+{%- else -%}
+{{ nl }}
+<meta name="robots" content="index">
+{%- endif -%}
+{%- if follow == "no" -%}
+{{ nl }}
+<meta name="robots" content="nofollow">
+{%- else -%}
+{{ nl }}
+<meta name="robots" content="follow">
+{%- endif -%}
+{%- endif -%}
+{%- if noarchive == "true" -%}
+{{ nl }}
+<meta name="robots" content="noarchive">
+{%- endif -%}
+{%- if notranslate == "true" -%}
+{{ nl }}
+<meta name="google" content="notranslate" />
+{%- endif -%}
+{%- if nosnippet == "true" -%}
+{{ nl }}
+<meta name="robots" content="nosnippet">
+{%- endif -%}
+{%- if noimageindex == "true" -%}
+{{ nl }}
+<meta name="robots" content="noimageindex">
+{%- endif -%}
+{%- if noodp == "true" -%}
+{{ nl }}
+<meta name="robots" content="noodp">
+{%- endif -%}
+{%- if nositelink == "true" -%}
+{{ nl }}
+<meta name="google" content="nositelinkssearchbox" />
+{%- endif -%}
+
+{%- assign cMeta = shop.metafields.spseotool.company_info -%}
+{%- assign cMetaArr = cMeta | split : "$#$" -%}
+{%- assign c_s_url =  ''  -%}
+{%- for cInfoArr in cMetaArr -%}
+	{%- assign cInfo = cInfoArr | split : ":" -%}
+
+	{%- assign cKey = cInfo[0] -%}
+	{%- assign cVal = cInfo[1] | replace: '%2F', '/' | replace: '\/', '/' | replace: '%3A', ':' | replace: '%2B', '+' | replace: '%3F', '?' -%}
+
+	{%- if c_s_url != '' -%}
+		{%- assign c_s_url =  c_s_url | append: ', ' -%}
+	{%- endif -%}
+
+	{%- case cKey -%}
+		{%- when 'fb_url' -%}
+			{%- assign c_s_url =  c_s_url | append: '"' | append: cVal | append: '"' -%}
+		{%- when 'tw_url' -%}
+			{%- assign c_s_url =  c_s_url | append: '"' | append: cVal | append: '"' -%}
+		{%- when 'in_url' -%}
+			{%- assign c_s_url =  c_s_url | append: '"' | append: cVal | append: '"' -%}
+		{%- when 'pi_url' -%}
+			{%- assign c_s_url =  c_s_url | append: '"' | append: cVal | append: '"' -%}
+		{%- when 'yt_url' -%}
+			{%- assign c_s_url =  c_s_url | append: '"' | append: cVal | append: '"' -%}
+		{%- when 'gp_url' -%}
+			{%- assign c_s_url =  c_s_url | append: '"' | append: cVal | append: '"' -%}
+		{%- when 'ln_url' -%}
+			{%- assign c_s_url =  c_s_url | append: '"' | append: cVal | append: '"' -%}
+		{%- when 'img_url' -%}
+			{%- assign img_url =  cVal -%}
+	{%- endcase -%}
+{%- endfor -%}
+
+{{ nl }}
+<script type="application/ld+json">
+{
+	"@context": "http://schema.org",
+	"@type": "Organization",
+	"url": "http://{{ shop.domain }}"
+    {%- unless img_url == blank -%}
+	,"logo": "{{ img_url | remove: "\" }}"
+  	{%- endunless -%}
+
+    {%- unless c_s_url == blank -%}
+	,"sameAs" : [
+		{{ c_s_url }}
+	]
+	{%- endunless -%}
+}
+</script>
+
+{%- if nositelink != "true" -%}
+{{ nl }}
+<script type="application/ld+json">
+{
+   "@context": "http://schema.org",
+   "@type": "WebSite",
+   "url": "https://{{ shop.domain }}/",
+   "potentialAction": {
+     "@type": "SearchAction",
+     "target": "https://{{ shop.domain }}/search?q={search_term_string}",
+     "query-input": "required name=search_term_string"
+   }
+}
+</script>
+{%- endif -%}
+
+{%- if obj == 'product' -%}
+{{ nl }}
+<script type="application/ld+json">
+{
+	"@context": "http://schema.org",
+	"@type": "Product",
+    "brand": {
+		"@type": "Brand",
+		"name": {{ product.vendor | json }}
+	},
+	"@id" : {{ canonical_url | json }},
+	"sku": {{ product.selected_or_first_available_variant.sku | json }},
+	"description": {{ desc | escape | strip_html | json }},
+	"url": {{ canonical_url | json }},
+	"name": {{ product.title | json }},
+	{%- if product.featured_image -%}
+		"image": "https:{{ product.featured_image | product_img_url: 'grande' }}",
+	{%- endif -%}
+	"offers": {
+		"@type": "Offer",
+		"price": "{{ product.selected_or_first_available_variant.price | money_without_currency | replace : ',', '' }}",
+		"priceCurrency": "{{ shop.currency }}",
+		"availability": "{%- if product.selected_or_first_available_variant.available -%}InStock{%- else -%}OutOfStock{%- endif -%}"
+	}
+	{%- if product.metafields.yotpo.reviews_count and product.metafields.yotpo.reviews_count != "0" -%},
+	"aggregateRating": {
+	  "@type": "AggregateRating",
+	  "ratingValue": {{ product.metafields.yotpo.reviews_average }},
+	  "ratingCount": {{ product.metafields.yotpo.reviews_count }}
+	}
+	{%- endif -%}
+}
+</script>
+{%- endif -%}
+
+{%- if obj == 'article' -%}
+{{ nl }}
+<script type="application/ld+json">
+	{
+		"@context": "http://schema.org",
+		"@type": "BlogPosting",
+		"mainEntityOfPage": {{ canonical_url | json }},
+		"headline": {{ article.title | json }},
+
+		"image": {
+			"@type": "ImageObject",
+			{%- if article.image -%}
+				"url": "https:{{ article | img_url: '1024x1024' }}",
+			{%- else -%}
+				{%- assign bi_url = article.content | escape -%}
+				{%- if bi_url contains '&lt;img' -%}
+					{%- assign bi_url = bi_url | split: 'src=&quot;' -%}
+					{%- assign bi_url = bi_url[1] | split: '&quot;' -%}
+					{%- assign bi_url = bi_url[0] | remove: '//cdn' -%}
+					{%- assign bi_url = bi_url | remove: 'http:http://' -%}
+					{%- assign bi_url = bi_url | remove: 'https:' -%}
+					{%- assign bi_url = bi_url | prepend: 'https://cdn' -%}
+					{%- capture replacement -%}_1024x1024.{%- endcapture -%}
+					{%- assign sizes = 'pico icon thumb small compact medium large grande 1024x1024 2048x2048' | split:' ' -%}
+					{%- for size in sizes -%}
+						{%- capture search -%}_{{size}}.{%- endcapture -%}
+						{%- assign bi_url = bi_url | replace:search,replacement -%}
+					{%- endfor -%}
+					"url": "{{ bi_url }}",
+				{%- else -%}
+					"url": "https://cdn.shopify.com/s/images/admin/no-image-grande.gif",
+				{%- endif -%}
+				"height": "1024",
+				"width": "1024"
+			{%- endif -%}
+		},
+        "author": {
+    	"@type": "Person",
+    	"name": {{ article.author | json }}
+		},
+		"publisher": {
+				"@type": "Organization",
+				"name": {{ shop.name | json }}
+				{%- unless img_url == blank -%}
+				,"logo":
+				{
+					"@type": "ImageObject",
+      		"url": "{{ img_url | remove: "\" }}"
+				}
+		  	{%- endunless -%}
+		},
+		"datePublished": "{{ article.created_at }}",
+		"dateModified": "{{ article.published_at }}",
+		"description": {{ article.excerpt_or_content | strip_html | json }},
+		"articleBody": {{ article.content | strip_html | json }}
+	}
+</script>
+{%- endif -%}
+{{ nl }}
+<!-- End - SEO - All in One -->

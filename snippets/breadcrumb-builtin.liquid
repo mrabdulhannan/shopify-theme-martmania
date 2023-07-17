@@ -1,0 +1,67 @@
+{% unless template == 'index' or template == 'cart' %}
+<ul class="breadcrumb-list">
+  <li>
+    <a href="{{ routes.root_url }}" title="{{ 'general.breadcrumbs.home_link_title' | t }}">{{ 'general.breadcrumbs.home' | t }}</a>
+  </li>
+  <li>
+    {% if template contains 'product' %}
+
+    {% if collection %}
+    {% if collection.handle %}
+    {% capture url %}{{ routes.collections_url }}/{{ collection.handle }}{% endcapture %}
+    {{ collection.title | link_to: url }}
+    {% endif %}
+    {% endif %}
+
+    <span>{{ product.title }}</span>
+
+    {% elsif template contains 'collection' and collection.handle %}
+
+
+    {% if current_tags %}
+    {% capture url %}{{ routes.collections_url }}/{{ collection.handle }}{% endcapture %}
+    {{ collection.title | link_to: url }}
+
+    <span>{{ current_tags | join: " + " }}</span>
+    {% else %}
+    <span>{{ collection.title }}</span>
+    {% endif %}
+
+    {% elsif template == 'blog' %}
+
+
+    {% if current_tags %}
+    {{ blog.title | link_to: blog.url }}
+
+    <span>{{ current_tags | join: " + " }}</span>
+    {% else %}
+    <span>{{ blog.title }}</span>
+    {% endif %}
+
+    {% elsif template == 'article' %}
+
+
+    {% if settings.rtl_enable %}
+    <span>{{ article.title }}</span>
+
+    {{ blog.title | link_to: blog.url }}
+    {% else %}
+    {{ blog.title | link_to: blog.url }}
+
+    <span>{{ article.title }}</span>
+    {% endif %}
+
+    {% elsif template contains 'page' %}
+
+
+    <span>{{ page.title }}</span>
+
+    {% else %}
+
+
+    <span>{{ page_title }}</span>
+
+    {% endif %}
+  </li>
+</ul>
+{% endunless %}

@@ -1,0 +1,88 @@
+{%- assign on_sale = false -%}
+{%- if product.compare_at_price > product.price -%}
+{%- assign on_sale = true -%}
+{%- endif -%}
+{%- assign sold_out = true -%}
+{%- if product.available -%}
+{%- assign sold_out = false -%}
+{%- endif -%}
+{%- assign variant = product.selected_or_first_available_variant -%}
+{%- if product.available -%}
+{%- assign func = "Shopify.addItem(" | append: variant.id | append: ", 1)" -%}
+{%- endif -%}
+<div class="ltn__product-item ltn__product-item-3 text-center {{ variant.id }}">
+  <div class="product-img">
+    {%- assign image = product.featured_image.src -%}
+    <a href="{{ product.url | within: collection }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+      <img srcset="{% if image.width >= 150 %}{{ image | img_url: '152x' }} 152w,{% endif %}
+                   {% if image.width >= 243 %}{{ image | img_url: '266x' }} 266w,{% endif %}
+                   {% if image.width >= 366 %}{{ image | img_url: '366x' }} 366w,{% endif %}
+                   {% if image.width >= 576 %}{{ image | img_url: '576x' }} 576w,{% endif %}
+                   {% if image.width >= 600 %}{{ image | img_url: '600x' }} 600w,{% endif %}"
+           src="{{ image | img_url: '600x' }}"
+           sizes="100vw"
+           width="{{ image.width }}"
+           height="{{ image.height }}"
+           alt="{{ image.alt | escape }}"
+           loading="lazy"
+           class="image-position-size popup_cart_image"
+           >
+    </a>
+    {%- if sold_out or on_sale or product.description contains '[new_products]' -%}
+    {%- render 'product-badge' with product as product, on_sale: on_sale, sold_out: sold_out -%}
+    {%- endif -%}
+    {%- if settings.product_action_button_enable -%}
+    {%- render 'product-action', product: product, on_sale: on_sale, sold_out: sold_out, variant: variant, func: func -%}
+    {%- endif -%}
+    {%- if product.metafields.countdown != empty -%}
+    <div class="product-grid-countdown" data-countdown="{{ product.metafields.countdown.date }}"></div>
+    {%- elsif product.description contains '[countdown]' -%}
+    {%- assign count_down_first = product.description | split:'[/countdown]' | first -%}
+    {%- assign count_down_final = count_down_first | split:'[countdown]' | last -%}
+    <div class="product-grid-countdown" data-countdown="{{ count_down_final }}"></div> 
+    {%- endif -%}
+  </div>
+  <div class="product-info">
+    {%- if settings.product_review_enable -%}
+    <div class="product-ratting">
+      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+    </div>
+    {%- endif -%}
+    <h2 class="product-title popup_cart_title"><a href="{{ product.url | within: collection }}">{{ product.title }}</a></h2>
+    <div class="product-price">
+      <span>{{ product.variants.first.price | money }}</span>
+      {%- if product.variants.first.compare_at_price > product.variants.first.price -%}
+      <del>{{ product.variants.first.compare_at_price | money }}</del>
+      {%- endif -%}
+    </div>
+    {%- if settings.product_info_enable -%}
+    {%- assign year_select = product.metafields.year_select -%}
+    {%- assign key = 'year' -%}    
+    {%- assign product_type = product.metafields.product_type -%}
+    {%- assign key = 'type' -%}
+    {%- assign product_speed = product.metafields.product_speed -%}
+    {%- assign key = 'speed' -%}
+    {%- if year_select != empty and car_type != empty and car_speed != empty -%}
+    <div class="product-info-brief">
+      <ul>
+        {%- if year_select != empty -%}
+        <li>
+          <i class="fas fa-car"></i>{{ year_select.year }}
+        </li>
+        {%- endif -%}
+        {%- if product_type != empty -%}
+        <li>
+          <i class="fas fa-cog"></i>{{ product_type.type }}
+        </li>
+        {%- endif -%}
+        {%- if product_speed != empty -%}
+        <li>
+          <i class="fas fa-road"></i>{{ product_speed.speed }}
+        </li>
+        {%- endif -%}
+      </ul>
+    </div>
+    {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>

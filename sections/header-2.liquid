@@ -1,0 +1,562 @@
+<style>
+  .theme-logo img{
+    max-width: {{ section.settings.logo_width }}px;
+  }
+  {%- for block in section.blocks -%}
+  {%- case block.type -%}
+  {%- when 'header_color' -%}
+  {%- if block.settings.header_color_enable -%}
+  .ltn__header-4 .ltn__header-middle-area, .ltn__header-5 .ltn__header-middle-area{
+    background: {{ block.settings.header_bg_color }};
+  }
+  .ltn__main-menu>ul>li>a, .ltn__header-options, .mini-cart-icon, .mobile-menu-toggle>a{
+    color: {{ block.settings.header_color }};
+  }
+  .mobile-menu-toggle svg path {
+    stroke: {{ block.settings.header_color }};
+  }
+  .sticky-active.ltn__sticky-bg-white{
+    background: {{ block.settings.header_sticky_bg_color }};
+  }
+  .sticky-active.ltn__sticky-bg-white .header-feature-icon, .sticky-active.ltn__sticky-bg-white .header-feature-item h6, .sticky-active.ltn__sticky-bg-white .header-feature-item p, .sticky-active.ltn__sticky-bg-white .header-search-1 .search-icon, .sticky-active.ltn__sticky-bg-white .header-wishlist a, .sticky-active.ltn__sticky-bg-white .ltn__main-menu>ul>li>a, .sticky-active.ltn__sticky-bg-white .mini-cart-icon,
+  .sticky-active.ltn__sticky-bg-white .get-support .get-support-info h6, .sticky-active.ltn__sticky-bg-white .get-support .get-support-info h4 p,
+  .sticky-active.ltn__sticky-bg-white .ltn__header-options .ltn__drop-menu>ul>li>a{
+  	color: {{ block.settings.header_sticky_color }};
+  }
+  {%- endif -%}
+  {%- if block.settings.other_pages_header_color_enable -%}
+  {%- unless template == 'index' -%}
+  .ltn__header-4 .ltn__header-middle-area, .ltn__header-5 .ltn__header-middle-area{
+    background: {{ block.settings.other_pages_header_bg_color }};
+  }
+  .ltn__main-menu>ul>li>a, .ltn__header-options, .mini-cart-icon, .mobile-menu-toggle>a{
+    color: {{ block.settings.other_pages_header_color }};
+  }
+  .mobile-menu-toggle svg path {
+    stroke: {{ block.settings.other_pages_header_color }};
+  }
+  .sticky-active.ltn__sticky-bg-white{
+    background: {{ block.settings.other_pages_header_sticky_bg_color }};
+  }
+  .sticky-active.ltn__sticky-bg-white .header-feature-icon, .sticky-active.ltn__sticky-bg-white .header-feature-item h6, .sticky-active.ltn__sticky-bg-white .header-feature-item p, .sticky-active.ltn__sticky-bg-white .header-search-1 .search-icon, .sticky-active.ltn__sticky-bg-white .header-wishlist a, .sticky-active.ltn__sticky-bg-white .ltn__main-menu>ul>li>a, .sticky-active.ltn__sticky-bg-white .mini-cart-icon,
+  .sticky-active.ltn__sticky-bg-white .get-support .get-support-info h6, .sticky-active.ltn__sticky-bg-white .get-support .get-support-info h4 p,
+  .sticky-active.ltn__sticky-bg-white .ltn__header-options .ltn__drop-menu>ul>li>a{
+  	color: {{ block.settings.other_pages_header_sticky_color }};
+  }
+  {%- endunless -%}
+  {%- endif -%}
+  {%- endcase -%}
+  {%- endfor -%}
+</style>
+
+
+<!-- HEADER AREA START (header-4) -->
+{%- capture header_transparent_class -%}
+{%- if section.settings.header_transparent_enable and section.settings.other_page_header_transparent_enable -%}
+ltn__header-transparent
+{%- elsif section.settings.header_transparent_enable -%}
+{%- if template == 'index' -%}
+ltn__header-transparent
+{%- endif -%}
+{%- elsif section.settings.other_page_header_transparent_enable -%}
+{%- unless template == 'index' -%}
+ltn__header-transparent
+{%- endunless -%}
+{%- endif -%}
+{%- endcapture -%}
+<header id="section-{{ section.id }}" data-section="headerSection" class="ltn__header-area ltn__header-4 ltn__header-7 {{ header_transparent_class }}">
+  {%- for block in section.blocks -%}
+  {%- case block.type -%}
+  {%- when 'header_top' -%}
+  {%- render 'header-top', block: block -%}
+  {%- endcase -%}
+  {%- endfor -%}
+  <!-- ltn__header-middle-area start -->
+  <div class="ltn__header-middle-area {% if section.settings.sticky_header_enable %}ltn__header-sticky{% endif %} ltn__sticky-bg-white">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="site-logo">
+            {%- render 'header-logo' -%}
+          </div>
+        </div>
+        <div class="col header-menu-column">
+          <div class="header-menu d-none d-xl-block">
+            {%- render 'main-menu' -%}
+          </div>
+        </div>
+        {%- if section.settings.header_option_enable -%}
+        <div class="col">
+          <div class="ltn__header-options">
+
+            {%- if settings.currency_enable -%} 
+            {%- if settings.currency_handle == 'shopify_currency' -%}
+            {% if localization.available_countries.size > 1 %}
+            <div class="ltn__drop-menu ltn__currency-menu default-currency-menu">
+              <ul>
+                <li>
+                  <localization-form>
+                    {% form 'localization' %}
+                      <div class="disclosure">
+                        <button type="button" class="disclosure__button" aria-expanded="false" aria-controls="CountryList">
+                          {{ localization.country.iso_code }} ({{ localization.country.currency.iso_code }} {{ localization.country.currency.symbol }})
+                        </button>
+                
+                        <ul id="CountryList" role="list" class="disclosure__list">
+                          {% for country in localization.available_countries %}
+                            <li class="disclosure__item" tabindex="-1">
+                              <a href="#"{% if country.iso_code == localization.country.iso_code %} aria-current="true"{% endif %} data-value="{{ country.iso_code }}">
+                                {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+                              </a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                
+                        <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}">
+                      </div>
+                    {% endform %}
+                  </localization-form>
+                <li>
+              </ul>
+            </div>
+            {% endif %}
+            {%- elsif settings.currency_handle == 'ajax_currency' -%}
+            <div class="ltn__drop-menu ltn__currency-menu">
+              {%- render 'currency-picker' -%}
+            </div>
+            {%- endif -%}
+            {%- endif -%}
+              
+            {%- render 'header-option' -%}
+          </div>
+        </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+  <!-- ltn__header-middle-area end -->
+</header>
+<!-- HEADER AREA END -->
+
+{% render 'mini-cart' %}
+
+{% render 'mobile-header' %}
+
+<div class="ltn__utilize-overlay"></div>
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+		{
+          "type": "paragraph",
+          "content": "There are two header styles. It's the Header-1."
+        },
+		{
+          "type": "paragraph",
+          "content": "If you want to change then go to Theme Settings > Header Settings"
+        },
+		{
+          "type": "header",
+          "content": "Header"
+        },
+		{
+          "type": "checkbox",
+          "id": "header_transparent_enable",
+          "label": "Header Transparent Enable",
+		  "default": true,
+          "info": "Only for Home page"
+        },
+		{
+          "type": "checkbox",
+          "id": "other_page_header_transparent_enable",
+          "label": "Header Transparent Enable",
+		  "default": true,
+          "info": "All pages without Home page"
+        },
+		{
+          "type": "checkbox",
+          "id": "sticky_header_enable",
+          "label": "Header Sticky Enable",
+		  "default": true
+        },
+		{
+          "type": "header",
+          "content": "Logo"
+        },
+		{
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo"
+        },
+		{
+          "type": "image_picker",
+          "id": "logo_2",
+          "label": "Logo",
+          "info": "If you want to display a different logo on other pages except the index page only."
+        },
+        {
+          "type": "checkbox",
+          "id": "custom_logo_width_enable",
+          "label": "Enable custom logo width",
+          "default": true
+        },
+		{
+          "type": "range",
+          "id": "logo_width",
+          "label": "Custom logo width",
+          "min": 50,
+          "max": 300,
+          "step": 5,
+          "unit": "px",
+          "default": 150
+        },
+		{
+          "type": "checkbox",
+          "id": "ratina_logo_enable",
+          "label": "Retina Logo Enable",
+		  "default": false
+        },
+		{
+          "type": "header",
+          "content": "Action Icon"
+        },
+		{
+          "type": "checkbox",
+          "id": "header_option_enable",
+          "label": "Action Icon Enable",
+		  "default": true
+        },
+		{
+          "type": "checkbox",
+          "id": "header_search_enable",
+          "label": "Header Search Enable",
+		  "default": true
+        },
+		{
+          "type": "header",
+          "content": "User Menu"
+        },
+		{
+          "type": "checkbox",
+          "id": "user_menu_enable",
+          "label": "Show User Menu",
+		  "default": true
+        },
+		{
+          "type": "link_list",
+          "id": "user_menu_handle",
+          "label": "User Menu"
+        },
+		{
+          "type": "text",
+          "id": "login_title",
+          "label": "Login Title",
+		  "default": "Login"
+        },
+		{
+          "type": "text",
+          "id": "logout_title",
+          "label": "Logout Title",
+		  "default": "Logout"
+        },
+		{
+          "type": "header",
+          "content": "Mini Cart"
+        },
+		{
+          "type": "text",
+          "id": "cart_title",
+          "label": "Cart Title",
+		  "default": "Cart"
+        },
+		{
+          "type": "text",
+          "id": "total_title",
+          "label": "Total Title",
+		  "default": "Subtotal:"
+        },
+		{
+          "type": "text",
+          "id": "view_cart_title",
+          "label": "View Cart Title",
+		  "default": "View Cart"
+        },
+		{
+          "type": "text",
+          "id": "checkout_title",
+          "label": "Checkout Title",
+		  "default": "Checkout"
+        },
+		{
+          "type": "richtext",
+          "id": "cart_inforation",
+          "label": "Cart Information",
+		  "default": "<p>Free Shipping on All Orders Over $100!</p>"
+        },
+		{
+          "type": "header",
+          "content": "Mobile Header"
+        },
+		{
+          "type": "image_picker",
+          "id": "logo_3",
+          "label": "Logo",
+          "info": "If you want to display a different logo on Mobile only."
+        },
+		{
+          "type": "checkbox",
+          "id": "mobile_search_field_enable",
+          "label": "Search Bar Enable",
+		  "default": true
+        },
+		{
+          "type": "text",
+          "id": "user_menu_title",
+          "label": "User Menu Title",
+		  "default": "My Account"
+        },
+		{
+          "type": "text",
+          "id": "wishlit_title",
+          "label": "Wishlist Title",
+		  "default": "Wishlist"
+        },
+		{
+          "type": "page",
+          "id": "wishlist_page_handle",
+          "label": "Wishlist Page"
+        },
+		{
+          "type": "text",
+          "id": "shopping_cart_title",
+          "label": "Shopping Cart Title",
+		  "default": "Shopping Cart"
+        },
+		{
+          "type": "checkbox",
+          "id": "mobile_social_midea_enable",
+          "label": "Social Midea Enable",
+		  "default": true
+        }
+	],
+	"blocks":[
+		{
+          "type": "header_top",
+          "name": "Header Top",
+		  "limit": 1,
+          "settings": [
+            {
+              "type": "header",
+              "content": "Email"
+            },
+			{
+			  "type": "text",
+			  "id": "email",
+			  "label": "Email Address",
+			  "default": "info@webmail.com"
+			},
+			{
+			  "type": "url",
+			  "id": "email_url",
+			  "label": "Email URL",
+			  "info": "mailto:info@webmail.com"
+			},
+            {
+              "type": "header",
+              "content": "Address"
+            },
+			{
+			  "type": "text",
+			  "id": "address",
+			  "label": "Address",
+			  "default": "15/A, Nest Tower, NYC"
+			},
+			{
+			  "type": "url",
+			  "id": "address_url",
+			  "label": "Address URL"
+			},
+            {
+              "type": "header",
+              "content": "Language"
+            },
+            {
+              "type": "checkbox",
+              "id": "gtranslate_enable",
+              "label": "Language Enable",
+              "default": true
+            },
+            {
+              "type": "select",
+              "id": "language_handle",
+              "label": "Select Language",
+              "options": [
+                {
+                  "label": "Shopify Default Language",
+                  "value": "shopify_language"
+                },
+                {
+                  "label": "Gtranslate",
+                  "value": "gtranslate"
+                }
+              ],
+              "default": "shopify_language",
+              "info": "To add a language, go to your [language settings.](\/admin\/settings\/languages)"
+            },
+            {
+              "type": "header",
+              "content": "Social Media"
+            },
+			{
+			  "type": "checkbox",
+			  "id": "social_media_enable",
+			  "label": "Show Social Media",
+			  "default": true
+			},
+            {
+              "type": "header",
+              "content": "Color"
+            },
+            {
+              "type": "checkbox",
+              "id": "header_top_color_enable",
+              "label": "Color Enable",
+              "default": true,
+          	  "info": "Enable the field for color customization"
+            },
+			{
+			  "type": "color",
+			  "id": "bg_color",
+			  "label": "BG Color",
+			  "default": "#fff"
+			},
+			{
+			  "type": "color",
+			  "id": "content_color",
+			  "label": "Color",
+			  "default": "#071c1f"
+			},
+			{
+			  "type": "color",
+			  "id": "border_color",
+			  "label": "Border Bottom Color",
+			  "default": "#e5eaee"
+			},
+            {
+              "type": "header",
+              "content": "Color (Without Index Page)"
+            },
+            {
+              "type": "checkbox",
+              "id": "other_pages_header_top_color_enable",
+              "label": "Color Enable",
+              "default": true,
+          	  "info": "Enable the field for color customization"
+            },
+			{
+			  "type": "color",
+			  "id": "other_pages_bg_color",
+			  "label": "BG Color",
+			  "default": "#fff"
+			},
+			{
+			  "type": "color",
+			  "id": "other_pages_content_color",
+			  "label": "Color",
+			  "default": "#071c1f"
+			},
+			{
+			  "type": "color",
+			  "id": "other_pages_border_color",
+			  "label": "Border Bottom Color",
+			  "default": "#e5eaee"
+			}
+          ]
+       },
+	   {
+          "type": "header_color",
+          "name": "Header Color",
+		  "limit": 1,
+          "settings": [
+            {
+              "type": "header",
+              "content": "Color (Only Index Page)"
+            },
+            {
+              "type": "checkbox",
+              "id": "header_color_enable",
+              "label": "Color Enable",
+              "default": true,
+          	  "info": "Enable the field for color customization"
+            },
+			{
+			  "type": "color",
+			  "id": "header_bg_color",
+			  "label": "BG Color",
+			  "default": "#fff"
+			},
+			{
+			  "type": "color",
+			  "id": "header_color",
+			  "label": "Color",
+			  "default": "#222"
+			},
+			{
+			  "type": "color",
+			  "id": "header_sticky_bg_color",
+			  "label": "Sticky BG Color",
+			  "default": "#fff"
+			},
+			{
+			  "type": "color",
+			  "id": "header_sticky_color",
+			  "label": "Sticky Color",
+			  "default": "#222"
+			},
+            {
+              "type": "header",
+              "content": "Color (Without Index Page)"
+            },
+            {
+              "type": "checkbox",
+              "id": "other_pages_header_color_enable",
+              "label": "Color Enable",
+              "default": true,
+          	  "info": "Enable the field for color customization"
+            },
+			{
+			  "type": "color",
+			  "id": "other_pages_header_bg_color",
+			  "label": "BG Color",
+			  "default": "#fff"
+			},
+			{
+			  "type": "color",
+			  "id": "other_pages_header_color",
+			  "label": "Color",
+			  "default": "#071c1f"
+			},
+			{
+			  "type": "color",
+			  "id": "other_pages_support_icon_color",
+			  "label": "Support Icon Color",
+			  "default": "#e53e29"
+			},
+			{
+			  "type": "color",
+			  "id": "other_pages_header_sticky_bg_color",
+			  "label": "Sticky BG Color",
+			  "default": "#fff"
+			},
+			{
+			  "type": "color",
+			  "id": "other_pages_header_sticky_color",
+			  "label": "Sticky Color",
+			  "default": "#071c1f"
+			}
+          ]
+       }
+	]
+  }
+{% endschema %}

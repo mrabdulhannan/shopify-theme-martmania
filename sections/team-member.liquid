@@ -1,0 +1,369 @@
+{%- render 'section-style' -%}
+<!-- TEAM AREA START (Team - 3) -->
+<div class="ltn__team-area pt-115 pb-90" id="section-{{ section.id }}" data-section="teamMember">
+  <div class="container">
+    {%- if section.settings.section_title != '' or section.settings.section_sub_title != '' -%}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-title-area ltn__section-title-2 text-center">
+          {%- if section.settings.section_sub_title != '' -%}
+          <h6 class="section-subtitle ltn__secondary-color">{{ section.settings.section_sub_title }}</h6>
+          {%- endif -%}
+          {%- if section.settings.section_title != '' -%}
+          <h1 class="section-title">{{ section.settings.section_title }}</h1>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+    <div class="row justify-content-center">
+      {%- for block in section.blocks -%}
+      {%- case block.type -%}
+      {%- when 'team_member' -%}
+      <div class="col-{{ section.settings.column_sm }} col-sm-{{ section.settings.column_sm }} col-md-{{ section.settings.column_md }} col-lg-{{ section.settings.column }}">
+        <div class="ltn__team-item ltn__team-item-3">
+          {%- assign image = block.settings.team_member_image -%}
+          <div class="team-img">
+            {%- if block.settings.team_member_image -%}
+            <div class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+              <img srcset="{% if image.width >= 100 %}{{ image | img_url: '110x' }} 110w,{% endif %}
+                           {% if image.width >= 180 %}{{ image | img_url: '180x' }} 180w,{% endif %}"
+                   src="{{ image | img_url: '180x' }}"
+                   sizes="50vw"
+                   width="{{ image.width }}"
+                   height="{{ image.height }}"
+                   alt="{{ image.alt | escape }}"
+                   loading="lazy"
+                   class="image-position-size"
+                   >
+            </div>
+            {%- else -%}
+            <img src="https://via.placeholder.com/180x180" alt="Team Member">
+            {%- endif -%}
+          </div>
+          <div class="team-info">
+            {%- if block.settings.member_designation != '' -%}
+            <h6 class="ltn__secondary-color">{{ block.settings.member_designation }}</h6>
+            {%- endif -%}
+            <h4>{{ block.settings.member_name }}</h4>
+            {%- if block.settings.facebook_url != blank or block.settings.twitter_url != blank or block.settings.linkedin_url != blank -%}
+            <div class="ltn__social-media">
+              <ul>
+                {%- if block.settings.facebook_url != blank -%}
+                <li><a href="{{ block.settings.facebook_url }}"><i class="fab fa-facebook-f"></i></a></li>
+                {%- endif -%}
+                {%- if block.settings.twitter_url != blank -%}
+                <li><a href="{{ block.settings.twitter_url }}"><i class="fab fa-twitter"></i></a></li>
+                {%- endif -%}
+                {%- if block.settings.linkedin_url != blank -%}
+                <li><a href="{{ block.settings.linkedin_url }}"><i class="fab fa-linkedin"></i></a></li>
+                {%- endif -%}
+              </ul>
+            </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+      {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+<!-- TEAM AREA END -->
+{% schema %}
+  {
+    "name": "Team Member",
+    "settings": [
+		{
+          "type": "text",
+          "id": "section_sub_title",
+          "label": "Section Sub Title",
+          "default": "// Sub Title"
+      	},
+		{
+          "type": "text",
+          "id": "section_title",
+          "label": "Section Title",
+		  "default": "Section Title <span>.</span>",
+		  "info": "Use <span> Tag for Highlight text"
+      	},
+		{
+          "type": "header",
+          "content": "Column"
+        },
+        {
+          "type": "range",
+          "id": "column",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "label": "Desktop",
+          "unit": "/12",
+          "default": 3
+        },
+        {
+          "type": "range",
+          "id": "column_md",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "label": "Tablet",
+          "unit": "/12",
+          "default": 4
+        },
+        {
+          "type": "range",
+          "id": "column_sm",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "label": "Mobile",
+          "unit": "/12",
+          "default": 6
+        }
+	],
+	"blocks":[
+          {
+            "type": "team_member",
+            "name": "Team Member",
+            "settings": [
+              {
+                "type": "image_picker",
+                "id": "team_member_image",
+                "label": "Image"
+              },
+              {
+                "type": "text",
+                "id": "member_name",
+                "label": "Name",
+                "default": "Jon Doe"
+              },
+              {
+                "type": "text",
+                "id": "member_designation",
+                "label": "Designation",
+                "default": "CEO"
+              },
+              {
+                "type": "header",
+                "content": "Social Link"
+              },
+              {
+                "type": "url",
+                "id": "facebook_url",
+                "label": "Facebook"
+              },
+              {
+                "type": "url",
+                "id": "twitter_url",
+                "label": "Twitter"
+              },
+              {
+                "type": "url",
+                "id": "linkedin_url",
+                "label": "Linkedin"
+              }
+            ]
+         },
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 90
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 60
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 40
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Team Member",
+		  "category": "5. about",
+		  "blocks":[
+				{
+					"type": "team_member"
+				},
+				{
+					"type": "team_member"
+				},
+				{
+					"type": "team_member"
+				},
+				{
+					"type": "team_member"
+				},
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

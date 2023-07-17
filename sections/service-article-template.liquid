@@ -1,0 +1,319 @@
+<div class="ltn__page-details-area ltn__service-details-area mb-105" data-section="serviceArticleTemplate">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="ltn__page-details-inner ltn__service-details-inner">
+          {%- if article.image -%}
+          {%- assign image =  article.image -%}
+          <div class="ltn__blog-img image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+            <img srcset="{% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                         {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                         {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                         {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                         {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                         {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w,{% endif %}
+                         {% if image.width >= 770 %}{{ image | img_url: '770x' }} 1100w,{% endif %}
+                         {% if image.width >= 900 %}{{ image | img_url: '900x' }} 900w,{% endif %}
+                         {% if image.width >= 970 %}{{ image | img_url: '970x' }} 970w,{% endif %}
+                         {% if image.width >= 1100 %}{{ image | img_url: '1100x' }} 1100w,{% endif %}
+                         {% if image.width >= 1200 %}{{ image | img_url: '1200x' }} 1200w{% endif %}"
+                 loading="lazy"
+                 src="{{ image | img_url: '1200x' }}"
+                 sizes="100vw"
+                 width="{{ image.width }}"
+                 height="{{ image.height }}"
+                 alt="{{ image.alt | escape }}"
+                 class="image-position-size"
+                 >
+          </div>
+          {%- endif -%}
+          <h2 class="ltn__blog-title">{{ article.title }}</h2>
+          {{ article.content }}
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <aside class="sidebar-area ltn__right-sidebar">
+          {%- for block in section.blocks -%}
+          {%- case block.type -%}
+          {%- when 'search' -%} 
+          <div class="widget ltn__search-widget">
+            {%- if block.settings.widget_title != '' -%}
+            <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+            {%- endif -%}
+            <form action="/search" method="get" role="search">
+              <input type="hidden" name="type" value="article">
+              <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" aria-label="{{ 'general.search.placeholder' | t }}">
+              <button type="submit">
+                <i class="fas fa-search"></i>
+              </button>
+            </form>
+          </div>
+          {%- when 'service_list' -%}
+          <div class="widget-2 ltn__menu-widget ltn__menu-widget-2">
+            <ul>
+              {%- assign blog = blogs.services -%}
+              {%- for article in blog.articles -%}
+              <li {% if request.path == article.url %}class="active"{% endif %}><a href="{{ article.url }}">{{ article.title }} <span><i class="fas fa-arrow-right"></i></span></a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+		  {%- when 'newsletter' -%}
+          <div class="widget ltn__search-widget ltn__newsletter-widget">  
+            {%- if block.settings.widget_sub_title != '' -%}
+            <h6 class="ltn__widget-sub-title">{{ block.settings.widget_sub_title }}</h6>
+            {%- endif -%}
+            {%- if block.settings.widget_title != '' -%}
+            <h4 class="ltn__widget-title">{{ block.settings.widget_title }}</h4>
+            {%- endif -%}
+            
+            {%- assign formId = 'Contact_' | append: section.id -%}
+            {%- form 'customer', id: formId -%} 
+            {%- if form.posted_successfully? -%}
+            <p class="form-message form-message--success form-success">{{ 'general.newsletter_form.confirmation'| t }}</p>
+            {%- endif -%}
+            {%- if form.errors -%}
+            <div class="form-message form-message--error">
+              {{ form.errors | default_errors }}
+            </div>
+            {%- endif -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input class="" type="email" name="contact[email]" id="Email" value="{% if customer %}{{ customer.email }}{% endif %}"
+                   placeholder="{{ 'general.newsletter_form.newsletter_email'| t }}" aria-label="{{ 'general.newsletter_form.newsletter_email'| t }}" {% if form.errors %}aria-invalid="true"{% endif %} autocorrect="off" autocapitalize="off">
+            <button type="submit"><i class="fas fa-search"></i></button>
+            {%- endform -%}
+            <div class="ltn__newsletter-bg-icon">
+              <i class="fas fa-envelope-open-text"></i>
+            </div>
+          </div>
+          {%- when 'banner' -%}
+          {%- capture i -%}{%- cycle 1, 2, 3, 4, 5, 6 -%}{%- endcapture -%}
+          <div class="widget ltn__banner-widget">
+            {%- if block.settings.banner_image != blank and block.settings.banner_image_url != blank -%}
+            {%- assign image = block.settings.banner_image -%}
+            <a href="{{ block.settings.banner_image_url }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+              <img srcset="{% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                           {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                           {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                           {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                           {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                           {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w,{% endif %}
+                           {% if image.width >= 770 %}{{ image | img_url: '770x' }} 1100w,{% endif %}
+                           {% if image.width >= 900 %}{{ image | img_url: '900x' }} 900w,{% endif %}
+                           {% if image.width >= 970 %}{{ image | img_url: '970x' }} 970w,{% endif %}
+                           {% if image.width >= 1100 %}{{ image | img_url: '1100x' }} 1100w,{% endif %}
+                           {% if image.width >= 1200 %}{{ image | img_url: '1200x' }} 1200w{% endif %}"
+                   loading="lazy"
+                   src="{{ image | img_url: '370x' }}"
+                   sizes="100vw"
+                   width="{{ image.width }}"
+                   height="{{ image.height }}"
+                   alt="{{ image.alt | escape }}"
+                   class="image-position-size"
+                   >
+            </a>
+            {%- elsif block.settings.banner_image != blank -%}
+            <span class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+              <img srcset="{% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                           {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                           {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                           {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                           {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                           {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w,{% endif %}
+                           {% if image.width >= 770 %}{{ image | img_url: '770x' }} 1100w,{% endif %}
+                           {% if image.width >= 900 %}{{ image | img_url: '900x' }} 900w,{% endif %}
+                           {% if image.width >= 970 %}{{ image | img_url: '970x' }} 970w,{% endif %}
+                           {% if image.width >= 1100 %}{{ image | img_url: '1100x' }} 1100w,{% endif %}
+                           {% if image.width >= 1200 %}{{ image | img_url: '1200x' }} 1200w{% endif %}"
+                   loading="lazy"
+                   src="{{ image | img_url: '370x' }}"
+                   sizes="100vw"
+                   width="{{ image.width }}"
+                   height="{{ image.height }}"
+                   alt="{{ image.alt | escape }}"
+                   class="image-position-size"
+                   >
+            </span>
+            {%- else -%}
+            {{ 'collection-' | append: i | placeholder_svg_tag: 'banner-svg-image' }}
+            {%- endif -%}
+          </div>
+          {%- endcase -%}
+          {%- endfor -%}
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Service Article Page",
+    "settings": [
+		{
+			"type": "header",
+			"content": "Comment Box"
+		},
+		{
+			"type": "image_picker",
+			"id": "commentator_image",
+			"label": "Comment Thumb Image",
+			"info": "Recommended Size: 80 x 80px"
+		},
+		{
+            "type": "range",
+            "id": "comment_post_limit_handle",
+            "min": 1,
+            "max": 10,
+            "step": 1,
+            "label": "How Many Comment Post Show",
+            "default": 5
+        },
+		{
+			"type": "header",
+			"content": "Tag & Share"
+		},
+		{
+			"type": "checkbox",
+			"id": "tag_enable",
+			"label": "Tag Enable",
+			"default": true
+		},
+		{
+			"type": "text",
+			"id": "tag_title",
+			"label": "Tag Title",
+			"default": "Tags"
+		},
+		{
+			"type": "checkbox",
+			"id": "social_share_enable",
+			"label": "Social Share Enable",
+			"default": true
+		},
+		{
+			"type": "text",
+			"id": "share_title",
+			"label": "Share Title",
+			"default": "Share This Post"
+		},
+		{
+			"type": "header",
+			"content": "Next / Prev Buttons"
+		},
+		{
+			"type": "checkbox",
+			"id": "blog_previous_and_next_buttons_enable",
+			"label": "Next / Previous Buttons Enable",
+			"default": true
+		},
+		{
+			"type": "text",
+			"id": "prev_post_title",
+			"label": "Prev Post Title",
+			"default": "Prev Post"
+		},
+		{
+			"type": "text",
+			"id": "next_post_title",
+			"label": "Next Post Title",
+			"default": "Next Post"
+		},
+		{
+			"type": "header",
+			"content": "Blog Form"
+		},
+		{
+			"type": "text",
+			"id": "form_title",
+			"label": "Form Title",
+			"default": "Post Comment"
+		},
+		{
+			"type": "text",
+			"id": "button_title",
+			"label": "Button Title",
+			"default": "Post Comment"
+		},
+		{
+			"type": "header",
+			"content": "Article Sidebar"
+		},
+		{
+			"type": "radio",
+			"id": "sidebar_handle",
+			"label": "Sidebar Position -",
+			"options": [
+				{
+					"label": "Left Sidebar",
+					"value": "left_sidebar_handle"
+				},
+				{
+					"label": "Right Sidebar",
+					"value": "right_sidebar_handle"
+				},
+				{
+					"label": "Without Sidebar",
+					"value": "without_sidebar"
+				}
+			],
+			"default": "left_sidebar_handle"
+		}
+	],
+	 "blocks":[
+		{
+          "type": "search",
+          "name": "Search",
+		  "limit": 1,
+          "settings": [
+            {
+              "type": "text",
+              "id": "widget_title",
+              "label": "Title",
+              "default": "Search"
+            }
+          ]
+       },
+		{
+          "type": "service_list",
+          "name": "Service List",
+		  "limit": 1,
+          "settings": [
+          ]
+       },
+	   {
+          "type": "newsletter",
+          "name": "Newsletter",
+		  "limit": 1,
+          "settings": [
+            {
+              "type": "text",
+              "id": "widget_sub_title",
+              "label": "Sub Title",
+              "default": "Subscribe"
+			},
+            {
+              "type": "text",
+              "id": "widget_title",
+              "label": "Newsletter Title",
+              "default": "Get Newsletter"
+			}
+          ]
+       },
+	   {
+          "type": "banner",
+          "name": "Banner",
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "banner_image",
+              "label": "Image"
+            },
+			{
+              "type": "url",
+              "id": "banner_image_url",
+              "label": "URL"
+            }
+          ]
+       }
+	]
+  }
+{% endschema %}

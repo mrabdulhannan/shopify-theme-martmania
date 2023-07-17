@@ -1,0 +1,12 @@
+{% assign affiliate_link_first = product.description | split:'[/affiliate_link]' | first %}
+{% assign affiliate_link_final = affiliate_link_first | split:'[affiliate_link]' | last %}
+
+{% if product.available %}
+<a href="{{ affiliate_link_final }}" class="theme-btn-1 btn btn-effect-1">
+  <span class="cart-text">{{ settings.affiliate_cart_button_title }}</span>
+</a>
+{% else %}
+<a href="{{ affiliate_link_final }}" class="cart-disable theme-btn-1 btn btn-effect-1">
+  <span class="cart-text">{{ settings.soldout_button_title }}</span>
+</a>
+{% endif %}

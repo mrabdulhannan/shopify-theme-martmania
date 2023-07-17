@@ -1,0 +1,67 @@
+/* ====================================
+Theme RTL CSS
+==================================== */
+body{
+  direction: rtl;
+  text-align: right;
+}
+.select-option-part select {
+  background: rgba(0, 0, 0, 0) url(qcv-arrow-down.png) no-repeat scroll left 20px center;
+}
+.spr-badge-starrating {
+  margin: 0 0 0 10px;
+}
+.quickview-btn-cart {
+  margin: 0 30px 0 0;
+}
+
+
+
+
+
+
+
+
+
+
+/* ====================================
+Theme RTL responsive CSS
+==================================== */
+
+/* Large screen desktop */
+@media (min-width: 1365px) and (max-width: 1500px){
+
+}
+
+@media (min-width: 1200px) and (max-width: 1299px){
+
+}
+
+@media (min-width: 1170px) and (max-width: 1299px){
+
+}
+
+/* Normal desktop :992px. */
+@media (min-width: 992px) and (max-width: 1169px) {
+
+}
+
+/* Tablet desktop :768px. */
+@media (min-width: 768px) and (max-width: 991px) {
+  
+}
+
+/* Small and large mobile :320px. */
+@media (max-width: 767px) {
+  
+}
+
+/* Large Mobile :480px. */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+}
+
+/* Small Mobile :320px. */
+@media only screen and (max-width: 479px) {
+  
+}

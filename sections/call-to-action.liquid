@@ -1,0 +1,239 @@
+<!-- CALL TO ACTION START (call-to-action-2) -->
+<div class="ltn__call-to-action-area call-to-action-2" id="section-{{ section.id }}" data-section="callToAction">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="call-to-action-inner call-to-action-inner-2 text-center">
+          {%- if section.settings.title != '' -%}
+          <h2>{{ section.settings.title }}</h2>
+          {%- endif -%}
+          {%- if section.settings.action_title != '' -%}
+          <div class="btn-wrapper">
+            <a class="btn btn-effect-4 btn-white" href="{{ section.settings.url }}"><i class="fas fa-phone-volume"></i> {{ section.settings.action_title }}</a>
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- CALL TO ACTION END -->
+
+{%- render 'section-style' -%}
+
+{% schema %}
+  {
+    "name": "Call to Action",
+    "settings": [
+		{
+          "type": "textarea",
+          "id": "title",
+          "label": "Title",
+		  "default": "Title for CTA"
+        },
+		{
+          "type": "text",
+          "id": "action_title",
+          "label": "Button Title",
+		  "default": "MAKE A CALL"
+        },
+		{
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        }
+	],
+	"blocks":[
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 20
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 20
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 20
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 20
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 20
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 20
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#e8edee"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Call to Action",
+		  "category": "6. action",
+		  "blocks":[
+				{
+					"type": "section_padding"
+				},
+				{
+					"type": "section_background"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

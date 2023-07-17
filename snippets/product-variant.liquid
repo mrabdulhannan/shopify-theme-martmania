@@ -1,0 +1,66 @@
+<div class="product-variant-option pro-size color-option"> 
+  {%- if block.settings.customer_choose_option_enable -%}
+  <select name="id" id="productSelect" class="product-single__variants a" style="display:none;">
+    {%- for variant in product.variants -%}
+    {%- if variant.available -%}
+    <option data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+    {%- else -%}
+    <option disabled="disabled">
+      {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+    </option>
+    {%- endif -%}
+    {%- endfor -%}
+  </select>
+  {%- else -%}
+  <select name="id" id="productSelect" class="product-single__variants" style="display:none;">
+    {%- for variant in product.variants -%}
+    {%- if variant.available -%}
+    <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+    {%- else -%}
+    <option disabled="disabled">
+      {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+    </option>
+    {%- endif -%}
+    {%- endfor -%}
+  </select>
+  {%- endif -%}  
+  {%- if block.settings.product_variant_handle == 'product_variant_swatch_option' -%}
+  {%- if product.available and product.variants.size > 1 -%}
+  {% for option in product.options %}
+  {%- render 'swatch' with option, block: block -%}
+  {% endfor %}
+  {%- endif -%}                    
+  <script>
+    jQuery(function() {
+      jQuery('.swatch :radio').change(function() {
+        var optionIndex = jQuery(this).closest('.swatch').attr('data-option-index');
+        var optionValue = jQuery(this).val();
+        jQuery(this)
+        .closest('form')
+        .find('.single-option-selector')
+        .eq(optionIndex)
+        .val(optionValue)
+        .trigger('change');
+      });
+    });
+  </script>
+  {%- endif -%}
+</div>
+{%- if block.settings.product_variant_handle == 'product_variant_swatch_option' or block.settings.product_variant_handle == 'product_variant_without_option' -%}
+<style>
+  .product-variant-option .selector-wrapper{
+  	display: none;
+  }
+</style>
+{%- endif -%}
+
+{%- if block.settings.customer_choose_option_enable -%}
+<script>
+var productOptions = [];
+ {% for option in product.options %}
+  var optionObj = {};
+  optionObj[ {{ forloop.index0 }} ] = "{{ product.options[forloop.index0] }}";
+  productOptions.push(optionObj);
+ {% endfor %}
+</script>
+{%- endif -%}

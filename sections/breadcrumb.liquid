@@ -1,0 +1,412 @@
+{%- if section.settings.breadcrumb_banner_enable -%}
+{%- render 'breadcrumb-banner' -%}
+<style>
+  /* Breadcurmb Banner */
+  .breadcrumbs {
+    background: {{ section.settings.breadcrumb_banner_bg }} {% if section.settings.breadcrumb_banner_image %}url("{{ section.settings.breadcrumb_banner_image | img_url: 'master' }}") no-repeat scroll center center / cover{% endif %};
+      padding-top: {{ section.settings.breadcrumb_padding_top }}px;
+      padding-bottom: {{ section.settings.breadcrumb_padding_bottom }}px;
+      }
+  .overlay-bg::before {
+    background: {{ section.settings.breadcrumb_banner_overlay_color }} none repeat scroll 0 0;
+    opacity: {{ section.settings.breadcrumb_banner_opacity }};
+  }
+  .breadcrumbs-title {
+    color: {{ section.settings.breadcurmb_title_color }};
+  }
+  .breadcrumb-list > li > a {
+    color: {{ section.settings.breadcurmb_page_title_color }};
+  }
+  .ltn__breadcrumb-inner-2 .ltn__breadcrumb-list ul li:after, .ltn__breadcrumb-inner-2 .ltn__breadcrumb-list ul li:nth-child(2) a:after {
+    background-color: {{ section.settings.breadcurmb_page_title_color }};
+  }
+  .breadcrumb-list > li, .ltn__breadcrumb-color-white .ltn__breadcrumb-list li:last-child {
+    color: {{ section.settings.active_breadcurmb_page_title_color }};
+  }
+  .breadcrumbs .ltn__secondary-color {
+    color: {{ section.settings.welcome_note_color }} !important;
+  }
+  @media (max-width: 767px) {
+    .breadcrumbs {
+      padding-top: {{ section.settings.breadcrumb_padding_top_xs }}px;
+      padding-bottom: {{ section.settings.breadcrumb_padding_bottom_xs }}px;
+    }
+  }
+  
+  {%- for block in section.blocks -%}
+  {%- case block.type -%}
+
+  {%- when 'product_pages' -%} 
+  {%- if block.settings.breadcrumb_banner_image and template == 'product' -%}
+  .template-{{ template.name | handle }} .breadcrumbs{
+    background: url("{{ block.settings.breadcrumb_banner_image | img_url: 'master' }}") no-repeat scroll center center / cover;
+      }
+  {%- endif -%}
+  
+  {%- when 'collection_pages' -%}
+  {%- if template == 'collection' -%}
+  {%- if collection.image and block.settings.collection_image_enable -%}
+  .template-{{ template.name | handle }} .breadcrumbs{
+    background: url("{{ collection.image.src | img_url: 'master' }}") no-repeat scroll center center / cover;
+      }
+  {%- elsif block.settings.breadcrumb_banner_image -%}
+  .template-{{ template.name | handle }} .breadcrumbs{
+    background: url("{{ block.settings.breadcrumb_banner_image | img_url: 'master' }}") no-repeat scroll center center / cover;
+      }
+  {%- endif -%}
+  {%- endif -%}
+  
+  {%- when 'collection_list' -%}
+  {%- if block.settings.breadcrumb_banner_image and template == 'list-collections' -%}
+  .template-{{ template.name | handle }} .breadcrumbs{
+    background: url("{{ block.settings.breadcrumb_banner_image | img_url: 'master' }}") no-repeat scroll center center / cover;
+      }
+  {%- endif -%}
+
+  {%- when 'blogs' -%}
+  {%- if block.settings.breadcrumb_banner_image and template == 'blog' -%}
+  .template-{{ template.name | handle }} .breadcrumbs{
+    background: url("{{ block.settings.breadcrumb_banner_image | img_url: 'master' }}") no-repeat scroll center center / cover;
+      }
+  {%- endif -%}
+  
+  {%- when 'blog_posts' -%}
+  {%- if block.settings.breadcrumb_banner_image and template == 'article' -%}
+  .template-{{ template.name | handle }} .breadcrumbs{
+    background: url("{{ block.settings.breadcrumb_banner_image | img_url: 'master' }}") no-repeat scroll center center / cover;
+      }
+  {%- endif -%}
+  
+  {%- when 'cart' -%}
+  {%- if block.settings.breadcrumb_banner_image and template == 'cart' -%}
+  .template-{{ template.name | handle }} .breadcrumbs{
+    background: url("{{ block.settings.breadcrumb_banner_image | img_url: 'master' }}") no-repeat scroll center center / cover;
+      }
+  {%- endif -%}
+  
+  {%- when 'template_404' -%}
+  {%- if block.settings.breadcrumb_banner_image and template == '404' -%}
+  .template-{{ template.name | handle }} .breadcrumbs{
+    background: url("{{ block.settings.breadcrumb_banner_image | img_url: 'master' }}") no-repeat scroll center center / cover;
+      }
+  {%- endif -%}
+  
+  {%- when 'page_about' -%}
+  {%- if block.settings.breadcrumb_banner_image and template == 'page.about' -%}
+  .template-{{ template.name | handle }} .breadcrumbs{
+    background: url("{{ block.settings.breadcrumb_banner_image | img_url: 'master' }}") no-repeat scroll center center / cover;
+      }
+  {%- endif -%}
+  
+  {%- when 'page_contact' -%}
+  {%- if block.settings.breadcrumb_banner_image and template == 'page.contact' -%}
+  .template-{{ template.name | handle }} .breadcrumbs{
+    background: url("{{ block.settings.breadcrumb_banner_image | img_url: 'master' }}") no-repeat scroll center center / cover;
+      }
+  {%- endif -%}
+  
+  {%- when 'page_faq' -%}
+  {%- if block.settings.breadcrumb_banner_image and template == 'page.faq' -%}
+  .template-{{ template.name | handle }} .breadcrumbs{
+    background: url("{{ block.settings.breadcrumb_banner_image | img_url: 'master' }}") no-repeat scroll center center / cover;
+      }
+  {%- endif -%}
+  
+  {%- when 'page_wishlist' -%}
+  {%- if block.settings.breadcrumb_banner_image and template == 'page.wishlist' -%}
+  .template-{{ template.name | handle }} .breadcrumbs{
+    background: url("{{ block.settings.breadcrumb_banner_image | img_url: 'master' }}") no-repeat scroll center center / cover;
+      }
+  {%- endif -%}
+
+  {%- endcase -%}
+  {%- endfor -%}
+</style>
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Breadcrumb",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "breadcrumb_banner_enable",
+        "label": "Show Breadcrumb Banner",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "breadcrumb_large_width_enable",
+        "label": "Enable Large Width",
+        "default": false
+      },
+      {
+        "type": "image_picker",
+        "id": "breadcrumb_banner_image",
+        "label": "BG Image",
+        "info": "Recommended Size: 1920 x 300px"
+      },
+      {
+        "type": "text",
+        "id": "welcome_title",
+        "label": "Welcome Title",
+        "default": "\/\/  Welcome to our company"
+      },
+      {
+        "type": "checkbox",
+        "id": "breadcrub_page_title_enable",
+        "label": "Show Page Title",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Color"
+      },
+      {
+        "type": "color",
+        "id": "breadcrumb_banner_bg",
+        "label": "BG Color",
+        "default": "#071c1f"
+      },
+      {
+        "type": "color",
+        "id": "breadcrumb_banner_overlay_color",
+        "label": "Overlay Color",
+        "default": "#071c1f"
+      },
+      {
+        "type": "range",
+        "id": "breadcrumb_banner_opacity",
+        "min": 0,
+        "max": 1,
+        "step": 0.1,
+        "label": "Overlay Color Opacity",
+        "default": 0.9
+      },
+      {
+        "type": "color",
+        "id": "welcome_note_color",
+        "label": "Welcome Note Color",
+        "default": "#e53e29"
+      },
+      {
+        "type": "color",
+        "id": "breadcurmb_title_color",
+        "label": "Title Color",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "breadcurmb_page_title_color",
+        "label": "Page Title Color",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "active_breadcurmb_page_title_color",
+        "label": "Active Page Title Color",
+        "default": "#e53e29"
+      },
+      {
+        "type": "header",
+        "content": "Padding Large\/Desktop Device"
+      },
+      {
+        "type": "range",
+        "id": "breadcrumb_padding_top",
+        "min": 50,
+        "max": 250,
+        "step": 5,
+        "label": "Padding Top",
+        "unit": "px",
+        "default": 250
+      },
+      {
+        "type": "range",
+        "id": "breadcrumb_padding_bottom",
+        "min": 50,
+        "max": 250,
+        "step": 5,
+        "label": "Padding Bottom",
+        "unit": "px",
+        "default": 130
+      },
+      {
+        "type": "header",
+        "content": "Padding Mobile Device"
+      },
+      {
+        "type": "range",
+        "id": "breadcrumb_padding_top_xs",
+        "min": 0,
+        "max": 250,
+        "step": 5,
+        "label": "Padding Top",
+        "unit": "px",
+        "default": 50
+      },
+      {
+        "type": "range",
+        "id": "breadcrumb_padding_bottom_xs",
+        "min": 0,
+        "max": 250,
+        "step": 5,
+        "label": "Padding Bottom",
+        "unit": "px",
+        "default": 50
+      }
+	],
+	"blocks":[
+        {
+          "type": "product_pages",
+          "name": "Product Pages",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "breadcrumb_banner_image",
+              "label": "Image",
+              "info": "This applies only to this page"
+            }
+          ]
+        },
+        {
+          "type": "collection_pages",
+          "name": "Collection Pages",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "breadcrumb_banner_image",
+              "label": "Image",
+              "info": "This applies only to this page"
+            },
+			{
+              "type": "checkbox",
+              "id": "collection_image_enable",
+              "label": "Show collection image",
+              "default": true,
+              "info": "If your collections have image then it display in breadcrumb banner"
+            }
+          ]
+        },
+        {
+          "type": "collection_list",
+          "name": "Collection List",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "breadcrumb_banner_image",
+              "label": "Image",
+              "info": "This applies only to this page"
+            }
+          ]
+        },
+        {
+          "type": "blogs",
+          "name": "Blogs",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "breadcrumb_banner_image",
+              "label": "Image",
+              "info": "This applies only to this page"
+            }
+          ]
+        },
+        {
+          "type": "blog_posts",
+          "name": "Blog Posts",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "breadcrumb_banner_image",
+              "label": "Image",
+              "info": "This applies only to this page"
+            }
+          ]
+        },
+        {
+          "type": "cart",
+          "name": "Cart",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "breadcrumb_banner_image",
+              "label": "Image",
+              "info": "This applies only to this page"
+            }
+          ]
+        },
+        {
+          "type": "template_404",
+          "name": "404",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "breadcrumb_banner_image",
+              "label": "Image",
+              "info": "This applies only to this page"
+            }
+          ]
+        },
+        {
+          "type": "page_about",
+          "name": "About Page",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "breadcrumb_banner_image",
+              "label": "Image",
+              "info": "This applies only to this page"
+            }
+          ]
+        },
+        {
+          "type": "page_contact",
+          "name": "Contact Page",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "breadcrumb_banner_image",
+              "label": "Image",
+              "info": "This applies only to this page"
+            }
+          ]
+        },
+        {
+          "type": "page_faq",
+          "name": "FAQ Page",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "breadcrumb_banner_image",
+              "label": "Image",
+              "info": "This applies only to this page"
+            }
+          ]
+        },
+        {
+          "type": "page_wishlist",
+          "name": "Wishlist Page",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "breadcrumb_banner_image",
+              "label": "Image",
+              "info": "This applies only to this page"
+            }
+          ]
+        }
+	]
+  }
+{% endschema %}

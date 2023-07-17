@@ -1,0 +1,415 @@
+{%- render 'section-style' -%}
+<!-- PRODUCT TAB AREA START (product-item-3) -->
+<div class="ltn__product-tab-area ltn__product-gutter" id="section-{{ section.id }}" data-section="tabWithProduct">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        {%- if section.settings.section_title != '' or section.settings.section_sub_title != '' -%}
+        <div class="section-title-area {% unless section.settings.tab_bar_right %}ltn__section-title-2 text-center{% endunless %}">
+          {%- if section.settings.section_sub_title != '' -%}
+          <h6 class="section-subtitle ltn__secondary-color">{{ section.settings.section_sub_title }}</h6>
+          {%- endif -%}
+          {%- if section.settings.section_title != '' -%}
+          <h1 class="section-title">{{ section.settings.section_title }}</h1>
+          {%- endif -%}
+        </div>
+        {%- endif -%}
+        <div class="ltn__tab-menu ltn__tab-menu-2 {% if section.settings.tab_bar_right %}ltn__tab-menu-top-right{% else %}text-center{% endif %} text-uppercase">
+          <div class="nav">
+            {%- assign i = 1 -%}
+            {% for block in section.blocks %}
+            {%- case block.type -%}
+            {%- when 'tab_with_product' -%}
+            {%- assign tab_product = collections[block.settings.tab_product_handle] -%}
+
+            {%- if tab_product == empty -%}
+              <a {% if forloop.first == true %}class="active show"{% endif %}  data-toggle="tab" href="#tab-{{ i }}">Tab-{{ i }}</a>
+            {%- assign i = i | plus: 1 -%}
+            {%- else -%}
+              <a class="{% if forloop.first == true %}active show{% endif %}"  data-toggle="tab" href="#tab-{{ block.id }}-{{ tab_product.title | handle }}">{{ tab_product.title }}</a>
+            {%- endif -%}
+            {%- endcase -%}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="tab-content">
+          {%- capture data_slick_activation -%}
+          data-slick='{
+              {%- if section.settings.autoplay_true -%}
+              "autoplay": true,
+              "autoplaySpeed": {{ section.settings.autoplay_speed }},
+              {%- endif -%}
+  	   		  "rows": {{ section.settings.product_row }},
+               "slidesToShow": {{ section.settings.product_column }},
+                "responsive":[
+                    {"breakpoint":992, "settings": {"slidesToShow": {{ section.settings.product_column_md }}, "arrows": false, "dots": true} },
+                    {"breakpoint":768, "settings": {"slidesToShow": {{ section.settings.product_column_sm }}, "arrows": false, "dots": true} },
+                    {"breakpoint":480, "settings": {"slidesToShow": {{ section.settings.product_column_sm }}, "slidesToScroll": {{ section.settings.product_column_sm }}, "arrows": false, "dots": true} }
+                  ] 
+
+          }'
+          {%- endcapture -%}
+          {%- assign i = 1 -%}
+          {% for block in section.blocks %}
+          {%- case block.type -%}
+          {%- when 'tab_with_product' -%}
+          {%- assign tab_product = collections[block.settings.tab_product_handle] -%}
+          {%- assign product_limit = section.settings.product_limit_handle -%}
+          {%- if tab_product == empty -%}
+          <div class="tab-pane fade{% if forloop.first == true %} show active{% endif %}" id="tab-{{ i }}">
+            <div class="ltn__product-tab-content-inner">
+              <div class="row ltn__tab-product-slider-one-active slick-arrow-1" {{ data_slick_activation }}>
+                {% for i in (1..product_limit) %}
+                {% capture a %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                <div class="col-lg-12">
+                  <div class="ltn__product-item ltn__product-item-3 text-center">
+                    <div class="product-img">
+                      {% assign product_item = "product-" | append: a  %}
+                      {{ product_item | placeholder_svg_tag: 'product-svg-image' }}
+                    </div>
+                    <div class="product-info">
+                      <h2 class="product-title">Product Title</h2>
+                      <div class="product-price">
+                        <span>$199.00</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+                <!--  -->
+              </div>
+            </div>
+          </div>
+          {%- assign i = i | plus: 1 -%}
+          {%- else -%}
+          <div class="tab-pane fade{% if forloop.first == true %} show active{% endif %}" id="tab-{{ block.id }}-{{ tab_product.title | handle }}">
+            <div class="row ltn__tab-product-slider-one-active slick-arrow-1" {{ data_slick_activation }}>
+              {% assign product_column = section.settings.product_column_handle %}
+              {% for product in tab_product.products limit: product_limit %}
+              <div class="col-lg-12">
+                {%- render 'product-grid-item', product: product, collection: tab_product -%}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {%- endif -%}
+          {% endcase %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Tab with Product",
+    "settings": [
+		{
+		  "type": "header",
+          "content": "Section Heading"
+        },
+		{
+          "type": "text",
+          "id": "section_sub_title",
+          "label": "Section Sub Title",
+          "default": "// Sub Title"
+      	},
+		{
+          "type": "text",
+          "id": "section_title",
+          "label": "Section Title",
+          "default": "Section Title"
+      	},
+		{
+          "type": "checkbox",
+          "id": "tab_bar_right",
+          "label": "Tab Bar Right Enable",
+          "default": false
+      	},
+		{
+			"type": "header",
+            "content": "Product"
+        },
+		{
+            "type": "range",
+            "id": "product_limit_handle",
+            "min": 2,
+            "max": 20,
+            "step": 1,
+            "label": "Limit",
+            "default": 8
+        },
+		{
+            "type": "range",
+            "id": "product_row",
+            "min": 1,
+            "max": 3,
+            "step": 1,
+            "label": "Row",
+            "default": 1
+        },
+		{
+			"type": "header",
+            "content": "Product Column"
+        },
+		{
+            "type": "range",
+            "id": "product_column",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "label": "Desktop",
+            "default": 4
+        },
+		{
+            "type": "range",
+            "id": "product_column_md",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "label": "Tablet",
+            "default": 3
+        },
+		{
+            "type": "range",
+            "id": "product_column_sm",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "label": "Mobile",
+            "default": 2
+        },
+		{
+			"type": "header",
+            "content": "Options"
+        },
+		{
+          "type": "checkbox",
+          "id": "autoplay_true",
+          "label": "Autoplay Enable",
+          "default": false
+      	},
+		{
+            "type": "range",
+            "id": "autoplay_speed",
+            "min": 1000,
+            "max": 9000,
+            "step": 1000,
+            "label": "Autoplay Speed",
+            "unit": "ms",
+            "default": 7000
+        }
+    ],
+	"blocks":[
+	   {
+          "type": "tab_with_product",
+          "name": "Tab with product",
+          "settings": [
+			{
+			  "type": "collection",
+			  "id": "tab_product_handle",
+			  "label": "Tab With Product"
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 85
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 60
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 35
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Tab with Product",
+		  "category": "3. collections",
+		  "blocks":[
+				{
+					"type": "tab_with_product"
+				},
+				{
+					"type": "tab_with_product"
+				},
+				{
+					"type": "tab_with_product"
+				},
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}
+

@@ -1,0 +1,297 @@
+<div class="blog-sidebar">
+  {%- for block in section.blocks -%}
+  {%- case block.type -%}
+
+  {%- when 'search' -%} 
+  <div class="widget ltn__search-widget">
+    {%- if block.settings.widget_title != '' -%}
+    <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+    {%- endif -%}
+    <form action="/search" method="get" role="search">
+      <input type="hidden" name="type" value="article">
+      <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" aria-label="{{ 'general.search.placeholder' | t }}">
+      <button type="submit">
+        <i class="fas fa-search"></i>
+      </button>
+    </form>
+  </div>
+  {%- when 'recent_post' -%}
+  <div class="widget ltn__popular-post-widget">
+    {%- if block.settings.widget_title != '' -%}
+    <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+    {%- endif -%}
+    <ul>
+      {%- assign recent_post_limit = block.settings.recent_post_limit_handle -%}
+      {%- for article in blogs[blog.handle].articles limit: recent_post_limit -%}
+      <li>
+        <div class="popular-post-widget-item clearfix">
+          <div class="popular-post-widget-img">
+            {%- assign image = article.image -%}
+            <a href="{{ product.url | within: collection }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+              <img srcset="{% if image.width >= 80 %}{{ image | img_url: '80x' }} 80w,{% endif %}
+                           {% if image.width >= 90 %}{{ image | img_url: '90x' }} 90w,{% endif %}
+                           {% if image.width >= 100 %}{{ image | img_url: '100x' }} 100w{% endif %}"
+                   src="{{ image | img_url: '80x' }}"
+                   sizes="50vw"
+                   width="{{ image.width }}"
+                   height="{{ image.height }}"
+                   alt="{{ image.alt | escape }}"
+                   loading="lazy"
+                   class="image-position-size popup_cart_image"
+                   >
+            </a>
+          </div>
+          <div class="popular-post-widget-brief">
+            <h6><a href="{{ article.url }}">{{ article.title }}</a></h6>
+            <div class="ltn__blog-meta">
+              <ul>
+                <li class="ltn__blog-date">
+                  <i class="far fa-calendar-alt"></i>{{ article.published_at | date: "%b %d, %Y" }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {%- when 'menu' -%}
+  <div class="widget ltn__menu-widget category-sub-menu">
+    {%- if block.settings.widget_title != '' -%}
+    <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+    {%- endif -%}
+    <ul>
+      {%- assign menu = block.settings.menu_handle -%}
+      {%- for link in linklists[menu].links -%}
+      {%- assign childlink_handle = link.title | handle -%}
+      {%- if linklists[childlink_handle] and linklists[childlink_handle].links.size > 0 -%}
+      <li class="has-sub {% if link.active %}active{% endif %}"><a href="{{ link.url }}">{{ link.title }}</a><span></span>
+        <ul>
+          {%- for childlink in linklists[childlink_handle].links -%}
+          <li><a href="{{ childlink.url }}">{{ childlink.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </li>
+      {%- else -%}
+      <li class="{% if link.active %}active{% endif %}"><a href="{{ link.url }}">{{ link.title }}</a></li>
+      {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+  {%- when 'archive' -%}
+  <aside class="sidebar-widget widget">
+    {%- if block.settings.widget_title != '' -%}
+    <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+    {%- endif -%}
+
+    {% capture ddmm %}{{ 'now' | date: "%B %Y" }}{% endcapture %}
+    {% capture month %}{{ 'now' | date: "%B" }}{% endcapture %}
+    {% capture year %}{{ 'now' | date: "%Y" }}{% endcapture %}
+
+    {% case month %}
+    {% when 'January' %}{% assign k = 1 %}
+    {% when 'February' %}{% assign k = 2 %}
+    {% when 'March' %}{% assign k = 3 %}
+    {% when 'April' %}{% assign k = 4 %}
+    {% when 'June' %}{% assign k = 5 %}
+    {% when 'July' %}{% assign k = 6 %}
+    {% when 'August' %}{% assign k = 7 %}
+    {% when 'September' %}{% assign k = 8 %}
+    {% when 'October' %}{% assign k = 9 %}
+    {% when 'November' %}{% assign k = 10 %}
+    {% when 'December' %}{% assign k = 11 %}
+    {% endcase %}
+
+    {% for i in (1..k) %}
+    {% case month %}
+    {% when 'January' %}{% assign previous_month = 'December' %}
+    {% when 'February' %}{% assign previous_month = 'January' %}
+    {% when 'March' %}{% assign previous_month = 'February' %}
+    {% when 'April' %}{% assign previous_month = 'March' %}
+    {% when 'May' %}{% assign previous_month = 'April' %}
+    {% when 'June' %}{% assign previous_month = 'May' %}
+    {% when 'July' %}{% assign previous_month = 'June' %}
+    {% when 'August' %}{% assign previous_month = 'July' %}
+    {% when 'September' %}{% assign previous_month = 'August' %}
+    {% when 'October' %}{% assign previous_month = 'September' %}
+    {% when 'November' %}{% assign previous_month = 'October' %}
+    {% when 'December' %}{% assign previous_month = 'November' %}
+    {% endcase %}
+    <dl>
+      <dt>
+        {% assign blogPresent = 0 %}
+        {% for article in blogs[blog.handle].articles limit: 10 %}
+        {% capture date %}
+        {{ article.published_at | date: "%B %Y" }}
+        {% endcapture %}
+        {% assign checkDate = month | append: ' ' | append: year %}
+        {% if date contains checkDate %}
+        {% assign blogPresent = 1 %}
+        {% endif %}
+        {% endfor %}
+
+        {% if blogPresent == 1 %}
+        {{ month }} {{year}}
+        {% else %}
+
+        {% endif %}
+
+      </dt>
+      <dd>
+        <ul class="archive-sidebar">
+          {% for article in blogs[blog.handle].articles limit: 10 %}
+          {% capture date %}
+          {{ article.published_at | date: "%B %Y" }}
+          {% endcapture %}
+          {% assign checkDate = month | append: ' ' | append: year %}
+          {% if date contains checkDate %}
+          <li>{{ article.title | link_to: article.url }}</li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </dd>
+    </dl>
+    {% assign month = previous_month %}
+    {% endfor %}
+
+    {% assign prevYearsMonths = 'December' %}
+    {% assign year = year | minus: 1 %}
+    {% for y in (1..15) %}
+
+    {% for i in (1..12) %}
+    {% case prevYearsMonths %}
+    {% when 'January' %}{% assign previous_month = 'December' %}
+    {% when 'February' %}{% assign previous_month = 'January' %}
+    {% when 'March' %}{% assign previous_month = 'February' %}
+    {% when 'April' %}{% assign previous_month = 'March' %}
+    {% when 'May' %}{% assign previous_month = 'April' %}
+    {% when 'June' %}{% assign previous_month = 'May' %}
+    {% when 'July' %}{% assign previous_month = 'June' %}
+    {% when 'August' %}{% assign previous_month = 'July' %}
+    {% when 'September' %}{% assign previous_month = 'August' %}
+    {% when 'October' %}{% assign previous_month = 'September' %}
+    {% when 'November' %}{% assign previous_month = 'October' %}
+    {% when 'December' %}{% assign previous_month = 'November' %}
+    {% endcase %}
+    {% assign test = prevYearsMonths | append: ' ' | append: year %}
+    <dl>
+      <dt>
+
+        {% assign blogPresent = 0 %}
+        {% for article in blogs[blog.handle].articles limit: 10 %}
+        {% capture date %}
+        {{ article.published_at | date: "%B %Y" }}
+        {% endcapture %}
+        {% assign checkDate = prevYearsMonths | append: ' ' | append: year %}
+        {% if date contains checkDate %}
+        {% assign blogPresent = 1 %}
+        {% endif %}
+        {% endfor %}
+
+        {% if blogPresent == 1 %}
+        {{ prevYearsMonths }} {{year}}
+        {% else %}
+
+        {% endif %}
+      </dt>
+      <dd>
+        <ul class="archive-sidebar">
+          {% for article in blogs[blog.handle].articles limit: 10 %}
+          {% capture date %}
+          {{ article.published_at | date: "%B %Y" }}
+          {% endcapture %}
+          {% if date contains test %}
+          <li>{{ article.title | link_to: article.url }}</li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </dd>
+    </dl>
+    {% assign prevYearsMonths = previous_month %}
+    {% endfor %}
+
+    {% assign year = year | minus: 1 %}
+    {% endfor %}
+  </aside>
+  {%- when 'tag' -%}
+  {%- if blog.all_tags.size > 0 -%}
+  <div class="widget ltn__tagcloud-widget">
+    {%- if block.settings.widget_title != '' -%}
+    <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+    {%- endif -%}
+    <ul>
+      {%- assign tags_list_limit = block.settings.blog_tags_list_limit_handle -%}
+        {%- for tag in blog.all_tags limit: tags_list_limit -%}
+        <li><a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="{% if current_tags contains tag %}active{% endif %}">{{ tag }}</a></li>
+        {%- endfor -%}
+    </ul>
+  </div>
+  {%- endif -%}
+  {%- when 'social_media' -%}
+  <div class="widget ltn__social-media-widget">
+    {%- if block.settings.widget_title != '' -%}
+    <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+    {%- endif -%}
+    <div class="ltn__social-media-2">
+      <ul>
+        {%- render 'social-media' -%}                                    
+      </ul>
+    </div>
+  </div>
+  {%- when 'banner' -%}
+  {%- capture i -%}{%- cycle 1, 2, 3, 4, 5, 6 -%}{%- endcapture -%}
+  <div class="widget ltn__banner-widget">
+    {%- if block.settings.banner_image != blank and block.settings.banner_image_url != blank -%}
+    {%- assign image = block.settings.banner_image -%}
+    <a href="{{ block.settings.banner_url }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+      <img srcset="{% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                   {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                   {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                   {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                   {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                   {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w,{% endif %}
+                   {% if image.width >= 770 %}{{ image | img_url: '770x' }} 1100w,{% endif %}
+                   {% if image.width >= 900 %}{{ image | img_url: '900x' }} 900w,{% endif %}
+                   {% if image.width >= 970 %}{{ image | img_url: '970x' }} 970w,{% endif %}
+                   {% if image.width >= 1100 %}{{ image | img_url: '1100x' }} 1100w,{% endif %}
+                   {% if image.width >= 1200 %}{{ image | img_url: '1200x' }} 1200w,{% endif %}"
+           loading="lazy"
+           src="{{ image | img_url: '600x' }}"
+           sizes="100vw"
+           width="{{ image.width }}"
+           height="{{ image.height }}"
+           alt="{{ image.alt | escape }}"
+           class="image-position-size"
+           >
+    </a>
+    {%- elsif block.settings.banner_image != blank -%}
+    {%- assign image = block.settings.banner_image -%}
+    <span class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+      <img srcset="{% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                   {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                   {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                   {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                   {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                   {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w,{% endif %}
+                   {% if image.width >= 770 %}{{ image | img_url: '770x' }} 1100w,{% endif %}
+                   {% if image.width >= 900 %}{{ image | img_url: '900x' }} 900w,{% endif %}
+                   {% if image.width >= 970 %}{{ image | img_url: '970x' }} 970w,{% endif %}
+                   {% if image.width >= 1100 %}{{ image | img_url: '1100x' }} 1100w,{% endif %}
+                   {% if image.width >= 1200 %}{{ image | img_url: '1200x' }} 1200w{% endif %}"
+           loading="lazy"
+           src="{{ image | img_url: '600x' }}"
+           sizes="100vw"
+           width="{{ image.width }}"
+           height="{{ image.height }}"
+           alt="{{ image.alt | escape }}"
+           class="image-position-size"
+           >
+    </span>
+    {%- else -%}
+    {{ 'collection-' | append: i | placeholder_svg_tag: 'banner-svg-image' }}
+    {%- endif -%}
+  </div>
+  {%- endcase -%}
+  {%- endfor -%}
+</div>

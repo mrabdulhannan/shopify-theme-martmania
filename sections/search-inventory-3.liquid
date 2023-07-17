@@ -1,0 +1,293 @@
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }} .bg-overlay-white-90:before {
+    background-color: {{ section.settings.overlay_color | color_modify: 'alpha', section.settings.overlay_color_opatity }};
+  }
+</style>
+{%- endif -%}
+
+{%- render 'section-style' -%}
+
+<div class="ltn__slider-area ltn__slider-6 mb-120---" id="section-{{ section.id }}" data-section="searchInventory3">
+  <div class="ltn__slide-one-active slick-slide-arrow-1 slick-slide-dots-1">
+    <!-- ltn__slide-item -->
+    <div class="ltn__slide-item--- ltn__slide-item-9 section-bg-1 bg-image" {% if section.settings.banner_image %}data-bg="{{ section.settings.banner_image | img_url: '1920x' }}"{% else %}data-bg="https://via.placeholder.com/1920x900"{% endif %}>
+      <div class="ltn__slide-item-inner">
+        <div class="slide-item-info bg-overlay-white-90 text-center">
+          <div class="slide-item-info-inner slide-item-info-line-no  ltn__slide-animation">
+
+            <div class="slide-item-car-dealer-form narrow-form">
+              {%- if section.settings.title != '' -%}
+              <h3 class="section-title text-color-white--- text-center mb-30">{{ section.settings.title }}</h3>
+              {%- endif -%}
+              <div class="ltn__car-dealer-form-tab">
+                <div class="tab-content pb-10">
+                  <div class="tab-pane fade active show" id="ltn__form_tab_1_1">
+                    <div class="car-dealer-form-inner">
+                      <div class="car-dealer-form-inner">
+                        <!--GoVedia -->
+                        <div class="page-width wrapper container">
+                          <div class="gv-mmy-bar">
+                            <div id="gv-mmy">
+                            </div>
+                            <script type="text/javascript">var MMY_Collection = {% if template contains 'collection' %}true{% else %}false{% endif %};var MMY_Tags = '{{ current_tags }}';var MMY_Handle = '{{ collection.handle }}';var MMY_Customer = '{{customer.id}}';var MMY_Vehicles = '{{customer.metafields.global.mmy}}';</script>
+                          </div>
+                        </div>
+                        <!--End GoVedia-->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>                                        
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Search Inventory (Hero-2)",
+    "settings": [
+		{
+          "type": "textarea",
+          "id": "title",
+          "label": "Title",
+		  "default": "Find Your Product"
+        },
+		{
+          "type": "paragraph",
+          "content": "Install the [Automotive Part Search](https://apps.shopify.com/automotive-part-search) app"
+        },
+		{
+          "type": "image_picker",
+          "id": "banner_image",
+          "label": "Banner Image",
+          "info": "Recommended Size: 1920 x 900px"
+      	},
+		{
+          "type": "paragraph",
+          "content": "Check out these free apps [VFitz](https://apps.shopify.com/vfitz), [SEMA](https://apps.shopify.com/sema-api)"
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay Color",
+          "default": "#fff"
+        },
+        {
+          "type": "range",
+          "id": "overlay_color_opatity",
+          "min": 0.0,
+          "max": 1,
+          "step": 0.1,
+          "label": "Overlay Color Opacity",
+          "default": 0.9
+        }
+	],
+	"blocks":[
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 115
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 80
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 60
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#fff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Search Inventory (Hero-2)",
+		  "category": "1. hero/slideshow",
+		  "blocks":[
+				{
+					"type": "section_margin"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

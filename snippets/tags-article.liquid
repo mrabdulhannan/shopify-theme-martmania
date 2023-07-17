@@ -1,0 +1,5 @@
+{% for tag in article.tags %}
+<li>
+  <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag | join: ', ' }}</a>
+</li>
+{% endfor %}

@@ -1,0 +1,379 @@
+<div class="contact-feature-area before-bg-bottom {% if section.settings.margin_bottom_minus %}mb--30{% endif %}" id="section-{{ section.id }}" data-section="contactInfo">
+  <div class="container">
+    <div class="row justify-content-center">
+      {%- for block in section.blocks -%}
+      {%- case block.type -%}
+      {%- when 'contact_info' -%}
+      <div class="col-{{ block.settings.service_column_sm }} col-sm-{{ block.settings.service_column_sm }} col-md-{{ block.settings.service_column_md }} col-lg-{{ block.settings.service_column }}">
+        <div class="ltn__contact-feature-item">
+          {%- if block.settings.icon_image_enable -%}
+          {%- if block.settings.icon_image -%}
+          <div class="ltn__contact-feature-icon">
+            <img src="{{ block.settings.icon_image | img_url: '50x50' }}" alt="{{ block.settings.icon_image.alt }}" loading="lazy">
+          </div>
+          {%- else -%}
+          <div class="ltn__contact-feature-icon">
+            {%- case block.settings.icon_image_select -%}
+            {%- when 'call' -%}
+            <img src="{{ 'icon-call.png' | asset_url  }}" alt="Call Icon" loading="lazy">
+            {%- when 'mail' -%}
+            <img src="{{ 'icon-mail.png' | asset_url  }}" alt="Mail Icon" loading="lazy">
+            {%- when 'address' -%}
+            <img src="{{ 'icon-address.png' | asset_url  }}" alt="Address Icon" loading="lazy">
+            {%- endcase -%}
+          </div>
+          {%- endif -%}
+          {%- endif -%}
+          <div class="ltn__contact-feature-info">
+            <a href="{{ block.settings.url }}">
+              {%- if block.settings.sub_title != '' -%}
+              <span class="h6">{{ block.settings.sub_title }}</span><br>
+              {%- endif -%}
+              {%- if block.settings.title != '' -%}
+              <span class="h2">{{ block.settings.title }}</span>
+              {%- endif -%}
+            </a>
+          </div>
+        </div>
+      </div>
+      {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{%- render 'section-style' -%}
+
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }}.before-bg-bottom:before {
+    background-color: {{ section.settings.half_bg_color }};
+  }
+</style>
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Contact Info",
+    "settings": [
+        {
+          "type": "checkbox",
+          "id": "margin_bottom_minus",
+          "label": "Margin Bottom Minus Enable",
+          "default": false,
+          "info": "Enable the field for Margin bottom minus -32px"
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "half_bg_color",
+          "label": "Half BG Color",
+          "default": "#071C1F"
+        }
+	],
+	"blocks":[
+          {
+            "type": "contact_info",
+            "name": "Contact Info",
+			"limit": 4,
+            "settings": [
+              {
+                "type": "header",
+                "content": "Icon"
+              },
+              {
+                "type": "checkbox",
+                "id": "icon_image_enable",
+                "label": "Show Icon Image",
+                "default": true
+              },
+              {
+                "type": "image_picker",
+                "id": "icon_image",
+                "label": "Image",
+              	"info": "Recommended Size: 50 x 45px"
+              },
+              {
+                "type": "select",
+                "id": "icon_image_select",
+                "label": "Select Icon",
+                "options":[
+                      {
+                          "label": "Call",
+                          "value": "call"
+                      },
+                      {
+                          "label": "Mail",
+                          "value": "mail"
+                      },
+                      {
+                          "label": "Address",
+                          "value": "address"
+                      }
+                  ],
+                  "default": "call",
+                  "info": "This field will take effect if you do not add an icon image"
+              },
+              {
+                "type": "header",
+                "content": "Content"
+              },
+              {
+                "type": "text",
+                "id": "sub_title",
+                "label": "Sub Title",
+                "default": "+123-456-789"
+              },
+              {
+                "type": "textarea",
+                "id": "title",
+                "label": "Title",
+                "default": "Make A Call"
+              },
+              {
+                "type": "url",
+                "id": "url",
+                "label": "URL"
+              },
+              {
+                "type": "header",
+                "content": "Column"
+              },
+              {
+                "type": "range",
+                "id": "service_column",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Desktop",
+                "unit": "/12",
+                "default": 4
+              },
+              {
+                "type": "range",
+                "id": "service_column_md",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Tablet",
+                "unit": "/12",
+                "default": 6
+              },
+              {
+                "type": "range",
+                "id": "service_column_sm",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Mobile",
+                "unit": "/12",
+                "default": 12
+              }
+            ]
+         },
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Contact Info",
+		  "category": "9. contact",
+		  "blocks":[
+				{
+					"type": "contact_info"
+				},
+				{
+					"type": "contact_info"
+				},
+				{
+					"type": "contact_info"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

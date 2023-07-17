@@ -1,0 +1,59 @@
+{%- form 'contact', id: 'contact-form' -%}
+
+{%- if form.posted_successfully? -%}
+<p class="note form-success">{{ 'contact.form.post_success' | t }}</p>
+{%- endif -%}
+
+{{ form.errors | default_errors }}
+<div class="row">
+  <div class="col-md-6">
+    <div class="input-item input-item-name ltn__custom-icon">
+      <input type="text" placeholder="{{ section.settings.name_placeholder }}" class="{% if form.errors contains 'name' %}error{% endif %}" name="contact[name]" id="ContactFormName" value="{% if form.name %}{{ form.name }}{% elsif customer.name %}{{ customer.name }}{% endif %}">
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="input-item input-item-email ltn__custom-icon">
+      <input type="email" placeholder="{{ section.settings.email_placeholder }}" class="{% if form.errors contains 'email' %}error{% endif %}" name="contact[email]" id="ContactFormEmail" value="{% if form.email %}{{ form.email }}{% elsif customer.email %}{{ customer.email }}{% endif %}">
+    </div>
+  </div>
+  {%- if section.settings.select_option_enable -%}
+  <div class="col-md-6">
+    <div class="input-item">
+      <select id="ContactFormCartType" name="contact[CartType]" class="nice-select">
+        {{ section.settings.select_option_title_value }}
+      </select>
+    </div>
+  </div>
+  {%- endif -%}
+  <div class="col-md-6">
+    <div class="input-item input-item-phone ltn__custom-icon">
+      <input type="text" id="ContactFormPhone" name="contact[phone]" placeholder="{{ section.settings.phone_placeholder }}" value="{{ form.phone }}">
+    </div>
+  </div>
+</div>
+<div class="input-item input-item-textarea ltn__custom-icon">
+  <textarea placeholder="{{ section.settings.message_placeholder }}" class="custom-textarea" name="contact[body]" id="ContactFormMessage">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+</div>
+<div class="btn-wrapper mt-0">
+  <button class="btn theme-btn-1 btn-effect-1" type="submit">{{ section.settings.form_button_name }}</button>
+</div>
+{% endform %}
+
+<script>
+  var actCallback = function (response) {
+    $('#contactFormSubmit').prop("disabled", false);
+    $('#re-captcha').remove();
+  };
+  var expCallback = function() {
+    $('#contactFormSubmit').prop("disabled", true);
+  };
+ 
+  var onloadCallback = function () {
+    var widget = grecaptcha.render(document.getElementById("re-captcha"), {
+      'sitekey' : "123456789", // Sitekey, Retrieving from reCaptcha
+      'theme': "light",
+      'callback' : actCallback,
+      'expired-callback': expCallback,
+    });
+  }
+</script>

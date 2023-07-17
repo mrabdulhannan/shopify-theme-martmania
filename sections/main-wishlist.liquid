@@ -1,0 +1,39 @@
+<div class="wishlist customer-page theme-default-margin" id="wishlist">
+  <div class="container">
+    <div class="wishlist-page">
+      <div class="row" grid-wishlist>
+
+      </div>
+      <div class="row wishlist-grid--empty-list">
+        <div class="col-12">
+          <div class="empty-list--info">
+            <h1 class="empty-list--text black">{{ settings.wishlist_empty_title }}</h1>
+            <p class="">{{ 'cart.general.continue_browsing_html' | t }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- render 'section-style' -%}
+
+{% schema %}
+  {
+    "name": "Wishlist Page",
+    "settings": [
+      {
+        "type": "text",
+        "id": "wishlist_empty_title",
+        "label": "Wishlist Empty Title",
+        "default": "Your wishlist is currently empty!"
+      },
+      {
+        "type": "text",
+        "id": "login_request_title",
+        "label": "Login Request Title",
+        "default": "Please login your account"
+      }
+	]
+  }
+{% endschema %}

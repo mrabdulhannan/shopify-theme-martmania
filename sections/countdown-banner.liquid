@@ -1,0 +1,347 @@
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }} .ltn__section-title-2 .section-title {
+    color: {{ section.settings.title_color }};
+  }
+  #section-{{ section.id }} .ltn__section-title-2 .section-title span {
+    color: {{ section.settings.title_highlight_color }};
+  }
+  #section-{{ section.id }} .ltn__countdown-info > p{
+    color: {{ section.settings.content_color }};
+  }
+</style>
+{%- endif -%}
+
+{%- render 'section-style' -%}
+
+<!-- COUNTDOWN AREA START -->
+<div class="ltn__countdown-area section-bg-1" data-section="countdownBanner" id="section-{{ section.id }}">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 align-self-center">
+        <div class="ltn__countdown-info text-center pt-100 pb-100">
+          {%- if section.settings.title != '' -%}
+          <div class="section-title-area ltn__section-title-2 mb-0">
+            <h1 class="section-title"><a href="{{ section.settings.url }}">{{ section.settings.title }}</a></h1>
+          </div>
+          {%- endif -%}
+          {%- if section.settings.content != '' -%}
+          {{ section.settings.content }}
+          {%- endif -%}
+          {%- if section.settings.date != '' -%}
+          <div class="ltn__countdown ltn__countdown-1 bg-white" data-countdown="{{ section.settings.date }}"></div>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- if section.settings.image_enable -%}
+      <div class="col-lg-6">
+        <div class="countdown-img d-none d-lg-block">
+          {%- if section.settings.image -%}
+          {%- assign image = section.settings.image -%}
+          <a href="{{ section.settings.url }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+            <img srcset="{% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                         {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                         {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                         {% if image.width >= 450 %}{{ image | img_url: '450x' }} 450w,{% endif %}
+                         {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                         {% if image.width >= 510 %}{{ image | img_url: '514x' }} 514w,{% endif %}
+                         {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                         {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w,{% endif %}
+                         {% if image.width >= 770 %}{{ image | img_url: '770x' }} 1100w,{% endif %}
+                         {% if image.width >= 900 %}{{ image | img_url: '900x' }} 900w,{% endif %}
+                         {% if image.width >= 970 %}{{ image | img_url: '970x' }} 970w,{% endif %}
+                         {% if image.width >= 1100 %}{{ image | img_url: '1100x' }} 1100w,{% endif %}
+                         {% if image.width >= 1200 %}{{ image | img_url: '1200x' }} 1200w{% endif %}"
+                 loading="lazy"
+                 src="{{ image | img_url: '514x' }}"
+                 sizes="100vw"
+                 width="{{ image.width }}"
+                 height="{{ image.height }}"
+                 alt="{{ image.alt | escape }}"
+                 class="image-position-size"
+                 >
+          </a>
+          {%- else -%}
+          <img src="https://via.placeholder.com/514x597" alt="Banner">
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+<!-- COUNTDOWN AREA END -->
+
+{% schema %}
+  {
+    "name": "Countdown Banner",
+    "settings": [
+        {
+          "type": "header",
+          "content": "Content"
+        },
+		{
+          "type": "textarea",
+          "id": "title",
+          "label": "Title",
+		  "default": "Title <span>Highlight Title</span>",
+          "info": "Use <span> tag for highlight text"
+        },
+		{
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+		  "default": "<p>Content here</p>"
+        },
+		{
+          "type": "text",
+          "id": "date",
+          "label": "Date",
+		  "default": "2025/02/01",
+          "info": "YYYY/MM/DD"
+        },
+		{
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        },
+        {
+          "type": "header",
+          "content": "Image"
+        },
+		{
+          "type": "checkbox",
+          "id": "image_enable",
+          "label": "Show Image",
+		  "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Recommended Size: 514 x 597px"
+        },
+		{
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#071c1f"
+        },
+        {
+          "type": "color",
+          "id": "title_highlight_color",
+          "label": "Title Highlight Color",
+          "default": "#e53e29"
+        },
+        {
+          "type": "color",
+          "id": "content_color",
+          "label": "Content Color",
+          "default": "#071c1f"
+        }
+	],
+	"blocks":[
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 85
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 55
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 35
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 115
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 75
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 60
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#F0F4F7"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Countdown Banner",
+		  "category": "2. banner",
+		  "blocks":[
+				{
+					"type": "section_background"
+				},
+				{
+					"type": "section_margin"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

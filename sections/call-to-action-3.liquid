@@ -1,0 +1,280 @@
+<!-- CALL TO ACTION START (call-to-action-5) -->
+<div class="call-to-action-area call-to-action-5 bg-overlay-theme-90 pt-40 pb-25" id="section-{{ section.id }}" data-section="callToAction3">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="call-to-action-inner call-to-action-inner-5 text-center">
+          <h2 class="white-color text-decoration">
+            {%- if section.settings.title != '' -%}
+            {{ section.settings.title }}
+            {%- endif -%}
+            <a href="{{ section.settings.url }}">{{ section.settings.action_title }}</a>
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- CALL TO ACTION END -->
+
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }} .white-color {
+    color: {{ section.settings.color }};
+  }
+  #section-{{ section.id }}.bg-overlay-theme-90:before {
+    background-color: {{ section.settings.overlay_color | color_modify: 'alpha', section.settings.overlay_color_opatity }};
+  }
+</style>
+{%- endif -%}
+
+{%- render 'section-style' -%}
+
+{% schema %}
+  {
+    "name": "Call to Action (3)",
+    "settings": [
+		{
+          "type": "textarea",
+          "id": "title",
+          "label": "Title",
+		  "default": "24/7 Availability, Make "
+        },
+		{
+          "type": "text",
+          "id": "action_title",
+          "label": "Button Title",
+		  "default": "An Appointment"
+        },
+		{
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        },
+		{
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay Color",
+          "default": "#e53e29"
+        },
+        {
+          "type": "range",
+          "id": "overlay_color_opatity",
+          "min": 0.0,
+          "max": 1,
+          "step": 0.1,
+          "label": "Overlay Color Opacity",
+          "default": 0.9
+        }
+	],
+	"blocks":[
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 40
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 25
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 40
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 25
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 40
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 25
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 115
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 80
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 60
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#e8edee"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Call to Action (3)",
+		  "category": "6. action",
+		  "blocks":[
+				{
+					"type": "section_padding"
+				},
+				{
+					"type": "section_background"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

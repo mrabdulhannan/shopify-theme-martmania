@@ -1,0 +1,327 @@
+<!-- GOOGLE MAP LOCATIONS AREA START -->
+<div class="ltn__google-map-locations-area" id="section-{{ section.id }}" data-section="mapMultiLocation">
+  <div id="gmap"></div>
+</div>
+<!-- GOOGLE MAP LOCATIONS AREA END -->
+
+<script>
+$(function() {
+               
+            var LocsA = [
+              {% for block in section.blocks %}
+              {%- case block.type -%}
+      		  {%- when 'location' -%}
+                {
+                  	lat: {{ block.settings.lat }},
+                  	lon: {{ block.settings.lon }},
+                  	title: 'Location {{ forloop.index }}',
+                    html: [ '<div class="ltn__map-item">',
+                                {% if block.settings.location_title %}
+                                '<h3 class="ltn__location-name">{{ block.settings.location_title }}</h3>',
+                                {% endif %}
+                                {% if block.settings.location_details %}
+                                '<h5 class="ltn__location-single-info"><i class="fas fa-map-marked-alt"></i>{{ block.settings.location_details }}</h5>',
+                                {% endif %}
+                                {% if block.settings.location_phone_number %}
+                                '<h4 class="ltn__location-single-info"><i class="fas fa-phone-volume"></i>{{ block.settings.location_phone_number }}</h4>',
+                                {% endif %}
+                                {% if block.settings.appointment_title or block.settings.website_title %}
+                                '<div class="btn-wrapper">',
+                                  {% if block.settings.appointment_title or block.settings.website_title %}
+                                  '<a href="{{ block.settings.appointment_url }}" class="btn btn-transparent btn-border btn-effect-4"><i class="fas fa-location-arrow"></i> {{ block.settings.appointment_title }}</a>',
+                                  {% endif %}
+                                  {% if block.settings.appointment_title or block.settings.website_title %}                  
+                                  '<a href="{{ block.settings.website_url }}" class="btn btn-transparent btn-border btn-effect-3"><i class="fas fa-globe"></i> {{ block.settings.website_title }}</a>',
+                                  {% endif %}
+                              	'</div>',
+                  				{% endif %}
+                            '</div>'
+                        ].join(''),
+                  	icon: '{{ "map-marker-2.png" | asset_url }}',
+                    animation: google.maps.Animation.BOUNCE
+                }{% unless forloop.last %},{% endunless %}
+              {%- endcase -%}
+              {%- endfor -%}
+            ];
+            new Maplace({
+                locations: LocsA,
+                controls_on_map: true,
+                map_options: {
+                    zoom: 13,
+                    scrollwheel: false,
+                    stopover: true
+                },
+                stroke_options: {
+                    strokeColor: '#f10', 
+                    strokeOpacity: 0.8, 
+                    strokeWeight: 2, 
+                    fillColor: '#f10', 
+                    fillOpacity: 0.4
+                }
+            }).Load();
+
+        });
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ section.settings.google_map_api_key }}" defer="defer"></script>
+
+{%- render 'section-style' -%}
+
+
+{% schema %}
+  {
+    "name": "Multiple Location Map",
+    "settings": [
+        {
+          "type": "text",
+          "id": "google_map_api_key",
+          "label": "Google Map API Key",
+          "default": "AIzaSyCeeHDCOXmUMja1CFg96RbtyKgx381yoBU",
+          "info": "[Get API Key](https://developers.google.com/maps/documentation/maps-static/get-api-key)"
+        }
+	],
+	"blocks":[
+	   {
+          "type": "location",
+          "name": "Location",
+          "settings": [
+			{
+			  "type": "text",
+			  "id": "lat",
+			  "label": "Latitude",
+			  "default": "40.740178",
+			  "info": "Latitude and Longitude Finder [Click Here](https://www.latlong.net/)"
+			},
+			{
+			  "type": "text",
+			  "id": "lon",
+			  "label": "Longitude",
+			  "default": "-74.190194",
+			  "info": "Latitude and Longitude Finder [Click Here](https://www.latlong.net/)"
+			},
+			{
+			  "type": "text",
+			  "id": "location_title",
+			  "label": "Location Title",
+			  "default": "Boston, New York"
+			},
+			{
+			  "type": "textarea",
+			  "id": "location_details",
+			  "label": "Location Details",
+			  "default": "5816 S. Coulter Street Amarillo, TX 79119"
+			},
+			{
+			  "type": "text",
+			  "id": "location_phone_number",
+			  "label": "Phone Number",
+			  "default": "0123456789"
+			},
+			{
+			  "type": "text",
+			  "id": "appointment_title",
+			  "label": "Appointment Title",
+			  "default": "Get an Appointment"
+			},
+			{
+			  "type": "url",
+			  "id": "appointment_url",
+			  "label": "Appointment URL"
+			},
+			{
+			  "type": "text",
+			  "id": "website_title",
+			  "label": "Website Title",
+			  "default": "View Website"
+			},
+			{
+			  "type": "url",
+			  "id": "website_url",
+			  "label": "Website URL"
+			}
+          ]
+       },
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Multiple Location Map",
+		  "category": "9. contact"
+		}
+	]
+  }
+{% endschema %}

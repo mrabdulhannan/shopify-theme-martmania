@@ -1,0 +1,71 @@
+{% assign itemStyle = '' %}{% if cart.item_count == 0 %}{% assign itemStyle = ' style="display:none;"' %}{% endif %}
+{% assign itemEmpty = '' %}{% if cart.item_count == 0 %}{% assign itemEmpty = ' style="display:block;"' %}{% endif %}
+{% assign itemCount = '' %}{% if cart.item_count == 1 %}{% assign itemCount = ' style="display:block;"' %}{% endif %}
+{% assign itemCount2 = '' %}{% if cart.item_count > 1 %}{% assign itemCount2 = ' style="display:block;"' %}{% endif %}
+
+<!-- Utilize Cart Menu Start -->
+<div id="ltn__utilize-cart-menu" class="ltn__utilize ltn__utilize-cart-menu">
+  <div class="ltn__utilize-menu-inner ltn__scrollbar">
+    <div class="ltn__utilize-menu-head">
+      <span class="ltn__utilize-menu-title">{{ section.settings.cart_title }}</span>
+      <button class="ltn__utilize-close">×</button>
+    </div>
+    <div class="mini-cart-product-area ltn__scrollbar cart-empty-title" {{ itemEmpty }}>
+      <h5>{{ 'cart.general.empty' | t }}</h5>
+    </div>
+    
+    <div class="mini-cart-product-area ltn__scrollbar cart-item-loop cart-item-display" {{ itemStyle }}>
+      {%- for item in cart.items -%}
+      <div class="mini-cart-item clearfix">
+        <div class="mini-cart-img">
+          {%- assign image = item -%}
+          <a href="{{ item.url }}">
+            <img srcset="{% if image.width >= 50 %}{{ image | img_url: '50x' }} 50w,{% endif %}
+                         {% if image.width >= 78 %}{{ image | img_url: '78x' }} 78w,{% endif %}
+                         {% if image.width >= 100 %}{{ image | img_url: '100x' }} 100w{% endif %}"
+                 src="{{ image | img_url: '100x' }}"
+                 sizes="100vw"
+                 width="{{ image.width }}"
+                 height="{{ image.height }}"
+                 alt="{{ image.alt | escape }}"
+                 loading="lazy"
+                 >
+          </a>
+          <span onclick="Shopify.removeItem({{ item.variant.id }})" class="mini-cart-item-delete"><i class="icon-cancel"></i></span>
+        </div>
+        <div class="mini-cart-info">
+          <h6><a href="{{ item.url }}">{{ item.title }}</a></h6>
+          <span class="mini-cart-quantity">{{ item.quantity }} x {{ item.price | money }}</span>
+        </div>
+      </div>
+      {%- endfor -%}
+    </div>
+    
+    <div class="mini-cart-footer cart-item-display" {{ itemStyle }}>
+      <div class="mini-cart-sub-total">
+        <h5>{{ section.settings.total_title }} <span class="shopping-cart__total">{{ cart.total_price | money }}</span></h5>
+      </div>
+      <div class="btn-wrapper">
+        <a href="{{ routes.cart_url }}" class="theme-btn-1 btn btn-effect-1">{{ section.settings.view_cart_title }}</a>
+        <a href="/checkout" class="theme-btn-2 btn btn-effect-2">{{ section.settings.checkout_title }}</a>
+      </div>
+      {%- if section.settings.cart_inforation != '' -%}
+      {{ section.settings.cart_inforation }}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+<!-- Utilize Cart Menu End -->
+
+
+
+
+
+
+
+
+
+
+
+
+

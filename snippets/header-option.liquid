@@ -1,0 +1,56 @@
+{%- if section.settings.header_search_enable -%}
+<!-- header-search-1 -->
+<div class="header-search-wrap">
+  <div class="header-search-1">
+    <div class="search-icon">
+      <i class="icon-search for-search-show"></i>
+      <i class="icon-cancel  for-search-close"></i>
+    </div>
+  </div>
+  <div class="header-search-1-form">
+    {%- render 'search-bar' -%}
+  </div>
+</div>
+{%- endif -%}
+<!-- user-menu -->
+{%- if section.settings.user_menu_enable -%}
+<div class="ltn__drop-menu user-menu">
+  <ul>
+    <li>
+      <a href="#"><i class="icon-user"></i></a>
+      <ul>
+        {%- assign user_menu = section.settings.user_menu_handle -%}
+        {%- for link in linklists[user_menu].links -%}
+        <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- endfor -%}
+        {%- if shop.customer_accounts_enabled and customer and section.settings.logout_title != '' -%}
+        <li>
+          <a href="{{ routes.account_logout_url }}">{{ section.settings.logout_title }}</a>
+        </li>
+        {%- elsif shop.customer_accounts_enabled and section.settings.login_title != '' -%}
+        <li>
+          <a href="{{ routes.account_login_url }}">{{ section.settings.login_title }}</a>
+        </li>
+        {%- endif -%}
+      </ul>
+    </li>
+  </ul>
+</div>
+{%- endif -%}
+<!-- mini-cart -->
+<div class="mini-cart-icon">
+  <a href="#ltn__utilize-cart-menu" class="ltn__utilize-toggle">
+    <i class="icon-shopping-cart"></i>
+    <sup><span class="bigcounter">{{ cart.item_count }}</span></sup>
+  </a>
+</div>
+<!-- Mobile Menu Button -->
+<div class="mobile-menu-toggle d-xl-none">
+  <a href="#ltn__utilize-mobile-menu" class="ltn__utilize-toggle">
+    <svg viewBox="0 0 800 600">
+      <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" id="top"></path>
+      <path d="M300,320 L540,320" id="middle"></path>
+      <path d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190" id="bottom" transform="translate(480, 320) scale(1, -1) translate(-480, -318) "></path>
+    </svg>
+  </a>
+</div>

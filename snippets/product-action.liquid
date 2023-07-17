@@ -1,0 +1,62 @@
+<div class="product-hover-action">
+  <ul>
+    {%- unless product.description contains '[affiliate_link]' -%}
+    {%- if settings.product_quickview_enalbe -%}
+    <li>
+      <a title="{{ settings.quickview_title }}" data-toggle="modal" data-target="#quickViewModal" href="javascript:void(0);" 
+         onclick="quiqview('{{ product.handle | handleize }}')"><i class="far fa-eye"></i>
+      </a>
+    </li>
+    {%- endif -%}
+    <li>
+      {%- if product.available -%}
+      {%- if settings.product_cart_type == 'ajax_spin_cart' -%}
+      <a href="javascript:void(0);" onclick="{{ func }}; return false;" class="ajax-spin-cart" title="{{ settings.cart_button_title }}">
+        <span>
+          <span class="cart-title"><i class="fas fa-shopping-cart"></i></span>
+          <span class="cart-loading"><i class="fas fa-spinner fa-pulse"></i></span>
+          <span class="cart-added"><i class="fas fa-check"></i></span>
+          <span class="cart-unavailable"><i class="fas fa-exclamation-triangle"></i></span>
+        </span>
+      </a>
+      {%- elsif settings.product_cart_type == 'ajax_popup_cart' -%}
+      <a href="javascript:void(0);" onclick="{{ func }}; return false;" class="" title="{{ settings.cart_button_title }}">
+        <span>
+          <span class="cart-title"><i class="fas fa-shopping-cart"></i></span>
+        </span>
+      </a>
+      {%- elsif settings.product_cart_type == 'without_ajax_cart' -%}
+      <form action="/cart/add" method="post" enctype="multipart/form-data">
+        <select name="id" style="display:none;">
+          {% for variant in product.variants %}
+          <option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price | money }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit" class="" title="{{ settings.cart_button_title }}">
+          <span>
+            <span class="cart-title"><i class="fas fa-shopping-cart"></i></span>
+          </span>
+        </button>
+      </form>
+      {%- endif -%}
+      {%- else -%}
+      <button class="cart-disable" title="{{ settings.soldout_button_title }}">
+        <span class="cart-text"><i class="fas fa-shopping-cart"></i></span>
+      </button>
+      {%- endif -%}
+    </li>
+    {%- endunless -%}
+    {%- if settings.wishlist_enable -%}
+    <li>
+      {%- render 'wishlist-button-2' with product as product -%}
+    </li>
+    {%- endif -%}
+    {%- if settings.compare_product_enalbe -%}
+    <li>
+      <a title="{{ settings.compare_text_title }}" data-toggle="modal" href="javascript:void(0);" class="compare" data-pid="{{ product.handle  }}">
+        {{ settings.compare_button_title }}
+      </a>
+    </li>
+    {%- endif -%}
+  </ul>
+</div>

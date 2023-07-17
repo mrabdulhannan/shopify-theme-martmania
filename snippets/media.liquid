@@ -1,0 +1,37 @@
+{% case media.media_type %}
+{% when 'image' %}
+<div class="single-large-img">
+  <div class="product-zoom">
+    {%- assign featured_media = current_variant.featured_media | default: product.featured_media -%} 
+    <a {% if section.settings.product_popup_enable %}data-fancybox="gallery" class="fancybox-gallery"{% endif %} href="{{ media | img_url: '1024x1024' }}">
+    <img class="product_variant_image {{ featured_media.id }}" 
+         data-media-id="{{ media.id }}" data-zoom-image="{{ media | img_url: '1024x1024' }}" data-image="{{ media | img_url: '1024x1024' }}"
+         src="{{ media | img_url: '1024x1024' }}" loading="lazy">
+    </a>
+  </div>
+  {%- render 'product-badge' with product as product, on_sale: on_sale, sold_out: sold_out -%}
+</div>
+{% when 'external_video' %}
+<div class="product-media-type product-single__media" data-media-id="{{ media.id }}">
+  {{ media | external_video_tag }}
+</div>
+{% when 'video' %}
+<div class="product-media-type product-single__video" data-media-id="{{ media.id }}">
+  {{ media | video_tag: controls: true }}
+</div>
+{% when 'model' %}
+<div class="product-media-type product-single__media" data-media-id="{{ media.id }}" style="padding-top: 15%">
+{% assign first_3d_model = product.media | where: "media_type", "model" | first %}
+<button class="ar_button"
+  data-shopify-xr
+  data-shopify-model3d-id="{{ first_3d_model.id }}"
+  data-shopify-title="{{ product.title | escape }}"
+        data-shopify-xr-hidden><i class="fas fa-cube"></i> {{ section.settings.view_on_space_title }}</button>
+  
+  {{ media | model_viewer_tag }}
+</div>
+{% else %}
+<div class="product-media-type product-single__media" data-media-id="{{ media.id }}" style="padding-top: 100%">
+  {{ media | media_tag }}
+</div>
+{% endcase %}

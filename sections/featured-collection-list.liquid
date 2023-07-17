@@ -1,0 +1,382 @@
+{%- render 'section-style' -%}
+
+<!-- SMALL PRODUCT LIST AREA START -->
+<div class="ltn__small-product-list-area" id="section-{{ section.id }}" data-section="featuredCollectionList">
+  <div class="container">
+    {%- if section.settings.section_title != '' or section.settings.section_sub_title != '' -%}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-title-area ltn__section-title-2 text-center">
+          {%- if section.settings.section_sub_title != '' -%}
+          <h6 class="section-subtitle ltn__secondary-color">{{ section.settings.section_sub_title }}</h6>
+          {%- endif -%}
+          {%- if section.settings.section_title != '' -%}
+          <h1 class="section-title">{{ section.settings.section_title }}</h1>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+    <div class="row">
+      {% assign featured_product = collections[section.settings.featured_product_handle] %}
+      {% assign featured_product_limit = section.settings.featured_product_limit_handle %}
+      
+      {%- if featured_product == empty -%}
+      {% assign a = 1 %}
+      {% for i in (1..featured_product_limit) %}
+      {% assign product_item = "product-" | append: a  %}
+      {% assign a = a | plus: 1 %}
+      <div class="col-lg-{{ section.settings.product_column }} col-md-{{ section.settings.product_column_md }} col-{{ section.settings.product_column_xs }}">
+        <div class="ltn__small-product-item">
+          <div class="small-product-item-img">
+            {{ product_item | placeholder_svg_tag: 'product-svg-image' }}
+          </div>
+          <div class="small-product-item-info">
+            <h2 class="product-title">Product Title</h2>
+            <div class="product-price">
+              <span>$199.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if a == 7 %}
+      {% assign a = 1 %}
+      {% endif %}
+      {% endfor %}
+
+      {%- else -%}
+      {% for product in featured_product.products limit: featured_product_limit %}
+      <div class="col-lg-{{ section.settings.product_column }} col-md-{{ section.settings.product_column_md }} col-{{ section.settings.product_column_xs }}">
+        <div class="ltn__small-product-item">
+          <div class="small-product-item-img">
+            {%- assign image = product.featured_image.src -%}
+            <a href="{{ product.url | within: collection }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+              <img srcset="{% if image.width >= 90 %}{{ image | img_url: '90x' }} 90w,{% endif %}
+                           {% if image.width >= 150 %}{{ image | img_url: '152x' }} 152w,{% endif %}
+                           {% if image.width >= 243 %}{{ image | img_url: '266x' }} 266w,{% endif %}
+                           {% if image.width >= 366 %}{{ image | img_url: '366x' }} 366w,{% endif %}
+                           {% if image.width >= 576 %}{{ image | img_url: '576x' }} 576w,{% endif %}
+                           {% if image.width >= 600 %}{{ image | img_url: '600x' }} 600w{% endif %}"
+                   src="{{ image | img_url: '90x' }}"
+                   sizes="50vw"
+                   width="{{ image.width }}"
+                   height="{{ image.height }}"
+                   alt="{{ image.alt | escape }}"
+                   loading="lazy"
+                   class="image-position-size"
+                   >
+            </a>
+          </div>
+          <div class="small-product-item-info">
+            <div class="product-ratting">
+              <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+            </div>
+            <h2 class="product-title">
+              <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+            </h2>
+            <div class="product-price">
+              <span>{{ product.variants.first.price | money }}</span>
+              {%- if product.variants.first.compare_at_price > product.variants.first.price -%}
+              <del>{{ product.variants.first.compare_at_price | money }}</del>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+<!-- SMALL PRODUCT LIST AREA END -->
+
+{% schema %}
+  {
+    "name": "Featured Collection List",
+    "settings": [
+		{
+		  "type": "header",
+          "content": "Section Heading"
+        },
+		{
+          "type": "text",
+          "id": "section_sub_title",
+          "label": "Section Sub Title",
+          "default": "// Sub Title"
+      	},
+		{
+          "type": "text",
+          "id": "section_title",
+          "label": "Section Title",
+          "default": "Section Title"
+      	},
+		{
+			"type": "header",
+            "content": "Product"
+        },
+		{
+			"type": "collection",
+            "id": "featured_product_handle",
+            "label": "Select Collection"
+        },
+		{
+            "type": "range",
+            "id": "featured_product_limit_handle",
+            "min": 2,
+            "max": 20,
+            "step": 1,
+            "label": "Limit",
+            "default": 9
+        },
+		{
+			"type": "header",
+            "content": "Product Column"
+        },
+		{
+          "type": "select",
+          "id": "product_column",
+          "label": "Desktop",
+		  "options":[
+				{
+                    "label": "2",
+                    "value": "6"
+                },
+                {
+                    "label": "3",
+                    "value": "4"
+                },
+                {
+                    "label": "4",
+                    "value": "3"
+                }
+			],
+			"default": "4"
+      	},
+		{
+          "type": "select",
+          "id": "product_column_md",
+          "label": "Tablet",
+		  "options":[
+				{
+                    "label": "2",
+                    "value": "6"
+                },
+                {
+                    "label": "3",
+                    "value": "4"
+                },
+                {
+                    "label": "4",
+                    "value": "3"
+                }
+			],
+			"default": "6"
+      	},
+		{
+          "type": "select",
+          "id": "product_column_xs",
+          "label": "Mobile",
+		  "options":[
+				{
+                    "label": "1",
+                    "value": "12"
+                },
+                {
+                    "label": "2",
+                    "value": "6"
+                }
+			],
+			"default": "12"
+      	}
+    ],
+	"blocks":[
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 90
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 50
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 30
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Featured Collection List",
+		  "category": "3. collections",
+		  "blocks":[
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

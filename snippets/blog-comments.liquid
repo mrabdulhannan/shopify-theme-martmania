@@ -1,0 +1,18 @@
+{% for comment in article.comments %}
+<li>
+  <div class="ltn__comment-item clearfix">
+    <div class="ltn__commenter-img">
+      {% if section.settings.commentator_image %}
+      <img src="{{ section.settings.commentator_image | img_url: '100x100', crop: 'center' }}" alt="{{ section.settings.commentator_image.alt }}">
+      {% else %}
+      <img src="https://www.gravatar.com/avatar/{{ comment.email | remove: ' ' | strip_newlines | downcase | md5 | append: '?s=200' }}" />
+      {% endif %}
+    </div>
+    <div class="ltn__commenter-comment">
+      <h6>{{ comment.author }}</h6>
+      <span class="comment-date">{{ comment.created_at | date: "%b %d, %Y at %H:%M" }}</span>
+      <p>{{ comment.content }}</p>
+    </div>
+  </div>
+</li>
+{% endfor %}

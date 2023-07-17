@@ -1,0 +1,410 @@
+{%- render 'section-style' -%}
+
+<div class="ltn__category-area section-bg-1" id="section-{{ section.id }}" data-section="categoryList">
+  <div class="container">
+    {%- if section.settings.section_title != '' or section.settings.section_sub_title != '' -%}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-title-area ltn__section-title-2--- text-center---">
+          {%- if section.settings.section_sub_title != '' -%}
+          <h6 class="section-subtitle ltn__secondary-color">{{ section.settings.section_sub_title }}</h6>
+          {%- endif -%}
+          {%- if section.settings.section_title != '' -%}
+          <h1 class="section-title">{{ section.settings.section_title }}</h1>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+    <div class="row ltn__category-slider-active---- slick-arrow-1">
+      {%- for block in section.blocks -%}
+      {%- case block.type -%}
+      {%- when 'category' -%}
+      {% assign category = collections[block.settings.category_handle] %}
+      
+      {% capture i %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+      {%- if category == empty -%}
+      <div class="col-lg-{{ section.settings.product_column }} col-md-{{ section.settings.product_column_md }} col-{{ section.settings.product_column_xs }}">
+        <div class="ltn__category-item ltn__category-item-2">
+          <h4 class="text-center"><a href="#">Collection Title</a></h4>
+          <div class="ltn__category-item-img d-none d-md-block">
+            {{ 'collection-' | append: i | placeholder_svg_tag: 'collection-svg-image' }}
+          </div>
+          <div class="ltn__category-item-name">
+            <ul>
+              <li><a href="#">Wheel Bearing Retainer</a></li>
+              <li><a href="#">Brake Conversion Kit</a></li>
+              <li><a href="#">Shock Mount Insulator</a></li>
+              <li><a href="#">Tail Light Lens</a></li>
+            </ul>
+            <a class="category-btn" href="#">Shop Now</a>
+          </div>
+        </div>
+      </div>
+      {%- else -%} 
+      <div class="col-lg-{{ section.settings.product_column }} col-md-{{ section.settings.product_column_md }} col-{{ section.settings.product_column_xs }}">
+        <div class="ltn__category-item ltn__category-item-2">
+          <h4 class="text-center"><a href="{{ category.url }}">{{ category.title }}</a></h4>
+          <div class="ltn__category-item-img d-none d-md-block">
+            {%- assign image = category.featured_image -%}
+            <a href="{{ category.url }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+              <img srcset="{% if image.width >= 90 %}{{ image | img_url: '90x' }} 90w,{% endif %}
+                           {% if image.width >= 118 %}{{ image | img_url: '118x' }} 118w,{% endif %}
+                           {% if image.width >= 150 %}{{ image | img_url: '152x' }} 152w,{% endif %}
+                           {% if image.width >= 243 %}{{ image | img_url: '266x' }} 266w,{% endif %}
+                           {% if image.width >= 366 %}{{ image | img_url: '366x' }} 366w,{% endif %}
+                           {% if image.width >= 576 %}{{ image | img_url: '576x' }} 576w,{% endif %}
+                           {% if image.width >= 600 %}{{ image | img_url: '600x' }} 600w,{% endif %}"
+                   src="{{ image | img_url: '118x' }}"
+                   sizes="100vw"
+                   width="{{ image.width }}"
+                   height="{{ image.height }}"
+                   alt="{{ image.alt | escape }}"
+                   loading="lazy"
+                   class="image-position-size"
+                   >
+            </a>
+          </div>
+          <div class="ltn__category-item-name">
+            {%- if category.description != blank and block.settings.category_description_enable -%}
+            <div>
+            	{{ category.description }}
+            </div>
+            {%- else -%}
+            <div>
+            	{{ block.settings.category_custom_description }}
+            </div>
+            {%- endif -%}
+            {%- if section.settings.button_title != '' -%}
+            <a class="category-btn" href="{{ category.url }}">{{ section.settings.button_title }}</a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+      {%- endif -%}
+      {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Category List",
+    "settings": [
+		{
+		  "type": "header",
+          "content": "Section Heading"
+        },
+		{
+          "type": "text",
+          "id": "section_sub_title",
+          "label": "Section Sub Title",
+          "default": "// Sub Title"
+      	},
+		{
+          "type": "text",
+          "id": "section_title",
+          "label": "Section Title",
+          "default": "Section Title"
+      	},
+		{
+          "type": "text",
+          "id": "button_title",
+          "label": "Button Title",
+          "default": "Shop Now"
+      	},
+		{
+			"type": "header",
+            "content": "Column"
+        },
+		{
+          "type": "select",
+          "id": "product_column",
+          "label": "Desktop",
+		  "options":[
+				{
+                    "label": "2",
+                    "value": "6"
+                },
+                {
+                    "label": "3",
+                    "value": "4"
+                },
+                {
+                    "label": "4",
+                    "value": "3"
+                }
+			],
+			"default": "4"
+      	},
+		{
+          "type": "select",
+          "id": "product_column_md",
+          "label": "Tablet",
+		  "options":[
+				{
+                    "label": "2",
+                    "value": "6"
+                },
+                {
+                    "label": "3",
+                    "value": "4"
+                },
+                {
+                    "label": "4",
+                    "value": "3"
+                }
+			],
+			"default": "6"
+      	},
+		{
+          "type": "select",
+          "id": "product_column_xs",
+          "label": "Mobile",
+		  "options":[
+				{
+                    "label": "1",
+                    "value": "12"
+                },
+                {
+                    "label": "2",
+                    "value": "6"
+                }
+			],
+			"default": "12"
+      	}
+    ],
+	"blocks":[
+          {
+            "type": "category",
+            "name": "Category",
+            "settings": [
+              {
+                  "type": "collection",
+                  "id": "category_handle",
+                  "label": "Select Collection"
+              },
+              {
+                "type": "checkbox",
+                "id": "category_description_enable",
+                "label": "Description Enable",
+                "default": false,
+          		"info": "Enable the field for showing Collection description"
+              },
+              {
+                "type": "html",
+                "id": "category_custom_description",
+                "label": "Custom Description",
+          		"info": "Put HTML unordered lists code"
+              }
+            ]
+         },
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 115
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 90
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 105
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 80
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 75
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 60
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#f2f6f7"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Category List",
+		  "category": "3. collections",
+		  "blocks":[
+				{
+					"type": "category"
+				},
+				{
+					"type": "category"
+				},
+				{
+					"type": "category"
+				},
+				{
+					"type": "category"
+				},
+				{
+					"type": "category"
+				},
+				{
+					"type": "category"
+				},
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

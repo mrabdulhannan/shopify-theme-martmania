@@ -1,0 +1,508 @@
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }}.before-bg-right:before{
+    background-color: {{ section.settings.right_bg_color }};
+  }
+</style>
+{%- endif -%}
+{%- render 'section-style' -%}
+
+<div class="ltn__progress-bar-area before-bg-right" id="section-{{ section.id }}" data-section="teamSkill">
+  <div class="container">
+    <div class="row">
+      {%- for block in section.blocks -%}
+      {%- case block.type -%}
+      {%- when 'skill' -%}
+      <div class="col-lg-6">
+        <div class="ltn__progress-bar-wrap">
+          <div class="section-title-area ltn__section-title-2">
+            {%- if block.settings.sub_title != '' -%}
+            <h6 class="section-subtitle ltn__secondary-color">{{ block.settings.sub_title }}</h6>
+            {%- endif -%}
+            {%- if block.settings.title != '' -%}
+            <h1 class="section-title">{{ block.settings.title }}</h1>
+            {%- endif -%}
+            {%- if block.settings.blockquote_content != '' -%}
+            {{ block.settings.blockquote_content }}
+            {%- endif -%}
+          </div>
+          <div class="ltn__progress-bar-inner">
+            {%- if block.settings.skill_1_enable -%}
+            <div class="ltn__progress-bar-item">
+              <p>{{ block.settings.title_1 }}</p>
+              <div class="progress">
+                <div class="progress-bar wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay=".5s" role="progressbar" style="width: {{ block.settings.progress_1 }}%">
+                  <span>{{ block.settings.progress_1 }}%</span>
+                </div>
+              </div>
+            </div>
+            {%- endif -%}
+            {%- if block.settings.skill_2_enable -%}
+            <div class="ltn__progress-bar-item">
+              <p>{{ block.settings.title_2 }}</p>
+              <div class="progress">
+                <div class="progress-bar wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay=".5s" role="progressbar" style="width: {{ block.settings.progress_2 }}%">
+                  <span>{{ block.settings.progress_2 }}%</span>
+                </div>
+              </div>
+            </div>
+            {%- endif -%}
+            {%- if block.settings.skill_3_enable -%}
+            <div class="ltn__progress-bar-item">
+              <p>{{ block.settings.title_3 }}</p>
+              <div class="progress">
+                <div class="progress-bar wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay=".5s" role="progressbar" style="width: {{ block.settings.progress_3 }}%">
+                  <span>{{ block.settings.progress_3 }}%</span>
+                </div>
+              </div>
+            </div>
+            {%- endif -%}
+            {%- if block.settings.skill_4_enable -%}
+            <div class="ltn__progress-bar-item">
+              <p>{{ block.settings.title_4 }}</p>
+              <div class="progress">
+                <div class="progress-bar wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay=".5s" role="progressbar" style="width: {{ block.settings.progress_4 }}%">
+                  <span>{{ block.settings.progress_4 }}%</span>
+                </div>
+              </div>
+            </div>
+            {%- endif -%}
+            {%- if block.settings.skill_5_enable -%}
+            <div class="ltn__progress-bar-item">
+              <p>{{ block.settings.title_5 }}</p>
+              <div class="progress">
+                <div class="progress-bar wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay=".5s" role="progressbar" style="width: {{ block.settings.progress_5 }}%">
+                  <span>{{ block.settings.progress_5 }}%</span>
+                </div>
+              </div>
+            </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+      {%- when 'popup_video' -%}
+      <div class="col-lg-6 align-self-center">
+        <div class="ltn__video-bg-img ltn__video-popup-height-500 bg-overlay-black-50-- bg-image ml-30" 
+             {% if block.settings.banner_image %}
+             data-bg="{{ block.settings.banner_image | img_url: '800x' }}"{% else %}data-bg="https://via.placeholder.com/800x612"{% endif %}>
+          <a class="ltn__video-icon-2 ltn__video-icon-2-border---" href="https://www.youtube.com/embed/{{ block.settings.video_url.id }}" data-rel="lightcase:block-{{ block.id }}-myCollection">
+            <i class="fa fa-play"></i>
+          </a>
+        </div>
+      </div>
+      {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Team Skill",
+    "settings": [
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "right_bg_color",
+          "label": "Right BG Color",
+          "default": "#071c1f"
+        }
+	],
+	"blocks":[
+	   {
+          "type": "skill",
+          "name": "Skill",
+		  "limit": 1,
+          "settings": [
+            {
+              "type": "header",
+              "content": "Skill Information"
+            },
+            {
+              "type": "checkbox",
+              "id": "about_information_enable",
+              "label": "About Information Enable",
+              "default": true
+            },
+            {
+              "type": "text",
+              "id": "sub_title",
+              "label": "Sub Title",
+              "default": "// Sub Title"
+            },
+            {
+              "type": "textarea",
+              "id": "title",
+              "label": "Title",
+              "default": "Title <span>.</span>",
+              "info": "Use <span> Tag for Highlight text"
+            },
+            {
+              "type": "richtext",
+              "id": "blockquote_content",
+              "label": "Blockquote Content",
+              "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>"
+            },
+            {
+              "type": "richtext",
+              "id": "main_content",
+              "label": "Main Content",
+              "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>"
+            },
+            {
+              "type": "header",
+              "content": "Skill Progress #1"
+            },
+            {
+              "type": "checkbox",
+              "id": "skill_1_enable",
+              "label": "Progress #1 Enable",
+              "default": true
+            },
+            {
+              "type": "text",
+              "id": "title_1",
+              "label": "Title",
+              "default": "Car Repair"
+            },
+			{
+			  "type": "range",
+			  "id": "progress_1",
+			  "min": 0,
+			  "max": 100,
+			  "step": 1,
+			  "label": "Progress",
+			  "unit": "%",
+			  "default": 72
+			},
+            {
+              "type": "header",
+              "content": "Skill Progress #2"
+            },
+            {
+              "type": "checkbox",
+              "id": "skill_2_enable",
+              "label": "Progress #2 Enable",
+              "default": true
+            },
+            {
+              "type": "text",
+              "id": "title_2",
+              "label": "Title",
+              "default": "Car Rental Service"
+            },
+			{
+			  "type": "range",
+			  "id": "progress_2",
+			  "min": 0,
+			  "max": 100,
+			  "step": 1,
+			  "label": "Progress",
+			  "unit": "%",
+			  "default": 74
+			},
+            {
+              "type": "header",
+              "content": "Skill Progress #3"
+            },
+            {
+              "type": "checkbox",
+              "id": "skill_3_enable",
+              "label": "Progress #3 Enable",
+              "default": true
+            },
+            {
+              "type": "text",
+              "id": "title_3",
+              "label": "Title",
+              "default": "Car Cleaning & Parts"
+            },
+			{
+			  "type": "range",
+			  "id": "progress_3",
+			  "min": 0,
+			  "max": 100,
+			  "step": 1,
+			  "label": "Progress",
+			  "unit": "%",
+			  "default": 81
+			},
+            {
+              "type": "header",
+              "content": "Skill Progress #4"
+            },
+            {
+              "type": "checkbox",
+              "id": "skill_4_enable",
+              "label": "Progress #4 Enable",
+              "default": false
+            },
+            {
+              "type": "text",
+              "id": "title_4",
+              "label": "Title",
+              "default": "Title"
+            },
+			{
+			  "type": "range",
+			  "id": "progress_4",
+			  "min": 0,
+			  "max": 100,
+			  "step": 1,
+			  "label": "Progress",
+			  "unit": "%",
+			  "default": 50
+			},
+            {
+              "type": "header",
+              "content": "Skill Progress #5"
+            },
+            {
+              "type": "checkbox",
+              "id": "skill_5_enable",
+              "label": "Progress #5 Enable",
+              "default": false
+            },
+            {
+              "type": "text",
+              "id": "title_5",
+              "label": "Title",
+              "default": "Title"
+            },
+			{
+			  "type": "range",
+			  "id": "progress_5",
+			  "min": 0,
+			  "max": 100,
+			  "step": 1,
+			  "label": "Progress",
+			  "unit": "%",
+			  "default": 50
+			}
+          ]
+       },
+	   {
+          "type": "popup_video",
+          "name": "Popup Video",
+		  "limit": 1,
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "banner_image",
+              "label": "Banner Image",
+              "info": "Recommended Size: 800 x 612px"
+            },
+            {
+              "id": "video_url",
+              "type": "video_url",
+              "label": "Video URL",
+              "accept": ["youtube"],
+              "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+            }
+          ]
+       },
+        {
+          "type": "section_padding",
+          "name": "Section Padding",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "header",
+              "content": "Large/Desktop Device"
+            },
+            {
+              "type": "range",
+              "id": "section_padding_top",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Top",
+              "unit": "px",
+              "default": 115
+            },
+            {
+              "type": "range",
+              "id": "section_padding_bottom",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Bottom",
+              "unit": "px",
+              "default": 95
+            },
+            {
+              "type": "header",
+              "content": "Tablet Device"
+            },
+            {
+              "type": "range",
+              "id": "section_padding_top_md",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Top",
+              "unit": "px",
+              "default": 75
+            },
+            {
+              "type": "range",
+              "id": "section_padding_bottom_md",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Bottom",
+              "unit": "px",
+              "default": 60
+            },
+            {
+              "type": "header",
+              "content": "Mobile Device"
+            },
+            {
+              "type": "range",
+              "id": "section_padding_top_xs",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Top",
+              "unit": "px",
+              "default": 55
+            },
+            {
+              "type": "range",
+              "id": "section_padding_bottom_xs",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Bottom",
+              "unit": "px",
+              "default": 55
+            }
+          ]
+        },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Team Skill",
+		  "category": "5. about",
+		  "blocks":[
+				{
+					"type": "skill"
+				},
+				{
+					"type": "popup_video"
+				},
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

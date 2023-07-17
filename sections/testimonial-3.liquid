@@ -1,0 +1,439 @@
+{%- render 'section-style' -%}
+
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }} .ltn__section-title-2 .section-subtitle.ltn__secondary-color {
+    color: {{ section.settings.sub_title_color }}!important;
+  }
+  #section-{{ section.id }} .ltn__section-title-2 .section-title {
+    color: {{ section.settings.title_color }};
+  }
+  #section-{{ section.id }} .section-title span{
+    color: {{ section.settings.title_highlight_color }};
+  }
+</style>
+{%- endif -%}
+
+<!-- TESTIMONIAL AREA START (testimonial-3) -->
+<div class="ltn__testimonial-area" id="section-{{ section.id }}" data-section="testimonialSliderThree">
+  <div class="container-fluid">
+    {%- if section.settings.section_title != '' or section.settings.section_sub_title != '' -%}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-title-area ltn__section-title-2 text-center">
+          {%- if section.settings.section_sub_title != '' -%}
+          <h6 class="section-subtitle ltn__secondary-color">{{ section.settings.section_sub_title }}</h6>
+          {%- endif -%}
+          {%- if section.settings.section_sub_title != '' -%}
+          <h1 class="section-title">{{ section.settings.section_title }}</h1>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+    {%- capture data_slick_activation -%}
+          data-slick='{
+              {%- if section.settings.autoplay_true -%}
+              "autoplay": true,
+              "autoplaySpeed": {{ section.settings.autoplay_speed }},
+              {%- endif -%}
+               "slidesToShow": {{ section.settings.column }},
+                "responsive":[
+                    {"breakpoint":1600, "settings": {"slidesToShow": {{ section.settings.column_md }}} },
+                    {"breakpoint":1200, "settings": {"slidesToShow": {{ section.settings.column_md }}} },
+                    {"breakpoint":992, "settings": {"slidesToShow": {{ section.settings.column_md }}} },
+                    {"breakpoint":768, "settings": {"slidesToShow": {{ section.settings.column_sm }}, "arrows": false, "dots": true} },
+                    {"breakpoint":480, "settings": {"slidesToShow": {{ section.settings.column_sm }}, "slidesToScroll": {{ section.settings.column_sm }}, "arrows": false, "dots": true, "centerMode": false} }
+                  ] 
+
+          }'
+          {%- endcapture -%}
+    <div class="row ltn__testimonial-slider-3-active slick-arrow-1 slick-arrow-1-inner" {{ data_slick_activation }}>
+      {%- for block in section.blocks -%}
+      {%- case block.type -%}
+      {%- when 'testimonial' -%}
+      <div class="col-lg-12">
+        <div class="ltn__testimonial-item ltn__testimonial-item-4">
+          {%- if block.settings.testimonial_image -%}
+          {%- assign image = block.settings.testimonial_image -%}
+          <div class="ltn__testimoni-img">
+            <span>
+            <img srcset="{% if image.width >= 160 %}{{ image | img_url: '160x' }} 160w,{% endif %}
+                         {% if image.width >= 200 %}{{ image | img_url: '200x' }} 200w,{% endif %}
+                         {% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                         {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                         {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}"
+                 loading="lazy"
+                 src="{{ image | img_url: '160x' }}"
+                 sizes="100vw"
+                 width=""
+                 height=""
+                 alt="{{ image.alt | escape }}"
+                 class=""
+                 >
+            </span>
+          </div>
+          {%- else -%}
+          <div class="ltn__testimoni-img">
+            <img src="https://via.placeholder.com/200x200" alt="Testimonial">
+          </div>
+          {%- endif -%}
+          <div class="ltn__testimoni-info">
+            {{ block.settings.testionial_content }}
+            <h4>{{ block.settings.testionial_author }}</h4>
+            {%- if block.settings.testionial_author_designation != '' -%}
+            <h6>{{ block.settings.testionial_author_designation }}</h6>
+            {%- endif -%}
+          </div>
+          <div class="ltn__testimoni-bg-icon">
+            <i class="far fa-comments"></i>
+          </div>
+        </div>       
+      </div>
+      {%- endcase -%}
+      {%- endfor -%}
+      <!--  -->
+    </div>
+  </div>
+</div>
+<!-- TESTIMONIAL AREA END -->
+
+{% schema %}
+  {
+    "name": "Testimonial Slider (3)",
+    "settings": [
+		{
+		  "type": "header",
+          "content": "Section Heading"
+        },
+		{
+          "type": "text",
+          "id": "section_sub_title",
+          "label": "Section Sub Title",
+          "default": "// Sub Title"
+      	},
+        {
+          "type": "textarea",
+          "id": "section_title",
+          "label": "Section Title",
+          "default": "Section Title <span>.</span>",
+          "info": "Use <span> Tag for Highlight text"
+        },
+		{
+			"type": "header",
+            "content": "Testimonial Column"
+        },
+		{
+            "type": "range",
+            "id": "column",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "label": "Desktop",
+            "default": 3
+        },
+		{
+            "type": "range",
+            "id": "column_md",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "label": "Tablet",
+            "default": 2
+        },
+		{
+            "type": "range",
+            "id": "column_sm",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "label": "Mobile",
+            "default": 1
+        },
+		{
+			"type": "header",
+            "content": "Options"
+        },
+		{
+          "type": "checkbox",
+          "id": "autoplay_true",
+          "label": "Autoplay Enable",
+          "default": false
+      	},
+		{
+            "type": "range",
+            "id": "autoplay_speed",
+            "min": 1000,
+            "max": 9000,
+            "step": 1000,
+            "label": "Autoplay Speed",
+            "unit": "ms",
+            "default": 7000
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "sub_title_color",
+          "label": "Sub Title Color",
+          "default": "#e53e29"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#071c1f"
+        },
+        {
+          "type": "color",
+          "id": "title_highlight_color",
+          "label": "Title Highlight Color",
+          "default": "#e53e29"
+        }
+	],
+	"blocks":[
+          {
+            "type": "testimonial",
+            "name": "Testimonial",
+		  	"limit": 4,
+            "settings": [
+              {
+                "type": "image_picker",
+                "id": "testimonial_image",
+                "label": "Image",
+        		"info": "Recommended Size: 200 x 200px"
+              },
+              {
+                "type": "text",
+                "id": "testionial_author",
+                "label": "Name",
+                "default": "Ethan James"
+              },
+              {
+                "type": "text",
+                "id": "testionial_author_designation",
+                "label": "Designation",
+                "default": "Admin"
+              },
+              {
+                "type": "richtext",
+                "id": "testionial_content",
+                "label": "Content",
+                "default": "<p>Lorem ipsum ctetur elit, sed do eius mod tempor incididunt ut labore et dolore magna aliqua.</p>"
+              }
+            ]
+         },
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 300,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 115
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 300,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 70
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 300,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 75
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 300,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 30
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 300,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 55
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 300,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 30
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 115
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 75
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 60
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#F2F6F7"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Testimonial Slider (3)",
+		  "category": "5. about",
+		  "blocks":[
+				{
+					"type": "testimonial"
+				},
+				{
+					"type": "testimonial"
+				},
+				{
+					"type": "testimonial"
+				},
+				{
+					"type": "testimonial"
+				},
+				{
+					"type": "section_padding"
+				},
+				{
+					"type": "section_background"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

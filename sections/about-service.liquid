@@ -1,0 +1,581 @@
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }} .theme-btn-1 {
+    background-color: {{ section.settings.button_bg_color }};
+    color: {{ section.settings.button_text_color }};
+  }
+  #section-{{ section.id }} .btn-effect-1:hover {
+    color: {{ section.settings.button_text_hover_color }};
+  }
+  #section-{{ section.id }} .theme-btn-1:hover {
+    background-color: {{ section.settings.button_bg_hover_color }};
+  }
+</style>
+{%- endif -%}
+{%- render 'section-style' -%}
+
+<div class="ltn__about-us-area" id="section-{{ section.id }}" data-section="aboutService">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 align-self-center">
+        <div class="about-us-img-wrap about-img-left">
+          <ul class="ltn__parallax-effect-wrap ltn__parallax-effect-active"
+              data-friction-x="0.1"
+              data-friction-y="0.1"
+              data-scalar-x="15"
+              data-scalar-y="25">
+            <li class="layer" data-depth="0.00"></li>
+            {%- if section.settings.image_enable -%}
+            <li class="layer" data-depth="0.10">
+              <div class="ltn__effect-img ltn__effect-img-top-left">
+                {%- if section.settings.image -%}
+                {%- assign image = section.settings.image -%}
+                <img srcset="{% if image.width >= 170 %}{{ image | img_url: '170x' }} 170w,{% endif %}
+                             {% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                             {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                             {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                             {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                             {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                             {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w{% endif %}"
+                     loading="lazy"
+                     src="{{ image | img_url: '170x' }}"
+                     sizes="100vw"
+                     width="{{ image.width }}"
+                     height="{{ image.height }}"
+                     alt="{{ image.alt | escape }}"
+                     >
+                {%- else -%}
+                <img src="https://via.placeholder.com/170x115" alt="Banner">
+                {%- endif -%}
+              </div>
+            </li>
+            {%- endif -%}
+            {%- if section.settings.image_2_enable -%}
+            <li class="layer" data-depth="0.30">
+              <div class="ltn__effect-img ltn__effect-img-top-right">
+                {%- if section.settings.image_2 -%}
+                {%- assign image = section.settings.image_2 -%}
+                <img srcset="{% if image.width >= 170 %}{{ image | img_url: '170x' }} 170w,{% endif %}
+                             {% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                             {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                             {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                             {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                             {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                             {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w{% endif %}"
+                     loading="lazy"
+                     src="{{ image | img_url: '170x' }}"
+                     sizes="100vw"
+                     width="{{ image.width }}"
+                     height="{{ image.height }}"
+                     alt="{{ image.alt | escape }}"
+                     >
+                {%- else -%}
+                <img src="https://via.placeholder.com/170x176" alt="Banner">
+                {%- endif -%}
+              </div>
+            </li>
+            {%- endif -%}
+            {%- if section.settings.image_3_enable -%}
+            <li class="layer" data-depth="0.50">
+              <div class="ltn__effect-img ltn__effect-img-center-left">
+                {%- if section.settings.image_3 -%}
+                {%- assign image = section.settings.image_3 -%}
+                <img srcset="{% if image.width >= 83 %}{{ image | img_url: '83x' }} 83w,{% endif %}
+                             {% if image.width >= 170 %}{{ image | img_url: '170x' }} 170w,{% endif %}
+                             {% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                             {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                             {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                             {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                             {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                             {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w{% endif %}"
+                     loading="lazy"
+                     src="{{ image | img_url: '170x' }}"
+                     sizes="100vw"
+                     width="{{ image.width }}"
+                     height="{{ image.height }}"
+                     alt="{{ image.alt | escape }}"
+                     >
+                {%- else -%}
+                <img src="https://via.placeholder.com/83x81" alt="Banner">
+                {%- endif -%}
+              </div>
+            </li>
+            {%- endif -%}
+            {%- if section.settings.image_4_enable -%}
+            <li class="layer" data-depth="0.20">
+              <div class="ltn__effect-img ltn__effect-img-center-right">
+                {%- if section.settings.image_4 -%}
+                {%- assign image = section.settings.image_4 -%}
+                <img srcset="{% if image.width >= 120 %}{{ image | img_url: '122x' }} 122w,{% endif %}
+                             {% if image.width >= 170 %}{{ image | img_url: '170x' }} 170w,{% endif %}
+                             {% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                             {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                             {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                             {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                             {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                             {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w{% endif %}"
+                     loading="lazy"
+                     src="{{ image | img_url: '170x' }}"
+                     sizes="100vw"
+                     width="{{ image.width }}"
+                     height="{{ image.height }}"
+                     alt="{{ image.alt | escape }}"
+                     >
+                {%- else -%}
+                <img src="https://via.placeholder.com/122x87" alt="Banner">
+                {%- endif -%}
+              </div>
+            </li>
+            {%- endif -%}
+            {%- if section.settings.image_5_enable -%}
+            <li class="layer" data-depth="0.20">
+              <div class="ltn__effect-img ltn__effect-img-bottom-left">
+                {%- if section.settings.image_5 -%}
+                {%- assign image = section.settings.image_5 -%}
+                <img srcset="{% if image.width >= 120 %}{{ image | img_url: '121x' }} 121w,{% endif %}
+                             {% if image.width >= 170 %}{{ image | img_url: '170x' }} 170w,{% endif %}
+                             {% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                             {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                             {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                             {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                             {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                             {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w{% endif %}"
+                     loading="lazy"
+                     src="{{ image | img_url: '170x' }}"
+                     sizes="100vw"
+                     width="{{ image.width }}"
+                     height="{{ image.height }}"
+                     alt="{{ image.alt | escape }}"
+                     >
+                {%- else -%}
+                <img src="https://via.placeholder.com/121x118" alt="Banner">
+                {%- endif -%}
+              </div>
+            </li>
+            {%- endif -%}
+            {%- if section.settings.image_6_enable -%}
+            <li class="layer" data-depth="0.20">
+              <div class="ltn__effect-img ltn__effect-img-bottom-right">
+                {%- if section.settings.image_6 -%}
+                {%- assign image = section.settings.image_6 -%}
+                <img srcset="{% if image.width >= 170 %}{{ image | img_url: '170x' }} 170w,{% endif %}
+                             {% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                             {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                             {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                             {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                             {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                             {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w{% endif %}"
+                     loading="lazy"
+                     src="{{ image | img_url: '170x' }}"
+                     sizes="100vw"
+                     width="{{ image.width }}"
+                     height="{{ image.height }}"
+                     alt="{{ image.alt | escape }}"
+                     >
+                {%- else -%}
+                <img src="https://via.placeholder.com/170x121" alt="Banner">
+                {%- endif -%}
+              </div>
+            </li>
+            {%- endif -%}
+            {%- if section.settings.experience_counter_enable -%}
+            <li class="layer" data-depth="0.50">
+              <div class="wave ltn__animation-wave-5s ltn__effect-img-top-center ">
+                <div class="about-us-img-info">
+                  <div class="about-us-img-info-inner">
+                    <h1><span class="counter">{{ section.settings.experience_year_number }}</span><span>+</span></h1>
+                    <h6><span>{{ section.settings.year_title }}</span> {{ section.settings.experience_title }}</h6>
+                    <span class="dots-bottom"></span>
+                  </div>
+                </div>
+              </div>
+            </li>
+            {%- endif -%}
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-6 align-self-center">
+        <div class="about-us-info-wrap">
+          <div class="section-title-area ltn__section-title-2">
+            {%- if section.settings.sub_title != '' -%}
+            <h6 class="section-subtitle ltn__secondary-color">{{ section.settings.sub_title }}</h6>
+            {%- endif -%}
+            {%- if section.settings.title != '' -%}
+            <h1 class="section-title">{{ section.settings.title }}</h1>
+            {%- endif -%}
+            {%- if section.settings.blockquote_content != '' -%}
+            {{ section.settings.blockquote_content }}
+            {%- endif -%}
+          </div>
+          {%- if section.settings.main_content != '' -%}
+          {{ section.settings.main_content }}
+          {%- endif -%}
+          <hr>
+          <div class="about-call-us">
+            {%- if section.settings.call_icon_enable -%}
+            <div class="call-us-icon">
+              <img src="{{ 'icon-call.png' | asset_url }}" loading="lazy" alt="Call Icon">
+            </div>
+            {%- endif -%}
+            <div class="call-us-info">
+              {%- if section.settings.contact_information != '' -%}
+              {{ section.settings.contact_information }}
+              {%- endif -%}
+              {%- if section.settings.contact_number != '' -%}
+              <h2>{{ section.settings.contact_number }}</h2>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "About Service",
+    "settings": [
+        {
+          "type": "header",
+          "content": "About Information"
+        },
+        {
+          "type": "text",
+          "id": "sub_title",
+          "label": "Sub Title",
+          "default": "// Sub Title"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title",
+		  "default": "Title <span>.</span>",
+		  "info": "Use <span> Tag for Highlight text"
+        },
+        {
+          "type": "richtext",
+          "id": "blockquote_content",
+          "label": "Blockquote Content",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>"
+        },
+        {
+          "type": "richtext",
+          "id": "main_content",
+          "label": "Main Content",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "call_icon_enable",
+          "label": "Call Icon Enable",
+          "default": true
+        },
+        {
+          "type": "richtext",
+          "id": "contact_information",
+          "label": "Contact Information",
+          "default": "<p>Call us 24/7. We can answer for all your questions.</p>"
+        },
+        {
+          "type": "richtext",
+          "id": "contact_number",
+          "label": "Contact Number",
+          "default": "<p>507-452-1254 or 508-452-1253</p>"
+        },
+        {
+          "type": "header",
+          "content": "Experience Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "image_enable",
+          "label": "Image Enable (One)",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (One)",
+          "info": "Recommended Size: 170 x 115px"
+        },
+        {
+          "type": "checkbox",
+          "id": "image_2_enable",
+          "label": "Image Enable (Two)",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image (Two)",
+          "info": "Recommended Size: 170 x 176px"
+        },
+        {
+          "type": "checkbox",
+          "id": "image_3_enable",
+          "label": "Image Enable (Three)",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Image (Three)",
+          "info": "Recommended Size: 83 x 81px"
+        },
+        {
+          "type": "checkbox",
+          "id": "image_4_enable",
+          "label": "Image Enable (Four)",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image_4",
+          "label": "Image (Four)",
+          "info": "Recommended Size: 122 x 87px"
+        },
+        {
+          "type": "checkbox",
+          "id": "image_5_enable",
+          "label": "Image Enable (Five)",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image_5",
+          "label": "Image (Five)",
+          "info": "Recommended Size: 121 x 118px"
+        },
+        {
+          "type": "checkbox",
+          "id": "image_6_enable",
+          "label": "Image Enable (Six)",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image_6",
+          "label": "Image (Six)",
+          "info": "Recommended Size: 170 x 121px"
+        },
+        {
+          "type": "header",
+          "content": "Experience Counter"
+        },
+        {
+          "type": "checkbox",
+          "id": "experience_counter_enable",
+          "label": "Experience Counter Enable",
+          "default": true
+        },
+        {
+          "type": "number",
+          "id": "experience_year_number",
+          "label": "Experience Year",
+          "default": 42
+        },
+        {
+          "type": "text",
+          "id": "year_title",
+          "label": "Year Title",
+          "default": "Years"
+        },
+        {
+          "type": "text",
+          "id": "experience_title",
+          "label": "Experience Title",
+          "default": "of Experience"
+        }
+	],
+	"blocks":[
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 85
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 45
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 25
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "About Service",
+		  "category": "5. about",
+		  "blocks":[
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

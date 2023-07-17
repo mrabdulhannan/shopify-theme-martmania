@@ -1,0 +1,388 @@
+{%- render 'section-style' -%}
+<div class="ltn__testimonial-area ltn__testimonial-4 plr--9" id="section-{{ section.id }}" data-section="testimonialTab">
+  <div class="container-fluid">
+    {%- if section.settings.section_title != '' or section.settings.section_sub_title != '' -%}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-title-area ltn__section-title-2 text-center">
+          {%- if section.settings.section_sub_title != '' -%}
+          <h6 class="section-subtitle ltn__secondary-color">{{ section.settings.section_sub_title }}</h6>
+          {%- endif -%}
+          {%- if section.settings.section_sub_title != '' -%}
+          <h1 class="section-title">{{ section.settings.section_title }}</h1>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ltn__testimonial-slider-4 ltn__testimonial-slider-4-active slick-arrow-1">
+          {%- for block in section.blocks -%}
+          {%- case block.type -%}
+          {%- when 'testimonial' -%}
+          <div class="ltn__testimonial-item-5">
+            <div class="ltn__quote-icon">
+              <i class="far fa-comments"></i>
+            </div>
+            <div class="ltn__testimonial-image">
+              {%- if block.settings.testimonial_image -%}
+              {%- assign image = block.settings.testimonial_image -%}
+              <span class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+                <img srcset="{% if image.width >= 100 %}{{ image | img_url: '105x' }} 105w,{% endif %}
+                             {% if image.width >= 150 %}{{ image | img_url: '150x' }} 150w,{% endif %}
+                             {% if image.width >= 280 %}{{ image | img_url: '280x' }} 280w,{% endif %}
+                             {% if image.width >= 350 %}{{ image | img_url: '350x' }} 350w,{% endif %}"
+                     src="{{ image | img_url: '105x' }}"
+                     sizes="100vw"
+                     width="{{ image.width }}"
+                     height="{{ image.height }}"
+                     alt="{{ image.alt | escape }}"
+                     loading="lazy"
+                     class="image-position-size"
+                     >
+              </span>
+              {%- else -%}
+              <img src="https://via.placeholder.com/100x100" alt="Testimonial">
+              {%- endif -%}
+            </div>
+            <div class="ltn__testimonial-info">
+              {{ block.settings.testionial_content }}
+              <h4>{{ block.settings.testionial_author }}</h4>
+              {%- if block.settings.testionial_author_designation != '' -%}
+              <h6>{{ block.settings.testionial_author_designation }}</h6>
+              {%- endif -%}
+            </div>
+          </div>
+          {%- endcase -%}
+          {%- endfor -%}
+        </div>
+        <ul class="ltn__testimonial-quote-menu d-none d-lg-block">
+          {%- for block in section.blocks -%}
+          {%- case block.type -%}
+          {%- when 'testimonial' -%}
+          <li>
+            {%- if block.settings.testimonial_image -%}
+            {%- assign image = block.settings.testimonial_image -%}
+            <img srcset="{% if image.width >= 100 %}{{ image | img_url: '105x' }} 105w,{% endif %}
+                         {% if image.width >= 150 %}{{ image | img_url: '150x' }} 150w,{% endif %}
+                         {% if image.width >= 280 %}{{ image | img_url: '280x' }} 280w,{% endif %}
+                         {% if image.width >= 350 %}{{ image | img_url: '350x' }} 350w,{% endif %}"
+                 src="{{ image | img_url: '105x' }}"
+                 sizes="100vw"
+                 width="{{ image.width }}"
+                 alt="{{ image.alt | escape }}"
+                 loading="lazy"
+                 >
+            {%- else -%}
+            <img src="https://via.placeholder.com/100x100" alt="Testimonial">
+            {%- endif -%}
+          </li>
+          {%- endcase -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Testimonial",
+    "settings": [
+		{
+		  "type": "header",
+          "content": "Section Heading"
+        },
+		{
+          "type": "text",
+          "id": "section_sub_title",
+          "label": "Section Sub Title",
+          "default": "// Sub Title"
+      	},
+		{
+          "type": "textarea",
+          "id": "section_title",
+          "label": "Section Title",
+		  "default": "Section Title<span>.</span>",
+		  "info": "Use <span> Tag for Highlight text"
+      	},
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#222"
+        },
+        {
+          "type": "color",
+          "id": "sub_title_color",
+          "label": "Sub Title Color",
+          "default": "#555555"
+        },
+        {
+          "type": "color",
+          "id": "name_color",
+          "label": "Name Color",
+          "default": "#222"
+        },
+        {
+          "type": "color",
+          "id": "content_color",
+          "label": "Content Color",
+          "default": "#555555"
+        },
+        {
+          "type": "color",
+          "id": "rating_color",
+          "label": "Rating Color",
+          "default": "#c29958"
+        }
+	],
+	"blocks":[
+          {
+            "type": "testimonial",
+            "name": "Testimonial",
+		  	"limit": 4,
+            "settings": [
+              {
+                "type": "image_picker",
+                "id": "testimonial_image",
+                "label": "Image",
+        		"info": "Recommended Size: 105 x 105px"
+              },
+              {
+                "type": "text",
+                "id": "testionial_author",
+                "label": "Name",
+                "default": "Ethan James"
+              },
+              {
+                "type": "text",
+                "id": "testionial_author_designation",
+                "label": "Designation",
+                "default": "Admin"
+              },
+              {
+                "type": "richtext",
+                "id": "testionial_content",
+                "label": "Content",
+                "default": "<p>Lorem ipsum ctetur elit, sed do eius mod tempor incididunt ut labore et dolore magna aliqua.</p>"
+              }
+            ]
+         },
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 115
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 100
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 75
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 60
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 55
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 30
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 115
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 75
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 60
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#fff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Testimonial",
+		  "category": "5. about",
+		  "blocks":[
+				{
+					"type": "testimonial"
+				},
+				{
+					"type": "testimonial"
+				},
+				{
+					"type": "testimonial"
+				},
+				{
+					"type": "testimonial"
+				},
+				{
+					"type": "section_padding"
+				},
+				{
+					"type": "section_background"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

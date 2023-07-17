@@ -1,0 +1,26 @@
+{%- if section.settings.custom_logo_width_enable -%}
+{%- assign logo_size = section.settings.logo_width | append: 'x' -%}
+{%- else -%}
+{%- assign logo_size = 'master' -%}
+{%- endif -%}
+{%- if template != 'index' and section.settings.logo_2 -%}
+<a href="{{ routes.root_url }}" class="theme-logo">
+  <img srcset="{{ section.settings.logo_2 | img_url: logo_size }} 1x, {{ section.settings.logo | img_url: logo_size, scale: 2 }} 2x"
+     src="{{ section.settings.logo_2 | img_url: logo_size }}"
+     loading="lazy"
+     alt="{{ section.settings.logo_2.alt | default: shop.name | escape }}"
+     >
+</a>
+{%- elsif section.settings.logo -%}
+<a href="{{ routes.root_url }}" class="theme-logo">
+  <img srcset="{{ section.settings.logo | img_url: logo_size }} 1x, {{ section.settings.logo | img_url: logo_size, scale: 2 }} 2x"
+     src="{{ section.settings.logo | img_url: logo_size }}"
+     loading="lazy"
+     alt="{{ section.settings.logo.alt | default: shop.name | escape }}"
+     >
+</a>
+{%- else -%}
+<a href="{{ routes.root_url }}">
+  <strong>{{ shop.name }}</strong>
+</a>
+{%- endif -%}

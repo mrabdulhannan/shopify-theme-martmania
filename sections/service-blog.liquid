@@ -1,0 +1,333 @@
+{%- render 'section-style' -%}
+<!-- IMAGE SLIDER AREA START (img-slider-3) -->
+<div class="ltn__img-slider-area pb-100" id="section-{{ section.id }}" data-section="serviceBlog">
+  <div class="container-fluid">
+    {%- capture data_slick_activation -%}
+        data-slick='{
+            {%- if section.settings.autoplay_true -%}
+            "autoplay": true,
+            "autoplaySpeed": {{ section.settings.autoplay_speed }},
+            {%- endif -%}
+             "slidesToShow": {{ section.settings.blog_column }},
+              "responsive":[
+                  {"breakpoint":992, "settings": {"slidesToShow": {{ section.settings.blog_column_md }}, "arrows": false, "dots": true} },
+                  {"breakpoint":768, "settings": {"slidesToShow": {{ section.settings.blog_column_sm }}, "arrows": false, "dots": true} },
+                  {"breakpoint":480, "settings": {"slidesToShow": 1, "arrows": false, "dots": true} }
+                ]
+        }'
+        {%- endcapture -%}
+    {% assign blog = blogs[section.settings.blog_handle] %}
+    {% assign blog_limit = section.settings.blog_limit_handle %}
+    <div class="row ltn__image-slider-3-active slick-arrow-1 slick-arrow-1-inner" {{ data_slick_activation }}>
+      {% for article in blog.articles limit: blog_limit %}
+      <div class="col-lg-12">
+        <div class="ltn__img-slide-item-3">
+          {%- assign image = article.image -%}
+          <a href="{{ article | img_url: '1024x' }}" data-rel="lightcase:section-{{ section.id }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+            <img srcset="{% if image.width >= 288 %}{{ image | img_url: '288x' }} 288w,{% endif %}
+                         {% if image.width >= 350 %}{{ image | img_url: '393x' }} 393w,{% endif %}
+                         {% if image.width >= 576 %}{{ image | img_url: '550x' }} 576w,{% endif %}
+                         {% if image.width >= 850 %}{{ image | img_url: '850x' }} 850w,{% endif %}"
+                 loading="lazy"
+                 src="{{ image | img_url: '594x' }}"
+                 sizes="50vw"
+                 width="{{ image.width }}"
+                 height="{{ image.height }}"
+                 alt="{{ image.alt | escape }}"
+                 class="image-position-size"
+                 >
+          </a>
+          <div class="ltn__img-slide-info">
+            <div class="ltn__img-slide-info-brief">
+              {%- if section.settings.tag_enable and article.tags.size > 0 -%}
+              <h6>
+                {%- for tag in article.tags limit: 1 -%}
+                {{ tag }}
+                {%- endfor -%}
+              </h6>
+              {%- endif -%}
+              <h1><a href="{{ article.url }}">{{ article.title }}</a></h1>
+            </div>
+            <div class="btn-wrapper">
+              <a href="{{ article.url }}" class="btn theme-btn-1 btn-effect-1"><i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<!-- IMAGE SLIDER AREA END -->
+{% schema %}
+  {
+    "name": "Service Blog",
+    "settings": [
+		{
+			"type": "header",
+            "content": "Blog"
+        },
+		{
+          "type": "blog",
+          "id": "blog_handle",
+          "label": "Select Blog"
+        },
+		{
+            "type": "range",
+            "id": "blog_limit_handle",
+            "min": 2,
+            "max": 12,
+            "step": 1,
+            "label": "Limit",
+            "default": 6
+        },
+		{
+          "type": "checkbox",
+          "id": "tag_enable",
+          "label": "Show Tag",
+          "default": true
+      	},
+		{
+			"type": "header",
+            "content": "Blog Column"
+        },
+		{
+            "type": "range",
+            "id": "blog_column",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "label": "Desktop",
+            "default": 3
+        },
+		{
+            "type": "range",
+            "id": "blog_column_md",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "label": "Tablet",
+            "default": 2
+        },
+		{
+            "type": "range",
+            "id": "blog_column_sm",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "label": "Mobile",
+            "default": 1
+        },
+		{
+			"type": "header",
+            "content": "Options"
+        },
+		{
+          "type": "checkbox",
+          "id": "autoplay_true",
+          "label": "Autoplay Enable",
+          "default": false
+      	},
+		{
+            "type": "range",
+            "id": "autoplay_speed",
+            "min": 1000,
+            "max": 9000,
+            "step": 1000,
+            "label": "Autoplay Speed",
+            "unit": "ms",
+            "default": 7000
+        }
+    ],
+	"blocks":[
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 100
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 60
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 40
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Service Blog",
+		  "category": "8. blog",
+		  "blocks":[
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}
+

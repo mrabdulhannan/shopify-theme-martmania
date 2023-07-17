@@ -1,0 +1,59 @@
+{%- assign on_sale = false -%}
+{%- if product.compare_at_price > product.price -%}
+{%- assign on_sale = true -%}
+{%- endif -%}
+
+{%- assign sold_out = true -%}
+{%- if product.available -%}
+{%- assign sold_out = false -%}
+{%- endif -%}
+
+{%- assign variant = product.selected_or_first_available_variant -%}
+
+{%- if product.available -%}
+{%- assign func = "Shopify.addItem(" | append: variant.id | append: ", 1)" -%}
+{%- endif -%}  
+
+{% if item.featured_image %}
+<div class="search-item">
+  <div class="search-item-image">
+    {%- assign image = item.featured_image.src -%}
+    <a href="{{ product.url | within: collection }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+      <img srcset="{% if image.width >= 150 %}{{ image | img_url: '152x' }} 152w,{% endif %}
+                   {% if image.width >= 243 %}{{ image | img_url: '266x' }} 266w,{% endif %}
+                   {% if image.width >= 366 %}{{ image | img_url: '366x' }} 366w,{% endif %}
+                   {% if image.width >= 576 %}{{ image | img_url: '576x' }} 576w,{% endif %}
+                   {% if image.width >= 600 %}{{ image | img_url: '600x' }} 600w,{% endif %}"
+           src="{{ image | img_url: '600x' }}"
+           sizes="100vw"
+           width="{{ image.width }}"
+           height="{{ image.height }}"
+           alt="{{ image.alt | escape }}"
+           loading="lazy"
+           class="image-position-size"
+           >
+    </a>
+  </div>
+  <div class="search-item-content">
+    <h4><a href="{{ item.url | within: collection }}">{{ item.title | highlight: search.terms }}</a></h4>
+    <div class="search-price">
+      <span>{{ item.price | money }}</span>
+      {% if item.compare_at_price_max > item.price %}
+      <span class="compare-price"><del>{{ item.compare_at_price | money }}</del></span>
+      {% endif %}
+    </div>
+    {%- if item.description contains '[short_description]' -%} 
+    {%- assign short_description_first = item.description | split:'[/short_description]' | first -%}
+    {%- assign short_description_final = short_description_first | split:'[short_description]' | last -%}
+    {{ short_description_final }}
+    {%- else -%}
+    <p>{{ item.description | strip_html | truncatewords: 30 | highlight: search.terms | split: '[short_description]' | first | split: '[product_description]' | first | split: '[new_products]' | first | split: '[product_video]' | first | split: '[affiliate_link]' | first | split: '[countdown]' | first | split: '[unique_description_1]' | first | split: '[unique_description_2]' | first | split: '[unique_description_3]' | first }}</p>
+    {%- endif -%}
+  </div>
+</div>
+{% else %}
+<div class="search-blog-item">
+  <h4 class="search-blog-title"><a href="{{ item.url }}">{{ item.title }}</a></h4>
+  <p>{{ item.content | strip_html | truncatewords: 30 | highlight: search.terms }}</p>
+</div>
+{% endif %}

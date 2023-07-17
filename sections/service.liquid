@@ -1,0 +1,512 @@
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }} .ltn__feature-item-8 .ltn__feature-info h4 {
+    margin-bottom: 5px;
+    color: {{ section.settings.title_color }};
+  }
+  #section-{{ section.id }} .ltn__feature-item-8 .ltn__feature-info p{
+    color: {{ section.settings.content_color }};
+  }
+  #section-{{ section.id }}.before-bg-bottom-2:before {
+    background-color: {{ section.settings.half_bg_color }};
+  }
+</style>
+{%- endif -%}
+
+{%- render 'section-style' -%}
+
+{%- assign sslwe = section.settings.large_width_enable -%}
+{%- if section.settings.service_style_handle == 'style_1' -%}
+<div class="ltn__feature-area before-bg-bottom-2 {% if sslwe %}plr--5{% endif %}" id="section-{{ section.id }}" data-section="serviceSection">
+  <div class="{% if sslwe %}container-fluid{% else %}container{% endif %}">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ltn__feature-item-box-wrap ltn__border-between-column white-bg">
+          <div class="row">
+            {%- for block in section.blocks -%}
+            {%- case block.type -%}
+            {%- when 'service' -%}
+            <div class="col-{{ block.settings.service_column_sm }} col-sm-{{ block.settings.service_column_sm }} col-md-{{ block.settings.service_column_md }} col-lg-{{ block.settings.service_column }}">
+              <div class="ltn__feature-item ltn__feature-item-8">
+                {%- if block.settings.icon_image_enable -%}
+                {%- if block.settings.service_icon -%}
+                <div class="ltn__feature-icon">
+                  <img src="{{ block.settings.service_icon | img_url: '50x50' }}" alt="{{ block.settings.service_icon.alt }}" loading="lazy">
+                </div>
+                {%- else -%}
+                <div class="ltn__feature-icon">
+                  {%- case block.settings.icon_image_select -%}
+                  {%- when 'truck' -%}
+                  <img src="{{ '4-track.svg' | asset_url }}" loading="lazy" alt="truck Icon">
+                  {%- when 'madel' -%}
+                  <img src="{{ '5-madel.svg' | asset_url }}" loading="lazy" alt="Madel Icon">
+                  {%- when 'return' -%}
+                  <img src="{{ '6-return.svg' | asset_url }}" loading="lazy" alt="Return Icon">
+                  {%- when 'support' -%}
+                  <img src="{{ '7-support.svg' | asset_url }}" loading="lazy" alt="Support Icon">
+                  {%- when 'trolley' -%}
+                  <img src="{{ '8-trolley.svg' | asset_url }}" loading="lazy" alt="Trolley Icon">
+                  {%- when 'money' -%}
+                  <img src="{{ '9-money.svg' | asset_url }}" loading="lazy" alt="Money Icon">
+                  {%- when 'credit_card' -%}
+                  <img src="{{ '10-credit-card.svg' | asset_url }}" loading="lazy" alt="Credit Card Icon">
+                  {%- when 'gift_card' -%}
+                  <img src="{{ '11-gift-card.svg' | asset_url }}" loading="lazy" alt="Gift Card Icon">
+                  {%- endcase -%}
+                </div>
+                {%- endif -%}
+                {%- endif -%}
+                <div class="ltn__feature-info">
+                  {%- if block.settings.service_title != '' -%}
+                  <h4>{{ block.settings.service_title }}</h4>
+                  {%- endif -%}
+                  {%- if block.settings.service_content != '' -%}
+                  {{ block.settings.service_content }}
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+            {%- endcase -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%- elsif section.settings.service_style_handle == 'style_2' -%}
+<div class="ltn__feature-area {% if section.settings.margin_top_minus %}mt--65{% endif %} {% if sslwe %}plr--5{% endif %}" id="section-{{ section.id }}" data-section="serviceSection">
+  <div class="{% if sslwe %}container-fluid{% else %}container{% endif %}">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ltn__feature-item-box-wrap ltn__feature-item-box-wrap-2 ltn__border section-bg-6">
+          {%- for block in section.blocks -%}
+          {%- case block.type -%}
+          {%- when 'service' -%}
+          <div class="ltn__feature-item ltn__feature-item-8">
+            {%- if block.settings.icon_image_enable -%}
+            {%- if block.settings.service_icon -%}
+            <div class="ltn__feature-icon">
+              <img src="{{ block.settings.service_icon | img_url: '50x50' }}" alt="{{ block.settings.service_icon.alt }}" loading="lazy">
+            </div>
+            {%- else -%}
+            <div class="ltn__feature-icon">
+              {%- case block.settings.icon_image_select -%}
+              {%- when 'truck' -%}
+              <img src="{{ '4-track.svg' | asset_url }}" loading="lazy" alt="truck Icon">
+              {%- when 'madel' -%}
+              <img src="{{ '5-madel.svg' | asset_url }}" loading="lazy" alt="Madel Icon">
+              {%- when 'return' -%}
+              <img src="{{ '6-return.svg' | asset_url }}" loading="lazy" alt="Return Icon">
+              {%- when 'support' -%}
+              <img src="{{ '7-support.svg' | asset_url }}" loading="lazy" alt="Support Icon">
+              {%- when 'trolley' -%}
+              <img src="{{ '8-trolley.svg' | asset_url }}" loading="lazy" alt="Trolley Icon">
+              {%- when 'money' -%}
+              <img src="{{ '9-money.svg' | asset_url }}" loading="lazy" alt="Money Icon">
+              {%- when 'credit_card' -%}
+              <img src="{{ '10-credit-card.svg' | asset_url }}" loading="lazy" alt="Credit Card Icon">
+              {%- when 'gift_card' -%}
+              <img src="{{ '11-gift-card.svg' | asset_url }}" loading="lazy" alt="Gift Card Icon">
+              {%- endcase -%}
+            </div>
+            {%- endif -%}
+            {%- endif -%}
+            <div class="ltn__feature-info">
+              {%- if block.settings.service_title != '' -%}
+              <h4>{{ block.settings.service_title }}</h4>
+              {%- endif -%}
+              {%- if block.settings.service_content != '' -%}
+              {{ block.settings.service_content }}
+              {%- endif -%}
+            </div>
+          </div>
+          {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%- endif -%}
+
+
+{% schema %}
+  {
+    "name": "Service",
+    "settings": [
+            {
+              "type": "radio",
+              "id": "service_style_handle",
+              "label": "Service Style",
+              "options":[
+                    {
+                        "label": "Style 1",
+                        "value": "style_1"
+                    },
+                    {
+                        "label": "Style 2",
+                        "value": "style_2"
+                    }
+                ],
+                "default": "style_1"
+            },
+        {
+          "type": "checkbox",
+          "id": "large_width_enable",
+          "label": "Large Width Enable",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "margin_top_minus",
+          "label": "Margin Top Minus Enable",
+          "default": false,
+          "info": "Enable the field for Margin bottom minus -65px, only applicable for 'Style 2'"
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#071c1f"
+        },
+        {
+          "type": "color",
+          "id": "content_color",
+          "label": "Content Color",
+          "default": "#071c1f"
+        },
+        {
+          "type": "color",
+          "id": "half_bg_color",
+          "label": "Half BG Color",
+          "default": "#F2F6F7",
+          "info": "Half BG Color only applicable for 'Style 1'"
+        }
+	],
+	"blocks":[
+          {
+            "type": "service",
+            "name": "Service",
+			"limit": 4,
+            "settings": [
+              {
+                "type": "header",
+                "content": "Icon"
+              },
+              {
+                "type": "checkbox",
+                "id": "icon_image_enable",
+                "label": "Show Icon Image",
+                "default": true
+              },
+              {
+                "type": "image_picker",
+                "id": "service_icon",
+                "label": "Image",
+              	"info": "Recommended Size: 50 x 50px"
+              },
+              {
+                "type": "select",
+                "id": "icon_image_select",
+                "label": "Select Icon",
+                "options":[
+                      {
+                          "label": "Truck",
+                          "value": "truck"
+                      },
+                      {
+                          "label": "Madel",
+                          "value": "madel"
+                      },
+                      {
+                          "label": "Return",
+                          "value": "return"
+                      },
+                      {
+                          "label": "Support",
+                          "value": "support"
+                      },
+                      {
+                          "label": "Trolley",
+                          "value": "trolley"
+                      },
+                      {
+                          "label": "Money",
+                          "value": "money"
+                      },
+                      {
+                          "label": "Credit Card",
+                          "value": "credit_card"
+                      },
+                      {
+                          "label": "Gift Card",
+                          "value": "gift_card"
+                      }
+                  ],
+                  "default": "truck",
+                  "info": "This field will take effect if you do not add an icon image"
+              },
+              {
+                "type": "header",
+                "content": "Content"
+              },
+              {
+                "type": "text",
+                "id": "service_title",
+                "label": "Title",
+                "default": "Free Shipping"
+              },
+              {
+                "type": "richtext",
+                "id": "service_content",
+                "label": "Content",
+                "default": "<p>Provide free home delivery for all product over $100</p>"
+              },
+              {
+                "type": "header",
+                "content": "Column",
+          		"info": "It's only applicable for 'Style 1'"
+              },
+              {
+                "type": "range",
+                "id": "service_column",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Desktop",
+                "unit": "/12",
+                "default": 3
+              },
+              {
+                "type": "range",
+                "id": "service_column_md",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Tablet",
+                "unit": "/12",
+                "default": 6
+              },
+              {
+                "type": "range",
+                "id": "service_column_sm",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Mobile",
+                "unit": "/12",
+                "default": 12
+              }
+            ]
+         },
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Service",
+		  "category": "7. service",
+		  "blocks":[
+				{
+					"type": "service"
+				},
+				{
+					"type": "service"
+				},
+				{
+					"type": "service"
+				},
+				{
+					"type": "service"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

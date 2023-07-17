@@ -1,0 +1,5 @@
+<!-- Your update file include here -->
+<script src="{{ 'core.js' | asset_url }}"></script>
+{%- if content_for_layout contains 'data-countdown' -%}
+<script src="{{ 'the-final-countdown.js' | asset_url }}" async="async"></script>
+{%- endif -%}

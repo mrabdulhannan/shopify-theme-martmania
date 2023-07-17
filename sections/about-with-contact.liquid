@@ -1,0 +1,402 @@
+<div class="ltn__about-us-area" id="section-{{ section.id }}" data-section="aboutWithContact">
+  <div class="container">
+    <div class="row">
+      {%- if section.settings.about_information_enable -%}
+      <div class="col-lg-7 align-self-center">
+        <div class="about-us-info-wrap">
+          <div class="section-title-area ltn__section-title-2">
+            {%- if section.settings.sub_title != '' -%}
+            <h6 class="section-subtitle ltn__secondary-color">{{ section.settings.sub_title }}</h6>
+            {%- endif -%}
+            {%- if section.settings.title != '' -%}
+            <h1 class="section-title">{{ section.settings.title }}</h1>
+            {%- endif -%}
+            {%- if section.settings.blockquote_content != '' -%}
+            {{ section.settings.blockquote_content }}
+            {%- endif -%}
+          </div>
+          {%- if section.settings.main_content != '' or section.settings.title_with_link != '' -%}
+          <div class="about-us-info-wrap-inner about-us-info-devide">
+            {%- if section.settings.main_content != '' -%}
+            {{ section.settings.main_content }}
+            {%- endif -%}
+            {%- if section.settings.title_with_link != '' -%}
+            <div class="list-item-with-icon">
+              <ul>
+                {{ section.settings.title_with_link }}
+              </ul>
+            </div>
+            {%- endif -%}
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endif -%}
+      {%- if section.settings.contact_fomr_enable -%}
+      <div class="col-lg-5 align-self-center">
+        <div class="get-a-quote-wrap">
+          <h2>{{ section.settings.contact_form_title }}</h2>
+          {%- form 'contact', class: 'get-a-quote-form' -%}
+          {%- if form.posted_successfully? -%}
+          <p class="note form-success">{{ 'contact.form.post_success' | t }}</p>
+          {%- endif -%}
+          {{ form.errors | default_errors }}
+          <div class="input-item input-item-name ltn__custom-icon">
+            <input type="text" placeholder="{{ section.settings.name_placeholder }}" class="{% if form.errors contains 'name' %}error{% endif %}" name="contact[name]" id="ContactFormName" value="{% if form.name %}{{ form.name }}{% elsif customer.name %}{{ customer.name }}{% endif %}">
+          </div>
+          <div class="input-item input-item-email ltn__custom-icon">
+            <input type="email" placeholder="{{ section.settings.email_placeholder }}" class="{% if form.errors contains 'email' %}error{% endif %}" name="contact[email]" id="ContactFormEmail" value="{% if form.email %}{{ form.email }}{% elsif customer.email %}{{ customer.email }}{% endif %}">
+          </div>
+          {%- if section.settings.select_option_enable -%}
+          <div class="input-item">
+            <select id="ContactFormCartType" name="contact[CartType]" class="nice-select">
+              {{ section.settings.select_option_title_value }}
+            </select>
+          </div>
+          {%- endif -%}
+          <div class="btn-wrapper mt-0">
+            <button type="submit" class="btn theme-btn-1 btn-effect-1">{{ section.settings.button_title }}</button>
+          </div>
+          {%- endform -%}
+        </div>
+      </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }} .theme-btn-1 {
+    background-color: {{ section.settings.button_bg_color }};
+    color: {{ section.settings.button_text_color }};
+  }
+  #section-{{ section.id }} .btn-effect-1:hover {
+    color: {{ section.settings.button_text_hover_color }};
+  }
+  #section-{{ section.id }} .theme-btn-1:hover {
+    background-color: {{ section.settings.button_bg_hover_color }};
+  }
+</style>
+{%- endif -%}
+
+{%- render 'section-style' -%}
+
+{% schema %}
+  {
+    "name": "About with Contact",
+    "settings": [
+        {
+          "type": "header",
+          "content": "About Information"
+        },
+        {
+          "type": "checkbox",
+          "id": "about_information_enable",
+          "label": "About Information Enable",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "sub_title",
+          "label": "Sub Title",
+          "default": "// Sub Title"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title",
+		  "default": "Title <span>.</span>",
+		  "info": "Use <span> Tag for Highlight text"
+        },
+        {
+          "type": "richtext",
+          "id": "blockquote_content",
+          "label": "Blockquote Content",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>"
+        },
+        {
+          "type": "richtext",
+          "id": "main_content",
+          "label": "Main Content",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>"
+        },
+        {
+          "type": "html",
+          "id": "title_with_link",
+          "label": "Title with Link",
+          "default": "<li><a href='contact.html'>24/7 Online Support</a></li><li><a href='team.html'>Expert Team</a></li>"
+        },
+        {
+          "type": "header",
+          "content": "Contact Form"
+        },
+        {
+          "type": "checkbox",
+          "id": "contact_fomr_enable",
+          "label": "Contact Form Enable",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "contact_form_title",
+          "label": "Title",
+          "default": "Get a Quote"
+        },
+        {
+          "type": "text",
+          "id": "name_placeholder",
+          "label": "Name Title",
+          "default": "Enter your name"
+        },
+        {
+          "type": "text",
+          "id": "email_placeholder",
+          "label": "Email Title",
+          "default": "Enter your email"
+        },
+        {
+          "type": "checkbox",
+          "id": "select_option_enable",
+          "label": "Show Select Option",
+          "default": true
+        },
+        {
+          "type": "html",
+          "id": "select_option_title_value",
+          "label": "Select Option Title Value",
+          "default": "<option value='no_car_type_selected'>Select Car Type</option><option value='new_car'>New Car</option><option value='used_car'>Used Car</option>"
+        },
+        {
+          "type": "text",
+          "id": "button_title",
+          "label": "Button Title",
+          "default": "Get an Appointment"
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color",
+          "label": "Button text Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_color",
+          "label": "Button BG Color",
+          "default": "#e53e29"
+        },
+        {
+          "type": "color",
+          "id": "button_text_hover_color",
+          "label": "Button text Hover Color",
+          "default": "#071c1f"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_hover_color",
+          "label": "Button BG Hover Color",
+          "default": "#071c1f"
+        }
+	],
+	"blocks":[
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 95
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 55
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 35
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "About with Contact",
+		  "category": "5. about",
+		  "blocks":[
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

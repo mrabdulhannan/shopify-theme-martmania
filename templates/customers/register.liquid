@@ -1,0 +1,44 @@
+<div class="customer-page theme-default-margin">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
+        <div class="login">
+          <div class="login-form-container">
+            <div class="login-text">
+              <h2>{{ 'customer.register.title' | t }}</h2>
+              {% if settings.register_sub_text != '' %}
+              <p>{{ settings.register_sub_text }}</p>
+              {% endif %}
+            </div>
+            <div class="register-form">
+              {% form 'create_customer' %}
+
+              {{ form.errors | default_errors }}
+              <label for="FirstName" class="hidden-label">{{ 'customer.register.first_name' | t }}</label>
+              <input type="text" name="customer[first_name]" id="FirstName" class="input-full" placeholder="{{ 'customer.register.first_name' | t }}" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autocapitalize="words" autofocus>
+
+              <label for="LastName" class="hidden-label">{{ 'customer.register.last_name' | t }}</label>
+              <input type="text" name="customer[last_name]" id="LastName" class="input-full" placeholder="{{ 'customer.register.last_name' | t }}" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} autocapitalize="words">
+
+              <label for="Email" class="hidden-label">{{ 'customer.register.email' | t }}</label>
+              <input type="email" name="customer[email]" id="Email" class="input-full{% if form.errors contains 'email' %} error{% endif %}" placeholder="{{ 'customer.register.email' | t }}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off">
+
+              <label for="CreatePassword" class="hidden-label">{{ 'customer.register.password' | t }}</label>
+              <input type="password" name="customer[password]" id="CreatePassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}" placeholder="{{ 'customer.register.password' | t }}">
+
+              <div class="form-action-button">
+                <button type="submit" class="theme-default-button">{{ 'customer.register.submit' | t }}</button>
+              </div>
+              {% endform %}
+              
+              <div class="account-optional-action">
+              	<a href="{{ shop.url }}">{{ 'customer.register.cancel' | t }}</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

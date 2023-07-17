@@ -1,0 +1,88 @@
+<div class="methods-of-payment">
+  {%- if block.settings.secure_badge_enable -%}
+  <a
+     href="https://www.shopify.com/security/pci-compliant?utm_medium=shop&utm_source=secure"
+     title="This online store is secured by Shopify"
+     target="_blank"
+     rel="nofollow"
+     >
+    <img
+         src="https://cdn.shopify.com/s/images/badges/shopify-secure-badge-white.svg"
+         alt="Shopify secure badge"
+         loading="lazy"
+         >
+  </a>
+  {%- endif -%}
+  {%- if shop.enabled_payment_types and block.settings.payment_icon == 'automatic' -%}
+  {%- for type in shop.enabled_payment_types -%}
+  <img loading="lazy" src="{{ type | payment_type_img_url }}" height="35" alt="{{ type }}" />
+  {%- endfor -%}
+  {%- elsif block.settings.payment_icon == 'custom_icon' -%}
+
+  {%- if block.settings.amazon_payments -%}
+  <img loading="lazy" src="{{ 'amazon_payments' | payment_type_img_url }}" height="35" alt="amazon payments" />
+  {%- endif -%}
+  {%- if block.settings.american_express -%}
+  <img loading="lazy" src="{{ 'american_express' | payment_type_img_url }}" height="35" alt="american express" />
+  {%- endif -%}
+  {%- if block.settings.apple_pay -%}
+  <img loading="lazy" src="{{ 'apple_pay' | payment_type_img_url }}" height="35" alt="apple pay" />
+  {%- endif -%}
+  {%- if block.settings.bitcoin -%}
+  <img loading="lazy" src="{{ 'bitcoin' | payment_type_img_url }}" height="35" alt="bitcoin" />
+  {%- endif -%}
+  {%- if block.settings.dankort -%}
+  <img loading="lazy" src="{{ 'dankort' | payment_type_img_url }}" height="35" alt="dankort" />
+  {%- endif -%}
+  {%- if block.settings.diners_club -%}
+  <img loading="lazy" src="{{ 'diners_club' | payment_type_img_url }}" height="35" alt="diners club" />
+  {%- endif -%}
+  {%- if block.settings.discover -%}
+  <img loading="lazy" src="{{ 'discover' | payment_type_img_url }}" height="35" alt="discover" />
+  {%- endif -%}
+  {%- if block.settings.dogecoin -%}
+  <img loading="lazy" src="{{ 'dogecoin' | payment_type_img_url }}" height="35" alt="dogecoin" />
+  {%- endif -%}
+  {%- if block.settings.dwolla -%}
+  <img loading="lazy" src="{{ 'dwolla' | payment_type_img_url }}" height="35" alt="dwolla" />
+  {%- endif -%}
+  {%- if block.settings.forbrugsforeningen -%}
+  <img loading="lazy" src="{{ 'forbrugsforeningen' | payment_type_img_url }}" height="35" alt="forbrugsforeningen" />
+  {%- endif -%}
+  {%- if block.settings.google_pay -%}
+  <img loading="lazy" src="{{ 'google_pay' | payment_type_img_url }}" height="35" alt="google pay" />
+  {%- endif -%}
+  {%- if block.settings.jcb -%}
+  <img loading="lazy" src="{{ 'jcb' | payment_type_img_url }}" height="35" alt="jcb" />
+  {%- endif -%}
+  {%- if block.settings.klarna -%}
+  <img loading="lazy" src="{{ 'klarna' | payment_type_img_url }}" height="35" alt="klarna" />
+  {%- endif -%}
+  {%- if block.settings.litecoin -%}
+  <img loading="lazy" src="{{ 'litecoin' | payment_type_img_url }}" height="35" alt="litecoin" />
+  {%- endif -%}
+  {%- if block.settings.maestro -%}
+  <img loading="lazy" src="{{ 'maestro' | payment_type_img_url }}" height="35" alt="maestro" />
+  {%- endif -%}
+  {%- if block.settings.master -%}
+  <img loading="lazy" src="{{ 'master' | payment_type_img_url }}" height="35" alt="master" />
+  {%- endif -%}
+  {%- if block.settings.paypal -%}
+  <img loading="lazy" src="{{ 'paypal' | payment_type_img_url }}" height="35" alt="paypal" />
+  {%- endif -%}
+  {%- if block.settings.shopify_pay -%}
+  <img loading="lazy" src="{{ 'shopify_pay' | payment_type_img_url }}" height="35" alt="shopify pay" />
+  {%- endif -%}
+  {%- if block.settings.sofort -%}
+  <img loading="lazy" src="{{ 'sofort' | payment_type_img_url }}" height="35" alt="sofort" />
+  {%- endif -%}
+  {%- if block.settings.visa -%}
+  <img loading="lazy" src="{{ 'visa' | payment_type_img_url }}" height="35" alt="visa" />
+  {%- endif -%}
+  {%- endif -%}
+</div>
+
+<style>
+  .methods-of-payment img { padding: 0.2em; }
+  .lt-ie9 .methods-of-payment, .ie8 .methods-of-payment, .oldie .methods-of-payment { display: none; }
+</style>

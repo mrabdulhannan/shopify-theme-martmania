@@ -1,0 +1,432 @@
+{%- if section.settings.collection_filtering_handle == 'storefront_filtering' -%}
+<aside class="store-front-filter sidebar ltn__shop-sidebar shop-sidebar {% unless section.settings.large_width_sidebar %}sidebar-small-width{% endunless %}">
+  <form class="filter-form" name="storefrontfilter" id="storefrontfilter">
+    <div class="widget ltn__tagcloud-widget selected-filter-value">
+      <ul>
+        {%- for filter in collection.filters -%}
+        {% if filter.type == "price_range"  %}
+        {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+        <li>
+          <a class="active-filter-data-remove" href="{{ filter.url_to_remove }}">
+            {%- assign min_value = filter.min_value.value | default: 0 -%}
+            {%- assign max_value = filter.max_value.value | default: filter.range_max -%}
+            {{ min_value | money }} - {{ max_value | money }} <i class="icon-cancel"></i>
+          </a>
+        </li>
+        {%- endif -%}
+        {% endif %}
+        {%- for filter_value in filter.active_values -%}
+        <li>
+          <a class="active-filter-data-remove" href="{{ filter_value.url_to_remove }}">
+            {{ filter_value.label }} <i class="icon-cancel"></i>
+          </a>
+        </li>
+        {%- endfor -%}
+        {%- endfor -%}
+        <li class="active">
+          <a href="{{ collection.url }}" class="active-filters-clear">Clear all</a>
+        </li>
+      </ul>
+    </div>
+    
+    {%- for filter in collection.filters -%}
+    {%- case filter.type -%}
+    {%- when 'list' -%}
+    
+    <div class="widget ltn__menu-widget widget-collapse">
+      <h4 class="ltn__widget-title ltn__widget-title-border {% unless forloop.first or filter.active_values.size > 0 %}widget-collapse-show{% endunless %}">{{ filter.label }} <span></span></h4>
+      
+      <div class="widget-collapse-hide" {% unless forloop.first or filter.active_values.size > 0 %}style="display: none;"{% endunless %}>
+        {%- if filter.active_values.size > 0 -%}
+        <div class="each-filter-value-counter">
+          <span class="filter-selected-value">{{ filter.active_values.size }} selected</span>
+          <a href="{{ filter.url_to_remove }}" class="filter-selected-value-reset">Reset</a>
+        </div>
+        {%- endif -%}
+        <ul>
+          {%- for filter_value in filter.values -%}
+          <li>
+            <div class="filter-value-checkbox">
+              <input type="checkbox"
+                     name="{{ filter_value.param_name }}"
+                     value="{{ filter_value.value }}"
+                     id="filter-{{ filter.label | handle }}-{{ forloop.index }}"
+                     {% if filter_value.active -%}checked{%- endif %}
+                    {% if filter_value.count == 0 and filter_value.active == false %}disabled{% endif %}
+                     class="filter-value-input"
+                     >
+              <label for="filter-{{ filter.label | handle }}-{{ forloop.index }}" class="filter-value-control-label">{{ filter_value.label | escape }} <span>({{ filter_value.count }})</span></label>
+            </div>
+          </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+    
+    {%- when 'price_range' -%}
+    <div class="widget ltn__menu-widget widget-collapse">
+      <h4 class="ltn__widget-title ltn__widget-title-border">{{ filter.label }} <span></span></h4>
+      
+      <div class="widget-collapse-hide">
+        {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+        <div class="each-filter-value-counter">
+          <span class="filter-selected-value">
+          {%- assign min_value = filter.min_value.value | default: 0 -%}
+              {%- assign max_value = filter.max_value.value | default: filter.range_max -%}
+              Price: {{ min_value | money }} - {{ max_value | money }}
+          </span>
+          <a href="{{ filter.url_to_remove }}" class="filter-selected-value-reset">Reset</a>
+        </div>
+        {%- endif -%}
+        <div class="price-filter-widget">
+          <div class="sidebar-price-filter price_filter">
+            <div class="filter-range-from">
+              <label for="filter-{{ filter.label }}-form">From <span>{{ cart.currency.symbol }}</span></label>
+              <input name="{{ filter.min_value.param_name }}"
+                     id="filter-{{ filter.label }}-form"
+                     {% if filter.min_value.value -%}
+                     value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                     {%- endif %}
+                    type="number"
+                     placeholder="0"
+                     min="0"
+                     max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                     >
+            </div>
+            <div class="filter-price-range-to">
+              <label for="filter-{{ filter.label }}-to">To <span>{{ cart.currency.symbol }}</span></label>
+              <input name="{{ filter.max_value.param_name }}"
+                     id="filter-{{ filter.label }}-to"
+                     {% if filter.max_value.value -%}
+                     value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                     {%- endif %}
+                    type="number"
+                     placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                     min="0"
+                     max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                     >
+            </div>
+          </div>
+          <button class="btn theme-btn-1 btn-effect-1" type="submit">Filter</button>
+        </div>
+      </div>
+    </div>
+    {%- endcase -%}
+    {%- endfor -%}
+  </form>
+</aside>
+
+<script>  
+  /* Slidebar collapse */ 
+  $('.widget-collapse .ltn__widget-title').on("click", function(){
+    $(this).siblings('.widget-collapse-hide').slideToggle();
+    $(this).toggleClass('widget-collapse-show');
+  });
+  
+  $('input[type="checkbox"]').click(function() {
+    setTimeout(function() {
+      $('form[name="storefrontfilter"]').submit();
+    }, 500);
+  });
+</script>
+{%- elsif section.settings.collection_filtering_handle == 'tag_filtering' -%}
+<aside class="sidebar ltn__shop-sidebar shop-sidebar {% unless section.settings.large_width_sidebar %}sidebar-small-width{% endunless %}">
+  {%- for block in section.blocks -%}
+  {%- case block.type -%}
+  
+  {%- when 'recent-view' -%}
+  {%- render 'recent-view', block: block -%}
+  
+  {%- when 'category' -%}
+  <div class="widget ltn__menu-widget">
+    {%- if block.settings.widget_title != '' -%}
+    <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+    {%- endif -%}
+    <ul>
+      {%- assign categories_list_limit = block.settings.categories_list_limit_hanlde -%}
+      {%- for c in collections limit: categories_list_limit -%}
+      <li class="{% if collection and collection.handle == c.handle %}active{% endif %}"><a href="{{ c.url }}">{{ c.title }} <span>({{ c.products_count }})</span></a></li>
+      {%- endfor -%}
+    </ul>
+  </div>
+  {%- when 'vendor' -%}
+  <div class="widget ltn__menu-widget">
+    {%- if block.settings.widget_title != '' -%}
+    <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+    {%- endif -%}
+    <ul>
+      {% assign vendors_list_limit = block.settings.vendors_list_limit_hanlde %}
+      {% for product_vendor in collection.all_vendors limit: vendors_list_limit %}
+      <li class="{% if collection.current_vendor %}active{% endif %}"><a href="{{ product_vendor | url_for_vendor }}">{{ product_vendor }}</a></li>
+      {%- endfor -%}
+    </ul>
+  </div>
+  {%- when 'type' -%}
+  <div class="widget ltn__menu-widget">
+    {%- if block.settings.widget_title != '' -%}
+    <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+    {%- endif -%}
+    <ul>
+      {% assign types_list_limit = block.settings.types_list_limit_hanlde %}
+        {% for product_type in collection.all_types limit: types_list_limit %}
+      <li class="{% if collection.current_type %}active{% endif %}"><a href="{{ product_type | url_for_vendor }}">{{ product_type }}</a></li>
+      {%- endfor -%}
+    </ul>
+  </div>
+  {% when 'search' %}
+  <div class="widget ltn__search-widget">
+    {%- if block.settings.widget_title != '' -%}
+    <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+    {%- endif -%}
+    <form action="/search" method="get" role="search">
+      <input type="hidden" name="type" value="product">
+      <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" aria-label="{{ 'general.search.placeholder' | t }}">
+      <button type="submit"><i class="fas fa-search"></i></button>
+    </form>
+  </div>
+  {%- when 'tag' -%}
+  <div class="widget ltn__tagcloud-widget">
+    {%- if block.settings.widget_title != '' -%}
+    <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+    {%- endif -%}
+    <ul>
+      {%- assign tags_list_limit = block.settings.tags_list_limit_hanlde -%}    
+      <li{% unless current_tags %} class="active"{% endunless %}>
+        {%- if collection.handle -%}
+        <a href="/collections/{{ collection.handle }}{% if collection.sort_by %}?sort_by={{ collection.sort_by }}{% endif %}">All</a>
+        {%- elsif collection.current_type -%}
+        <a href="{{ collection.current_type | url_for_type | sort_by: collection.sort_by }}">All</a>
+        {%- elsif collection.current_vendor -%}
+        <a href="{{ collection.current_vendor | url_for_vendor | sort_by: collection.sort_by }}">All</a>
+        {% endif %}
+      </li>
+      {%- for tag in collection.all_tags limit: tags_list_limit -%}
+      {%- if current_tags contains tag -%}
+      <li class="active">
+        {{ tag | link_to_remove_tag: tag }}
+      </li>
+      {%- else -%}
+      <li>
+        {{ tag | link_to_tag: tag }}
+      </li>
+      {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+  {%- when 'size' -%}
+  <div class="widget ltn__tagcloud-widget ltn__size-widget">
+    {%- if block.settings.widget_title != '' -%}
+    <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+    {%- endif -%}
+    <ul>
+      {%- assign tags = block.settings.size_picker | replace: ', ', ',' | replace: ' ,', ',' | split: ',' -%}
+      {%- assign size_list_limit = block.settings.size_list_limit_hanlde -%}
+      {%- for t in tags limit: size_list_limit -%}
+      {%- assign tag = t | strip -%}
+      {%- if current_tags contains tag -%}
+      <li class="active">
+        {{ tag | link_to_remove_tag: tag }}
+      </li>
+      {%- elsif collection.all_tags contains tag -%}
+      <li>
+        {{ tag | link_to_add_tag: tag }}
+      </li>
+      {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+  {%- when 'color' -%}
+  <div class="widget ltn__color-widget">
+    {%- if block.settings.widget_title != '' -%}
+    <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+    {%- endif -%}
+    <ul>
+      {%- assign tags = block.settings.color_picker | replace: ', ', ',' | replace: ' ,', ',' | split: ',' -%}
+      {%- assign colors_list_limit = block.settings.colors_list_limit_hanlde -%}
+      {%- for t in tags limit: colors_list_limit -%}
+      {%- assign tag = t | strip -%}
+      {%- if current_tags contains tag -%}
+      <li class="active {{ tag }}">
+        {{ tag | link_to_remove_tag: tag }}
+      </li>
+      {%- elsif collection.all_tags contains tag -%}
+      <li class="{{ tag }}">
+        {{ tag | link_to_add_tag: tag }}
+      </li>
+      {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+  {%- when 'banner' -%}
+  {%- capture i -%}{%- cycle 1, 2, 3, 4, 5, 6 -%}{%- endcapture -%}
+  <div class="widget ltn__banner-widget">
+    {%- if block.settings.banner_image != blank and block.settings.banner_image_url != blank -%}
+    {%- assign image = block.settings.banner_image -%}
+    <a href="{{ block.settings.banner_url }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+      <img srcset="{% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                   {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                   {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                   {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                   {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                   {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w,{% endif %}
+                   {% if image.width >= 770 %}{{ image | img_url: '770x' }} 1100w,{% endif %}
+                   {% if image.width >= 900 %}{{ image | img_url: '900x' }} 900w,{% endif %}
+                   {% if image.width >= 970 %}{{ image | img_url: '970x' }} 970w,{% endif %}
+                   {% if image.width >= 1100 %}{{ image | img_url: '1100x' }} 1100w,{% endif %}
+                   {% if image.width >= 1200 %}{{ image | img_url: '1200x' }} 1200w,{% endif %}"
+           loading="lazy"
+           src="{{ image | img_url: '600x' }}"
+           sizes="100vw"
+           width="{{ image.width }}"
+           height="{{ image.height }}"
+           alt="{{ image.alt | escape }}"
+           class="image-position-size"
+           >
+    </a>
+    {%- elsif block.settings.banner_image != blank -%}
+    {%- assign image = block.settings.banner_image -%}
+    <span class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+      <img srcset="{% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                   {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                   {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                   {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                   {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                   {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w,{% endif %}
+                   {% if image.width >= 770 %}{{ image | img_url: '770x' }} 1100w,{% endif %}
+                   {% if image.width >= 900 %}{{ image | img_url: '900x' }} 900w,{% endif %}
+                   {% if image.width >= 970 %}{{ image | img_url: '970x' }} 970w,{% endif %}
+                   {% if image.width >= 1100 %}{{ image | img_url: '1100x' }} 1100w,{% endif %}
+                   {% if image.width >= 1200 %}{{ image | img_url: '1200x' }} 1200w{% endif %}"
+           loading="lazy"
+           src="{{ image | img_url: '600x' }}"
+           sizes="100vw"
+           width="{{ image.width }}"
+           height="{{ image.height }}"
+           alt="{{ image.alt | escape }}"
+           class="image-position-size"
+           >
+    </span>
+    {%- else -%}
+    {{ 'collection-' | append: i | placeholder_svg_tag: 'banner-svg-image' }}
+    {%- endif -%}
+  </div>
+  {%- when 'menu' -%}
+  <div class="widget ltn__menu-widget category-sub-menu">
+    {%- if block.settings.widget_title != '' -%}
+    <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+    {%- endif -%}
+    <ul>
+      {%- assign menu = block.settings.menu_handle -%}
+      {%- for link in linklists[menu].links -%}
+      {%- assign childlink_handle = link.title | handle -%}
+      {%- if linklists[childlink_handle] and linklists[childlink_handle].links.size > 0 -%}
+      <li class="has-sub {% if link.active %}active{% endif %}"><a href="{{ link.url }}">{{ link.title }}</a><span></span>
+        <ul>
+          {%- for childlink in linklists[childlink_handle].links -%}
+          <li><a href="{{ childlink.url }}">{{ childlink.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </li>
+      {%- else -%}
+      <li class="{% if link.active %}active{% endif %}"><a href="{{ link.url }}">{{ link.title }}</a></li>
+      {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+  {%- when 'collection' -%}
+  <div class="widget ltn__top-rated-product-widget">
+    {%- assign featured_product = collections[block.settings.featured_product_handle] -%}
+    {%- assign featured_product_limit = block.settings.featured_product_limit_handle -%}
+    {%- if block.settings.widget_title != '' -%}
+    <h4 class="ltn__widget-title ltn__widget-title-border">{{ block.settings.widget_title }}</h4>
+    {%- endif -%}
+    <ul>
+      {%- if featured_product == empty -%}
+      {% assign a = 1 %}
+      {% for i in (1..featured_product_limit) %}
+      {% assign product_item = "product-" | append: a  %}
+      {% assign a = a | plus: 1 %}
+      <li>
+        <div class="top-rated-product-item clearfix">
+          <div class="top-rated-product-img">
+            {{ product_item | placeholder_svg_tag: 'product-svg-image' }}
+          </div>
+          <div class="top-rated-product-info">
+            <h6>Product Title</h6>
+            <div class="product-price">
+              <span>$199.00</span>
+            </div>
+          </div>
+        </div>
+      </li>
+      {% if a == 7 %}
+      {% assign a = 1 %}
+      {% endif %}
+      {% endfor %}
+      {%- else -%}
+      {% for product in featured_product.products limit: featured_product_limit %}
+      <li>
+        <div class="top-rated-product-item clearfix">
+          <div class="top-rated-product-img">
+            {%- assign image = product.featured_image.src -%}
+            <a href="{{ product.url | within: collection }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+              <img srcset="{% if image.width >= 90 %}{{ image | img_url: '90x' }} 90w,{% endif %}
+                           {% if image.width >= 150 %}{{ image | img_url: '152x' }} 152w,{% endif %}
+                           {% if image.width >= 243 %}{{ image | img_url: '266x' }} 266w,{% endif %}
+                           {% if image.width >= 366 %}{{ image | img_url: '366x' }} 366w,{% endif %}
+                           {% if image.width >= 576 %}{{ image | img_url: '576x' }} 576w,{% endif %}
+                           {% if image.width >= 600 %}{{ image | img_url: '600x' }} 600w{% endif %}"
+                   src="{{ image | img_url: '90x' }}"
+                   sizes="50vw"
+                   width="{{ image.width }}"
+                   height="{{ image.height }}"
+                   alt="{{ image.alt | escape }}"
+                   loading="lazy"
+                   class="image-position-size popup_cart_image"
+                   >
+            </a>
+          </div>
+          <div class="top-rated-product-info">
+            {%- if settings.product_review_enable -%}
+            <div class="product-ratting">
+              <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+            </div>
+            {%- endif -%}
+            <h6><a href="{{ product.url | within: collection }}">{{ product.title }}</a></h6>
+            <div class="product-price">
+              <span>{{ product.variants.first.price | money }}</span>
+              {%- if product.variants.first.compare_at_price > product.variants.first.price -%}
+              <del>{{ product.variants.first.compare_at_price | money }}</del>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+      {%- endif -%}
+    </ul>
+  </div>
+  
+  {%- endcase -%}
+  {%- endfor -%}
+</aside>
+<script>
+  $(".ltn__shop-sidebar li.active a").removeAttr("href");
+  $('.category-sub-menu li.has-sub > a').on('click', function () {
+    $(this).removeAttr('href');
+    var element = $(this).parent('li');
+    if (element.hasClass('open')) {
+      element.removeClass('open');
+      element.find('li').removeClass('open');
+      element.find('ul').slideUp();
+    } else {
+      element.addClass('open');
+      element.children('ul').slideDown();
+      element.siblings('li').children('ul').slideUp();
+      element.siblings('li').removeClass('open');
+      element.siblings('li').find('li').removeClass('open');
+      element.siblings('li').find('ul').slideUp();
+    }
+  }); 
+</script>
+{%- endif -%}

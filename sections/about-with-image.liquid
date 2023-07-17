@@ -1,0 +1,466 @@
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }} .theme-btn-1 {
+    background-color: {{ section.settings.button_bg_color }};
+    color: {{ section.settings.button_text_color }};
+  }
+  #section-{{ section.id }} .btn-effect-1:hover {
+    color: {{ section.settings.button_text_hover_color }};
+  }
+  #section-{{ section.id }} .theme-btn-1:hover {
+    background-color: {{ section.settings.button_bg_hover_color }};
+  }
+</style>
+{%- endif -%}
+
+{%- render 'section-style' -%}
+
+<div class="ltn__about-us-area" id="section-{{ section.id }}" data-section="aboutWithImage">
+  <div class="container">
+    <div class="row">
+      {%- if section.settings.about_image_enable -%}
+      <div class="col-lg-6 align-self-center">        
+        <div class="about-us-img-wrap about-img-left">
+          {%- if section.settings.about_image -%}
+          {%- assign image = section.settings.about_image -%}
+          <span class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+            <img srcset="{% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                         {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                         {% if image.width >= 328 %}{{ image | img_url: '328x' }} 328w,{% endif %}
+                         {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                         {% if image.width >= 420 %}{{ image | img_url: '420x' }} 420w,{% endif %}
+                         {% if image.width >= 540 %}{{ image | img_url: '540x' }} 540w,{% endif %}
+                         {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                         {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w,{% endif %}
+                         {% if image.width >= 770 %}{{ image | img_url: '770x' }} 1100w,{% endif %}
+                         {% if image.width >= 900 %}{{ image | img_url: '900x' }} 900w,{% endif %}
+                         {% if image.width >= 970 %}{{ image | img_url: '970x' }} 970w,{% endif %}
+                         {% if image.width >= 1100 %}{{ image | img_url: '1100x' }} 1100w,{% endif %}
+                         {% if image.width >= 1200 %}{{ image | img_url: '1200x' }} 1200w{% endif %}"
+                 loading="lazy"
+                 src="{{ image | img_url: '540x' }}"
+                 sizes="100vw"
+                 width="{{ image.width }}"
+                 height="{{ image.height }}"
+                 alt="{{ image.alt | escape }}"
+                 class="image-position-size"
+                 >
+          </span>
+          {%- else -%}
+          <img src="https://via.placeholder.com/540x540" alt="Banner">
+          {%- endif -%}
+          {%- if section.settings.about_img_info_enable -%}
+          <div class="about-us-img-info about-us-img-info-2">
+            <div class="about-us-img-info-inner">
+              {%- if section.settings.about_img_title != '' -%}
+              <h1>{{ section.settings.about_img_title }}</h1>
+              {%- endif -%}
+              {%- if section.settings.about_img_title_2 != '' -%}
+              <h6>{{ section.settings.about_img_title_2 }}</h6>
+              {%- endif -%}
+              {%- if section.settings.about_img_dots_enable -%}
+              <span class="dots-bottom"></span>
+              {%- endif -%}
+            </div>
+          </div>
+          {%- endif -%}
+        </div>        
+      </div>
+      {%- endif -%}
+      {%- if section.settings.about_information_enable -%}
+      <div class="col-lg-6 align-self-center">
+        <div class="about-us-info-wrap">
+          <div class="section-title-area ltn__section-title-2">
+            {%- if section.settings.sub_title != '' -%}
+            <h6 class="section-subtitle ltn__secondary-color">{{ section.settings.sub_title }}</h6>
+            {%- endif -%}
+            {%- if section.settings.title != '' -%}
+            <h1 class="section-title">{{ section.settings.title }}</h1>
+            {%- endif -%}
+            {%- if section.settings.blockquote_content != '' -%}
+            {{ section.settings.blockquote_content }}
+            {%- endif -%}
+          </div>
+          {%- if section.settings.main_content_enable -%}
+            {%- if section.settings.main_content != '' -%}
+            {{ section.settings.main_content }}
+            {%- endif -%}
+          {%- endif -%}
+          {%- if section.settings.main_content_with_list_enable -%}
+            {%- if section.settings.main_content != '' or section.settings.title_with_link != '' -%}
+            <div class="about-us-info-wrap-inner about-us-info-devide">
+              {%- if section.settings.main_content != '' -%}
+              {{ section.settings.main_content }}
+              {%- endif -%}
+              {%- if section.settings.title_with_link != '' -%}
+              <div class="list-item-with-icon">
+                <ul>
+                  {{ section.settings.title_with_link }}
+                </ul>
+              </div>
+              {%- endif -%}
+            </div>
+            {%- endif -%}
+          {%- endif -%}
+          {%- if section.settings.show_button -%}
+          <div class="btn-wrapper mt-0">
+            <a id="Setmore_button_iframe" href="{{ section.settings.button_url }}" class="btn theme-btn-1 btn-effect-1">{{ section.settings.button_title }}</a>
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "About with Image",
+    "settings": [
+        {
+          "type": "header",
+          "content": "About Us Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "about_image_enable",
+          "label": "About Us Image Enable",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "about_image",
+          "label": "Image",
+          "info": "Recommended Size: 540 x 540px"
+        },
+        {
+          "type": "checkbox",
+          "id": "about_img_info_enable",
+          "label": "About Us Image Info Show",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "about_img_title",
+          "label": "Title",
+          "default": "25<span>+</span>"
+        },
+        {
+          "type": "text",
+          "id": "about_img_title_2",
+          "label": "Sub Title",
+          "default": "Years Experience"
+        },
+        {
+          "type": "checkbox",
+          "id": "about_img_dots_enable",
+          "label": "Show Dots Below The Image",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "About Information"
+        },
+        {
+          "type": "checkbox",
+          "id": "about_information_enable",
+          "label": "About Information Enable",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "sub_title",
+          "label": "Sub Title",
+          "default": "// Sub Title"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+		  "default": "Title <span>.</span>",
+		  "info": "Use <span> Tag for Highlight text"
+        },
+        {
+          "type": "richtext",
+          "id": "blockquote_content",
+          "label": "Blockquote Content",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "main_content_enable",
+          "label": "Show Main Content",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "main_content_with_list_enable",
+          "label": "Show Main Content With List",
+          "default": true
+        },
+        {
+          "type": "richtext",
+          "id": "main_content",
+          "label": "Main Content",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>"
+        },
+        {
+          "type": "html",
+          "id": "title_with_link",
+          "label": "Title with Link",
+          "default": "<li><a href='contact.html'>24/7 Online Support</a></li><li><a href='team.html'>Expert Team</a></li>"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_button",
+          "label": "Show Button",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "button_title",
+          "label": "Button Title",
+          "default": "Get an Appointment"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "URL",
+		  "info": "Copy the booking page URL and paste here. [Example](https://prnt.sc/16xlpkw)"
+        },
+        {
+          "type": "paragraph",
+          "content": "Configure your appointment booking system from [Setmore](https://www.setmore.com/)"
+        },
+        {
+          "type": "paragraph",
+          "content": "Follow this URL for Configure your appointment booking system (Step-1 to Step-4). [Click here](https://www.huratips.com/tech-tips/how-to-add-an-appointment-booking-system-free-to-your-shopify-store.html)"
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color",
+          "label": "Button text Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_color",
+          "label": "Button BG Color",
+          "default": "#e53e29"
+        },
+        {
+          "type": "color",
+          "id": "button_text_hover_color",
+          "label": "Button text Hover Color",
+          "default": "#071c1f"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_hover_color",
+          "label": "Button BG Hover Color",
+          "default": "#071c1f"
+        }
+	],
+	"blocks":[
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 95
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 70
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 50
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "About with Image",
+		  "category": "5. about",
+		  "blocks":[
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

@@ -1,0 +1,357 @@
+<!-- NEWSLETTER AREA START -->
+<div class="ltn__newsletter-area section-bg-1 bg-overlay-white-30" id="section-{{ section.id }}" data-section="subscribeSection">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2">
+        <div class="ltn__newsletter-inner text-center">
+          {%- if section.settings.title != '' -%}
+          <h2>{{ section.settings.title }}</h2>
+          {%- endif -%}
+          {%- if section.settings.content != '' -%}
+          {{ section.settings.content }}
+          {%- endif -%}
+          
+          {%- if settings.newsletter_system == 'by_shopify_form' -%}
+          {%- assign formId = 'Contact_' | append: section.id -%}
+          {%- form 'customer', id: formId, class: 'ltn__form-box' -%} 
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <input class="" type="email" name="contact[email]" id="email" value="{% if customer %}{{ customer.email }}{% endif %}"
+                 placeholder="{{ 'general.newsletter_form.newsletter_email'| t }}" aria-label="{{ 'general.newsletter_form.newsletter_email'| t }}" {% if form.errors %}aria-invalid="true"{% endif %} autocorrect="off" autocapitalize="off">
+          <div class="btn-wrapper">
+            <button type="submit" class="theme-btn-1 btn btn-effect-1" name="commit" id="subscribe">{{ settings.newsletter_button_name }}</button>
+          </div>
+          {%- if form.posted_successfully? -%}
+          <p class="form-message form-message--success form-success">{{ 'general.newsletter_form.confirmation'| t }}</p>
+          {%- endif -%}
+          {%- if form.errors -%}
+          <div class="form-message form-message--error">
+            {{ form.errors | default_errors }}
+          </div>
+          {%- endif -%}
+          {%- endform -%}
+          {%- elsif settings.newsletter_system == 'by_mailchimp' -%}
+          <form {% if settings.newsletter_action != '' %}action="{{ settings.newsletter_action }}"{% else %}action="#"{% endif %} method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" class="ltn__form-box">
+            <input type="email" class="" id="mail" value="{% if customer %}{{ customer.email }}{% endif %}" name="EMAIL" placeholder="{{ 'general.newsletter_form.newsletter_email'| t }}">
+            <div class="btn-wrapper">
+              <button class="theme-btn-1 btn btn-effect-1" type="submit" id="subscribe">{{ settings.newsletter_button_name }}</button>
+            </div>
+          </form>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- NEWSLETTER AREA END -->
+
+
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }} .ltn__newsletter-inner h2 {
+    color: {{ section.settings.title_color }};
+  }
+  #section-{{ section.id }} .ltn__newsletter-inner > p{
+  	color: {{ section.settings.content_color }};
+  }
+  #section-{{ section.id }} input[type="email"]{
+    background-color: {{ section.settings.input_bg_color }};
+    border-color: {{ section.settings.input_border_color }};
+    color: {{ section.settings.input_color }};
+  }
+  #section-{{ section.id }} .theme-btn-1 {
+    background-color: {{ section.settings.button_bg_color }};
+    color: {{ section.settings.button_text_color }};
+  }
+  #section-{{ section.id }} .btn-effect-1:hover {
+    color: {{ section.settings.button_text_hover_color }};
+  }
+  #section-{{ section.id }} .theme-btn-1:hover {
+    background-color: {{ section.settings.button_bg_hover_color }};
+  }
+</style>
+{%- endif -%}
+
+{%- render 'section-style' -%}
+
+{% schema %}
+  {
+    "name": "Newsletter Subscribe",
+    "settings": [
+        {
+          "type": "header",
+          "content": "Content"
+        },
+		{
+          "type": "textarea",
+          "id": "title",
+          "label": "Title",
+		  "default": "Title"
+        },
+		{
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+		  "default": "<p>Content here</p>"
+        },
+		{
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#071c1f"
+        },
+        {
+          "type": "color",
+          "id": "content_color",
+          "label": "Content Color",
+          "default": "#071c1f"
+        },{
+          "type": "color",
+          "id": "input_color",
+          "label": "Input text Color",
+          "default": "#071c1f"
+        },
+        {
+          "type": "color",
+          "id": "input_border_color",
+          "label": "Input Border Color",
+          "default": "#e4ecf2"
+        },
+        {
+          "type": "color",
+          "id": "input_bg_color",
+          "label": "Input BG Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color",
+          "label": "Button text Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_color",
+          "label": "Button BG Color",
+          "default": "#e53e29"
+        },
+        {
+          "type": "color",
+          "id": "button_text_hover_color",
+          "label": "Button text Hover Color",
+          "default": "#071c1f"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_hover_color",
+          "label": "Button BG Hover Color",
+          "default": "#071c1f"
+        }
+	],
+	"blocks":[
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 110
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 90
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 70
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 50
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 50
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 30
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 115
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 75
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 60
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#F6F9F9"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Newsletter Subscribe",
+		  "category": "6. action",
+		  "blocks":[
+				{
+					"type": "section_background"
+				},
+				{
+					"type": "section_padding"
+				},
+				{
+					"type": "section_margin"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

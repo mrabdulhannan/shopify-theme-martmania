@@ -1,0 +1,300 @@
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }} .bg-overlay-white-90:before {
+    background-color: {{ section.settings.overlay_color | color_modify: 'alpha', section.settings.overlay_color_opatity }};
+  }
+</style>
+{%- endif -%}
+
+{%- render 'section-style' -%}
+
+<div class="ltn__slider-area ltn__slider-6 mb-120---" id="section-{{ section.id }}" data-section="heroBanner2">
+  <div class="ltn__slide-one-active slick-slide-arrow-1 slick-slide-dots-1">
+    <!-- ltn__slide-item -->
+    <div class="ltn__slide-item--- ltn__slide-item-9 section-bg-1 bg-image" {% if section.settings.banner_image %}data-bg="{{ section.settings.banner_image | img_url: '1920x' }}"{% else %}data-bg="https://via.placeholder.com/1920x900"{% endif %}>
+      
+      <div class="ltn__slide-item-inner">
+        <div class="slide-item-info bg-overlay-white-90 text-center">
+          <div class="slide-item-info-inner  ltn__slide-animation">
+            {%- if section.settings.title != '' -%}
+            <h1 class="slide-title animated text-uppercase">{{ section.settings.title }}</h1>
+            {%- endif -%}
+            {%- if section.settings.sub_title != '' -%}
+            <h4 class="slide-sub-title text-uppercase animated">{{ section.settings.sub_title }}</h4>
+            {%- endif -%}
+            {%- if section.settings.button_title != '' -%}
+            <div class="btn-wrapper animated">
+              <a href="{{ section.settings.button_url }}" class="theme-btn-1 btn btn-effect-1">{{ section.settings.button_title }}</a>
+            </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <!--  -->
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Hero Banner (2)",
+    "settings": [
+		{
+          "type": "image_picker",
+          "id": "banner_image",
+          "label": "Banner Image",
+          "info": "Recommended Size: 1920 x 900px"
+      	},
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "checkbox",
+          "id": "content_enable",
+          "label": "Content Enable",
+          "default": true
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title",
+		  "default": "Title <br> Another title",
+		  "info": "Use <br> Tag for line break"
+        },
+        {
+          "type": "text",
+          "id": "sub_title",
+          "label": "Sub Title",
+          "default": "// Sub Title"
+        },
+        {
+          "type": "text",
+          "id": "button_title",
+          "label": "Button Title",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button URL"
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay Color",
+          "default": "#fff"
+        },
+        {
+          "type": "range",
+          "id": "overlay_color_opatity",
+          "min": 0.0,
+          "max": 1,
+          "step": 0.1,
+          "label": "Overlay Color Opacity",
+          "default": 0.9
+        }
+	],
+	"blocks":[
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 115
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 80
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 60
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#fff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Hero Banner (2)",
+		  "category": "1. hero/slideshow",
+		  "blocks":[
+				{
+					"type": "section_margin"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

@@ -1,0 +1,339 @@
+<!-- PRICING PLAN AREA START -->
+<div class="ltn__pricing-plan-area" id="section-{{ section.id }}" data-section="pricingTable">
+  <div class="container">
+    {%- if section.settings.section_title != '' or section.settings.section_sub_title != '' -%}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-title-area ltn__section-title-2 text-center">
+          {%- if section.settings.section_sub_title != '' -%}
+          <h6 class="section-subtitle ltn__secondary-color">{{ section.settings.section_sub_title }}</h6>
+          {%- endif -%}
+          {%- if section.settings.section_title != '' -%}
+          <h1 class="section-title">{{ section.settings.section_title }}</h1>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+    <div class="row justify-content-center mt-50">
+      {%- for block in section.blocks -%}
+      {%- case block.type -%}
+      {%- when 'pricing_table' -%}
+      {%- assign product = all_products[block.settings.product_handle] -%}
+      {%- if product == empty -%}
+      <div class="col-lg-4 col-sm-6">
+        <div class="ltn__pricing-plan-item text-center {% if block.settings.active_table %}active ---active-price{% endif %}">
+          {%- if block.settings.badge_title != '' -%}
+          <span class="pricing-badge">{{ block.settings.badge_title }}</span>
+          {%- endif -%}
+          <h2 class="pricing-title">Car Wash</h2>
+          <div class="pricing-price">
+            <h2><sup>$</sup>49<sub>/M</sub></h2>
+          </div>
+          <ul>
+            <li>Lorem, ipsum dolor</li>
+            <li>Lorem ipsum dolor sit</li>
+            <li>Lorem, ipsum dolor</li>
+            <li>Lorem ipsum dolor sit</li>
+            <li>Lorem, ipsum dolor</li>
+            <li>Lorem ipsum dolor sit</li>
+          </ul>
+          <div class="btn-wrapper">
+            <a href="#" class="theme-btn-2 btn">PURCHASE</a>
+          </div>
+        </div>
+      </div>
+      {%- else -%}
+      <div class="col-lg-4 col-sm-6">
+        <form action="/cart/add" method="post" enctype="multipart/form-data">
+          <select name="id" style="display:none;">
+            {%- for variant in product.variants -%}
+            <option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price | money }}</option>
+            {%- endfor -%}
+          </select>
+          <div class="ltn__pricing-plan-item text-center {% if block.settings.active_table %}active{% endif %}">
+            {%- if block.settings.badge_title != '' -%}
+            <span class="pricing-badge">{{ block.settings.badge_title }}</span>
+            {%- endif -%}
+            <h2 class="pricing-title">{{ product.title | remove: "Zb. " | remove: "Zc. " | remove: "Zd. " }}</h2>
+            <div class="pricing-price">
+              <h2>{{- product.price | money  -}}
+                {%- if block.settings.duration -%}
+                <sub>{{- block.settings.duration -}}</sub>
+                {%- endif -%}
+              </h2>
+            </div>
+            {{ product.description }}
+            <div class="btn-wrapper">
+              <button type="submit" class="theme-btn-2 btn">{{ block.settings.button_title }}</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      {%- endif -%}
+      {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+<!-- PRICING PLAN AREA END -->
+
+{%- render 'section-style' -%}
+
+{% schema %}
+  {
+    "name": "Pricing Table",
+    "settings": [
+		{
+		  "type": "header",
+          "content": "Section Heading"
+        },
+		{
+          "type": "text",
+          "id": "section_sub_title",
+          "label": "Section Sub Title",
+          "default": "// Sub Title"
+      	},
+		{
+          "type": "text",
+          "id": "section_title",
+          "label": "Section Title",
+          "default": "Section Title",
+		  "info": "Use <span> Tag for Highlight text"
+      	}
+    ],
+	"blocks":[
+	   {
+          "type": "pricing_table",
+          "name": "Table",
+		  "limit": 3,
+          "settings": [
+            {
+                "type": "product",
+                "id": "product_handle",
+                "label": "Select Product"
+            },
+            {
+              "type": "text",
+              "id": "duration",
+              "label": "Duration",
+              "default": "/M"
+            },
+            {
+              "type": "text",
+              "id": "button_title",
+              "label": "Button Title",
+              "default": "PURCHASE"
+            },
+            {
+              "type": "text",
+              "id": "badge_title",
+              "label": "Badge Title"
+            },
+            {
+              "type": "checkbox",
+              "id": "active_table",
+              "label": "Active Table",
+              "info": "Don't activate more than one table"
+            }
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+        {
+          "type": "section_padding",
+          "name": "Section Padding",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "header",
+              "content": "Large/Desktop Device"
+            },
+            {
+              "type": "range",
+              "id": "section_padding_top",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Top",
+              "unit": "px",
+              "default": 0
+            },
+            {
+              "type": "range",
+              "id": "section_padding_bottom",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Bottom",
+              "unit": "px",
+              "default": 120
+            },
+            {
+              "type": "header",
+              "content": "Tablet Device"
+            },
+            {
+              "type": "range",
+              "id": "section_padding_top_md",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Top",
+              "unit": "px",
+              "default": 0
+            },
+            {
+              "type": "range",
+              "id": "section_padding_bottom_md",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Bottom",
+              "unit": "px",
+              "default": 80
+            },
+            {
+              "type": "header",
+              "content": "Mobile Device"
+            },
+            {
+              "type": "range",
+              "id": "section_padding_top_xs",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Top",
+              "unit": "px",
+              "default": 0
+            },
+            {
+              "type": "range",
+              "id": "section_padding_bottom_xs",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Bottom",
+              "unit": "px",
+              "default": 60
+            }
+          ]
+        },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Pricing Table",
+		  "category": "7. service",
+		  "blocks":[
+				{
+					"type": "pricing_table"
+				},
+				{
+					"type": "pricing_table"
+				},
+				{
+					"type": "pricing_table"
+				},
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

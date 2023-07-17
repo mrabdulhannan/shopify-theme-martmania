@@ -1,0 +1,890 @@
+<!-- FOOTER AREA START (ltn__footer-2 ltn__footer-color-2) -->
+{%- assign ssfbi = section.settings.footer_top_bg_image -%}
+{%- assign sslwe = section.settings.large_width_enable -%}
+
+<footer class="ltn__footer-area" data-section="footerActive" id="section-{{ section.id }}">
+  {%- if section.settings.footer_top_enable -%}
+  {%- render 'footer-top' -%}
+  {%- endif -%}
+  {%- if section.settings.copyright_enable -%}
+  <div class="ltn__copyright-area ltn__copyright-2 {% if sslwe %}plr--9{% endif %}">
+    <div class="{% if sslwe %}container-fluid{% else %}container{% endif %}">
+      <div class="row">
+        <div class="{%- if section.settings.copyright_conten_style == 'style_3' and section.settings.menu_handle == blank -%}col-12 text-center{% else %}col-md-6 col-12{% endif %}">
+          <div class="site-logo-wrap">
+            {%- if section.settings.copyright_conten_style == 'style_1' -%}
+            {%- assign logo_size = section.settings.logo_width | append: 'x' -%}
+            {%- if section.settings.logo -%}
+            <div class="site-logo">
+              <a href="{{ routes.root_url }}">
+                <img srcset="{{ section.settings.logo | img_url: logo_size }} 1x, {{ section.settings.logo | img_url: logo_size, scale: 2 }} 2x"
+                     src="{{ section.settings.logo | img_url: logo_size }}"
+                     loading="lazy"
+                     alt="{{ section.settings.logo.alt | default: shop.name | escape }}"
+                     >
+              </a>
+            </div>
+            {%- endif -%}
+            <div class="{% if section.settings.logo %}get-support {% endif %}ltn__copyright-design clearfix">
+              <div class="get-support-info">
+                {%- if section.settings.copyright_title != '' -%}
+                <h6>{{ section.settings.copyright_title }}</h6>
+                {%- endif -%}
+                {%- if section.settings.copyright_content != '' -%}
+                <h4>{{ section.settings.copyright_content }} {% if section.settings.copyright_year_enable %}<span class="current-year"></span>{% endif %}</h4>
+                {%- endif -%}
+              </div>
+            </div>
+            {%- elsif section.settings.copyright_conten_style == 'style_2' -%}
+            <div class="ltn__copyright-design clearfix">
+              {{ section.settings.copy_ritht_text }}
+            </div>
+            {%- elsif section.settings.copyright_conten_style == 'style_3' -%}
+            <div class="ltn__copyright-design clearfix">
+              {{ section.settings.copy_ritht_text }}
+            </div>
+            {%- endif -%}
+          </div>
+        </div>
+        <div class="col-md-6 col-12 align-self-center">
+          <div class="ltn__copyright-menu text-right">
+            <ul>
+              {%- assign menu = section.settings.menu_handle -%}
+              {%- for link in linklists[menu].links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- if section.settings.section_color_enable_2 -%}
+  <style>
+    #section-{{ section.id }} .ltn__copyright-area {
+      background: {{ section.settings.copyright_bg_color }};
+      color: {{ section.settings.copyright_color }};
+      {% if section.settings.border_top_color != '' %}
+      border-top: 1px solid {{ section.settings.border_top_color }};
+      {% endif %}
+    }
+    #section-{{ section.id }} .get-support::before {
+      background-color: {{ section.settings.copyright_border_color }};
+    }
+    #section-{{ section.id }} .get-support-info h6, #section-{{ section.id }} .get-support-info h4, #section-{{ section.id }} .ltn__copyright-design p{
+      color: {{ section.settings.copyright_color }}
+    }
+  </style>
+  {%- endif -%}
+  {%- endif -%}
+</footer>
+<!-- FOOTER AREA END -->
+
+
+{% schema %}
+  {
+    "name": "Footer",
+    "settings": [
+        {
+          "type": "checkbox",
+          "id": "large_width_enable",
+          "label": "Footer Large Width Enable",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Footer Top"
+        },
+        {
+          "type": "checkbox",
+          "id": "footer_top_enable",
+          "label": "Footer Top Enable",
+          "default": true
+        },
+		{
+          "type": "image_picker",
+          "id": "footer_top_bg_image",
+          "label": "BG Image",
+          "info": "Recommended Size: 1920 x 600px"
+        },
+        {
+          "type": "header",
+          "content": "Copyright"
+        },
+        {
+          "type": "checkbox",
+          "id": "copyright_enable",
+          "label": "Copyright Enable",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "copyright_conten_style",
+          "label": "Copyright Style",
+          "options":[
+                {
+                    "label": "Style One",
+                    "value": "style_1"
+                },
+                {
+                    "label": "Style Two",
+                    "value": "style_2"
+                },
+                {
+                    "label": "Style Three",
+                    "value": "style_3"
+                }
+            ],
+            "default": "style_1"
+        },
+        {
+          "type": "link_list",
+          "id": "menu_handle",
+          "label": "Menu"
+        },
+        {
+          "type": "header",
+          "content": "Copyright Style One"
+        },    
+		{
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo"
+        },
+		{
+          "type": "range",
+          "id": "logo_width",
+          "label": "Custom logo width",
+          "min": 50,
+          "max": 300,
+          "step": 5,
+          "unit": "px",
+          "default": 150
+        },
+		{
+          "type": "text",
+          "id": "copyright_title",
+          "label": "Copyright Title",
+		  "default": "Copyright & Design By"
+		},
+		{
+          "type": "text",
+          "id": "copyright_content",
+          "label": "Copyright Content",
+		  "default": "Autixir -"
+		},
+        {
+          "type": "checkbox",
+          "id": "copyright_year_enable",
+          "label": "Year Enable",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Copyright Style Two"
+        },
+		{
+          "type": "richtext",
+          "id": "copy_ritht_text",
+          "label": "CopyRight Text",
+		  "default": "<p>Copyright ©Autixir All Right Reserved.</p>"
+		},
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+		{
+          "type": "header",
+          "content": "Footer Top"
+		},
+		{
+          "type": "color",
+          "id": "footer_bg_color",
+          "label": "BG Color",
+		  "default": "#f2f6f7"
+		},
+		{
+          "type": "color",
+          "id": "footer_color",
+          "label": "Content Color",
+		  "default": "#071c1f"
+		},
+		{
+          "type": "color",
+          "id": "footer_widget_title_color",
+          "label": "Widget Title Color",
+		  "default": "#071c1f"
+		},
+		{
+          "type": "color",
+          "id": "footer_blog_border_color",
+          "label": "Blog Border Color",
+		  "default": "#103034"
+		},
+		{
+          "type": "header",
+          "content": "Copyright"
+		},
+        {
+          "type": "checkbox",
+          "id": "section_color_enable_2",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+		{
+          "type": "color",
+          "id": "copyright_bg_color",
+          "label": "BG Color",
+		  "default": "#e6ecf0"
+		},
+		{
+          "type": "color",
+          "id": "copyright_color",
+          "label": "Color",
+		  "default": "#071c1f"
+		},
+		{
+          "type": "color",
+          "id": "border_top_color",
+          "label": "Border Top Color"
+		},
+		{
+          "type": "color",
+          "id": "copyright_border_color",
+          "label": "Logo Border Color",
+		  "default": "#999"
+		}
+    ],
+	"blocks":[
+	   {
+          "type": "time_schedule",
+          "name": "Time Schedule",
+		  "limit": 1,
+          "settings": [
+              {
+                "type": "text",
+                "id": "widget_sub_title",
+                "label": "Sub Title",
+                "default": "// time shedule"
+              },
+              {
+                "type": "text",
+                "id": "widget_title",
+                "label": "Widget Title",
+                "default": "Meet In Timeline."
+              },
+              {
+                "type": "html",
+                "id": "time_schedule",
+                "label": "Time Schedule",
+                "default": "<li>Monday <span>07:00AM - 20:00PM</span></li>"
+              },
+              {
+                "type": "image_picker",
+                "id": "time_schedule_bg_image",
+                "label": "BG Image"
+              },
+              {
+                "type": "header",
+                "content": "Color"
+              },
+              {
+                "type": "checkbox",
+                "id": "color_enable",
+                "label": "Color Enable",
+                "default": true,
+                "info": "Enable the field for color customization"
+              },
+              {
+                "type": "color",
+                "id": "time_schedule_color",
+                "label": "Color",
+                "default": "#103034"
+              },
+              {
+                "type": "color",
+                "id": "time_schedule_time_color",
+                "label": "Time Color",
+                "default": "#103034"
+              },
+              {
+                "type": "color",
+                "id": "time_schedule_bg_color",
+                "label": "BG Color",
+                "default": "#fff"
+              },
+              {
+                "type": "range",
+                "id": "time_schedule_bg_color_opacity",
+                "min": 0,
+                "max": 1,
+                "step": 0.1,
+                "label": "BG Color Opacity",
+                "default": 0
+              },
+              {
+                "type": "color",
+                "id": "time_schedule_border_color",
+                "label": "Border Color",
+                "default": "#fff"
+              },
+              {
+                "type": "header",
+                "content": "Column"
+              },
+              {
+                "type": "range",
+                "id": "widget_column",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Desktop",
+                "unit": "/12",
+                "default": 4
+              },
+              {
+                "type": "range",
+                "id": "widget_column_md",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Tablet",
+                "unit": "/12",
+                "default": 5
+              },
+              {
+                "type": "range",
+                "id": "widget_column_sm",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Large Mobile",
+                "unit": "/12",
+                "default": 12
+              }
+          ]
+       },
+	   {
+          "type": "double_menu",
+          "name": "Double Menu",
+		  "limit": 1,
+          "settings": [
+              {
+                "type": "text",
+                "id": "widget_title",
+                "label": "Widget Title",
+                "default": "Services."
+              },
+              {
+                "type": "link_list",
+                "id": "menu_handle",
+                "label": "Menu One"
+              },
+              {
+                "type": "link_list",
+                "id": "menu_2_handle",
+                "label": "Menu Two"
+              },
+              {
+                "type": "header",
+                "content": "Column"
+              },
+              {
+                "type": "range",
+                "id": "widget_column",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Desktop",
+                "unit": "/12",
+                "default": 5
+              },
+              {
+                "type": "range",
+                "id": "widget_column_md",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Tablet",
+                "unit": "/12",
+                "default": 7
+              },
+              {
+                "type": "range",
+                "id": "widget_column_sm",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Large Mobile",
+                "unit": "/12",
+                "default": 12
+              }
+          ]
+       },
+	   {
+          "type": "blog",
+          "name": "Blog",
+		  "limit": 1,
+          "settings": [
+              {
+                "type": "text",
+                "id": "widget_title",
+                "label": "Widget Title",
+                "default": "News Feeds."
+              },
+              {
+                "type": "blog",
+                "id": "blog_handle",
+                "label": "Select Blog"
+              },
+              {
+                  "type": "range",
+                  "id": "blog_limit_handle",
+                  "min": 2,
+                  "max": 5,
+                  "step": 1,
+                  "label": "Limit",
+                  "default": 3
+              },
+              {
+                "type": "header",
+                "content": "Column"
+              },
+              {
+                "type": "range",
+                "id": "widget_column",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Desktop",
+                "unit": "/12",
+                "default": 3
+              },
+              {
+                "type": "range",
+                "id": "widget_column_md",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Tablet",
+                "unit": "/12",
+                "default": 6
+              },
+              {
+                "type": "range",
+                "id": "widget_column_sm",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Large Mobile",
+                "unit": "/12",
+                "default": 12
+              }
+          ]
+       },
+	   {
+          "type": "about",
+          "name": "About",
+		  "limit": 1,
+          "settings": [
+              {
+                "type": "text",
+                "id": "widget_title",
+                "label": "Widget Title",
+                "default": "About Us."
+              },
+              {
+                "type": "richtext",
+                "id": "about_content",
+                "label": "Content",
+                "default": "<p>Lorem Ipsum is simply dummy text of the and typesetting industry. Lorem Ipsum is dummy text of the printing.</p>"
+              },
+              {
+                "type": "checkbox",
+                "id": "social_media_enable",
+                "label": "Show Social Media",
+                "default": true
+              },
+              {
+                "type": "header",
+                "content": "Color"
+              },
+              {
+                "type": "checkbox",
+                "id": "color_enable",
+                "label": "Color Enable",
+                "default": false,
+                "info": "Enable the field for color customization"
+              },
+              {
+                "type": "color",
+                "id": "social_bg_color",
+                "label": "Social BG Color",
+                "default": "#133236"
+              },
+              {
+                "type": "color",
+                "id": "social_color",
+                "label": "Social Color",
+                "default": "#fff"
+              },
+              {
+                "type": "header",
+                "content": "Column"
+              },
+              {
+                "type": "range",
+                "id": "widget_column",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Desktop",
+                "unit": "/12",
+                "default": 4
+              },
+              {
+                "type": "range",
+                "id": "widget_column_md",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Tablet",
+                "unit": "/12",
+                "default": 5
+              },
+              {
+                "type": "range",
+                "id": "widget_column_sm",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Large Mobile",
+                "unit": "/12",
+                "default": 12
+              }
+          ]
+       },
+	   {
+          "type": "contact",
+          "name": "Contact Info",
+		  "limit": 1,
+          "settings": [
+              {
+                "type": "image_picker",
+                "id": "logo",
+                "label": "Logo"
+              },
+              {
+                "type": "range",
+                "id": "logo_width",
+                "label": "Custom logo width",
+                "min": 50,
+                "max": 300,
+                "step": 5,
+                "unit": "px",
+                "default": 150
+              },
+              {
+                "type": "richtext",
+                "id": "contact_content",
+                "label": "Content",
+                "default": "<p>Lorem Ipsum is simply dummy text of the and typesetting industry. Lorem Ipsum is dummy text of the printing.</p>"
+              },
+              {
+                "type": "richtext",
+                "id": "contact_info_1",
+                "label": "Info One",
+                "default": "<p>Brooklyn, New York, United States</p>"
+              },
+              {
+                "type": "richtext",
+                "id": "contact_info_2",
+                "label": "Info Two",
+                "default": "<p>+0123-456789</p>"
+              },
+              {
+                "type": "richtext",
+                "id": "contact_info_3",
+                "label": "Info Three",
+                "default": "<p>example@example.com</p>"
+              },
+              {
+                "type": "checkbox",
+                "id": "social_media_enable",
+                "label": "Show Social Media",
+                "default": true
+              },
+              {
+                "type": "header",
+                "content": "Column"
+              },
+              {
+                "type": "range",
+                "id": "widget_column",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Desktop",
+                "unit": "/12",
+                "default": 3
+              },
+              {
+                "type": "range",
+                "id": "widget_column_md",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Tablet",
+                "unit": "/12",
+                "default": 6
+              },
+              {
+                "type": "range",
+                "id": "widget_column_sm",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Large Mobile",
+                "unit": "/12",
+                "default": 12
+              }
+          ]
+       },
+	   {
+          "type": "contact_2",
+          "name": "Contact Info (2)",
+		  "limit": 1,
+          "settings": [
+              {
+                "type": "image_picker",
+                "id": "logo",
+                "label": "Logo"
+              },
+              {
+                "type": "range",
+                "id": "logo_width",
+                "label": "Custom logo width",
+                "min": 50,
+                "max": 300,
+                "step": 5,
+                "unit": "px",
+                "default": 150
+              },
+              {
+                "type": "richtext",
+                "id": "contact_content",
+                "label": "Content",
+                "default": "<p>Lorem Ipsum is simply dummy text of the and typesetting industry. Lorem Ipsum is dummy text of the printing.</p>"
+              },
+              {
+                "type": "richtext",
+                "id": "contact_info_1",
+                "label": "Info One",
+                "default": "<p>Brooklyn, New York, United States</p>"
+              },
+              {
+                "type": "richtext",
+                "id": "contact_info_2",
+                "label": "Info Two",
+                "default": "<p>+0123-456789</p>"
+              },
+              {
+                "type": "richtext",
+                "id": "contact_info_3",
+                "label": "Info Three",
+                "default": "<p>example@example.com</p>"
+              },
+              {
+                "type": "checkbox",
+                "id": "social_media_enable",
+                "label": "Show Social Media",
+                "default": true
+              },
+              {
+                "type": "header",
+                "content": "Column"
+              },
+              {
+                "type": "range",
+                "id": "widget_column",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Desktop",
+                "unit": "/12",
+                "default": 3
+              },
+              {
+                "type": "range",
+                "id": "widget_column_md",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Tablet",
+                "unit": "/12",
+                "default": 6
+              },
+              {
+                "type": "range",
+                "id": "widget_column_sm",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Large Mobile",
+                "unit": "/12",
+                "default": 12
+              }
+          ]
+       },
+	   {
+          "type": "menu",
+          "name": "Menu",
+		  "limit": 3,
+          "settings": [
+              {
+                "type": "text",
+                "id": "widget_title",
+                "label": "Widget Title",
+                "default": "Company"
+              },
+              {
+                "type": "link_list",
+                "id": "menu_handle",
+                "label": "Menu"
+              },
+              {
+                "type": "header",
+                "content": "Column"
+              },
+              {
+                "type": "range",
+                "id": "widget_column",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Desktop",
+                "unit": "/12",
+                "default": 2
+              },
+              {
+                "type": "range",
+                "id": "widget_column_md",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Tablet",
+                "unit": "/12",
+                "default": 6
+              },
+              {
+                "type": "range",
+                "id": "widget_column_sm",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Large Mobile",
+                "unit": "/12",
+                "default": 6
+              }
+          ]
+       },
+	   {
+          "type": "newsletter",
+          "name": "Newsletter",
+		  "limit": 1,
+          "settings": [
+              {
+                "type": "text",
+                "id": "widget_title",
+                "label": "Widget Title",
+                "default": "Newsletter"
+              },
+              {
+                "type": "richtext",
+                "id": "newsletter_content",
+                "label": "Content",
+                "default": "<p>Subscribe to our weekly Newsletter and receive updates via email.</p>"
+              },
+              {
+                "type": "header",
+                "content": "Column"
+              },
+              {
+                "type": "header",
+                "content": "Payment Option"
+              },
+              {
+                "type": "text",
+                "id": "payment_widget_title",
+                "label": "Payment Widget Title",
+                "default": "We Accept"
+              },
+              {
+                "type": "image_picker",
+                "id": "payment_image",
+                "label": "Payment Image"
+              },
+              {
+                "type": "range",
+                "id": "widget_column",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Desktop",
+                "unit": "/12",
+                "default": 3
+              },
+              {
+                "type": "range",
+                "id": "widget_column_md",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Tablet",
+                "unit": "/12",
+                "default": 6
+              },
+              {
+                "type": "range",
+                "id": "widget_column_sm",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Large Mobile",
+                "unit": "/12",
+                "default": 12
+              }
+          ]
+       },
+	   {
+          "type": "blank_column",
+          "name": "Blank Column",
+		  "limit": 1,
+          "settings": [
+              {
+                "type": "header",
+                "content": "Column"
+              },
+              {
+                "type": "range",
+                "id": "widget_column",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Desktop",
+                "unit": "/12",
+                "default": 2
+              }
+          ]
+       }
+	]
+  }
+{% endschema %}

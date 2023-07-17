@@ -1,0 +1,272 @@
+<div class="ltn__contact-message-area {% if section.settings.margin_top_minus_enable %}mb--100{% endif %}" id="section-{{ section.id }}" data-section="contactForm">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ltn__form-box contact-form-box box-shadow white-bg">
+          {%- if section.settings.title != '' -%}
+          <h4 class="title-2">{{ section.settings.title }}</h4>
+          {%- endif -%}  
+          {%- render 'contact-form' -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- render 'section-style' -%}
+
+{% schema %}
+  {
+    "name": "Contact Form",
+    "settings": [
+        {
+          "type": "checkbox",
+          "id": "margin_top_minus_enable",
+          "label": "Margin Bottom Minus Enable",
+          "default": false,
+          "info": "Enable the field for Margin bottom minus -100px"
+        },
+		{
+		  "type": "header",
+          "content": "Contact Form"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title",
+		  "default": "Get a quote"
+        },
+		{
+          "type": "text",
+          "id": "name_placeholder",
+          "label": "Name",
+          "default": "Enter your name"
+      	},
+		{
+          "type": "text",
+          "id": "email_placeholder",
+          "label": "Email",
+          "default": "Enter email address"
+      	},
+        {
+          "type": "checkbox",
+          "id": "select_option_enable",
+          "label": "Show Select Option",
+          "default": true
+        },
+        {
+          "type": "html",
+          "id": "select_option_title_value",
+          "label": "Select Option Title Value",
+          "default": "<option value='No_service_select'>Select Service Type</option><option value='Car_Repear'>Car Repair </option><option value='Engine_Repear'>Engine Repairing </option><option value='Oil_Change'>Oil Change</option><option value='Car_Wash'>Car Wash</option>"
+        },
+		{
+          "type": "text",
+          "id": "phone_placeholder",
+          "label": "Phone",
+          "default": "Enter phone number"
+      	},
+		{
+          "type": "text",
+          "id": "message_placeholder",
+          "label": "Message",
+          "default": "Enter message"
+      	},
+		{
+          "type": "text",
+          "id": "form_button_name",
+          "label": "Submit Button",
+          "default": "Get an free service"
+      	}
+	],
+	"blocks":[
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 95
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 55
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 35
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Contact Form",
+		  "category": "9. contact",
+		  "blocks":[
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

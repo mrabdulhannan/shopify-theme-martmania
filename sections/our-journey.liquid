@@ -1,0 +1,307 @@
+{%- render 'section-style' -%}
+<div class="ltn__our-journey-area pt-280 pb-350 mb-35 plr--9" id="section-{{ section.id }}" data-section="ourJourney">
+  <div class="container-fluid">
+    <div class="row"> 
+      <div class="col-lg-12">
+        <div class="ltn__our-journey-wrap ">
+          <ul>
+            {%- for block in section.blocks -%}
+            {%- case block.type -%}
+            {%- when 'block' -%}
+            <li {% if forloop.first %}class="active"{% endif %}>
+              {%- if block.settings.title != '' -%}
+              <span class="ltn__journey-icon">{{ block.settings.title }}</span>
+              {%- endif -%}
+              <ul>
+                <li>
+                  <div class="ltn__journey-history-item-info clearfix">
+                    {%- if block.settings.image -%}
+                    {%- assign image = block.settings.image -%}
+                    <div class="ltn__journey-history-img">
+                      <span class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+                        <img srcset="{% if image.width >= 100 %}{{ image | img_url: '134x' }} 134w,{% endif %}
+                                     {% if image.width >= 150 %}{{ image | img_url: '150x' }} 150w,{% endif %}
+                                     {% if image.width >= 280 %}{{ image | img_url: '280x' }} 280w,{% endif %}
+                                     {% if image.width >= 380 %}{{ image | img_url: '383x' }} 383w,{% endif %}"
+                             src="{{ image | img_url: '150x' }}"
+                             sizes="100vw"
+                             width="{{ image.width }}"
+                             height="{{ image.height }}"
+                             alt="{{ image.alt | escape }}"
+                             loading="lazy"
+                             class="image-position-size"
+                             >
+                      </span>
+                    </div>
+                    {%- endif -%}
+                    <div class="ltn__journey-history-info">
+                      {%- if block.settings.history_title != '' -%}
+                      <h3>{{ block.settings.history_title }}</h3>
+                      {%- endif -%}
+                      {%- if block.settings.history_content != '' -%}
+                      {{ block.settings.history_content }}
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </li>
+            {%- endcase -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Our Journey",
+    "settings": [
+	],
+	"blocks":[
+          {
+            "type": "block",
+            "name": "Journey",
+			"limit": 6,
+            "settings": [
+              {
+                "type": "header",
+                "content": "Icon"
+              },
+              {
+                "type": "text",
+                "id": "title",
+                "label": "Title",
+                "default": "1900"
+              },
+              {
+                "type": "header",
+                "content": "History"
+              },
+              {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Image",
+              	"info": "Recommended Size: 150 x 115px"
+              },
+              {
+                "type": "text",
+                "id": "history_title",
+                "label": "Title",
+                "default": "Started Journey"
+              },
+              {
+                "type": "richtext",
+                "id": "history_content",
+                "label": "Content",
+                "default": "<p>Lorem ipsum dolor sit amet, consectetur ad ipisic ing elit, sed do eiusmod tempor.</p>"
+              }
+            ]
+         },
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#e53e29"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Our Journey",
+		  "category": "5. about",
+		  "blocks":[
+				{
+					"type": "block"
+				},
+				{
+					"type": "block"
+				},
+				{
+					"type": "block"
+				},
+				{
+					"type": "block"
+				},
+				{
+					"type": "block"
+				},
+				{
+					"type": "section_background"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

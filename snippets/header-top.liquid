@@ -1,0 +1,111 @@
+<!-- ltn__header-top-area start -->
+<div class="ltn__header-top-area {% if section.settings.large_width_enable %}plr--9{% endif %}">
+  <div class="{% if section.settings.large_width_enable %}container-fluid{% else %}container{% endif %}">
+    <div class="row">
+      <div class="col-md-7">
+        <div class="ltn__top-bar-menu">
+          <ul>
+            {%- if block.settings.email != '' -%}
+            <li><a href="{{ block.settings.email_url }}"><i class="icon-mail"></i> {{ block.settings.email }}</a></li>
+            {%- endif -%}
+            {%- if block.settings.email != '' -%}
+            <li><a href="{{ block.settings.address_url }}"><i class="icon-placeholder"></i> {{ block.settings.address }}</a></li>
+            {%- endif -%}
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="top-bar-right text-right">
+          <div class="ltn__top-bar-menu">
+            <ul>
+              {%- if block.settings.gtranslate_enable -%}
+              {%- if block.settings.language_handle == 'shopify_language' -%}
+              {% if localization.available_languages.size > 1 %}
+               <li>
+                <div class="ltn__drop-menu ltn__currency-menu ltn__language-menu">
+                  <ul>
+                    <li>
+                      <localization-form>
+                        {% form 'localization' %}
+                          <div class="disclosure">
+                              <button type="button" class="disclosure__button" aria-expanded="false" aria-controls="LanguageList">
+                                {{ localization.language.endonym_name | capitalize }}
+                              </button>
+                              <ul id="LanguageList" role="list" class="disclosure__list">
+                                {% for language in localization.available_languages %}
+                                  <li class="disclosure__item" tabindex="-1">
+                                    <a href="#"{% if language.iso_code == localization.language.iso_code %} aria-current="true"{% endif %} hreflang="{{ language.iso_code }}" lang="{{ language.iso_code }}" data-value="{{ language.iso_code }}">
+                                      {{ language.endonym_name | capitalize }}
+                                    </a>
+                                  </li>
+                                {% endfor %}
+                              </ul>
+                              <input type="hidden" name="language_code" value="{{ localization.language.iso_code }}">
+                          </div>
+                        {% endform %}
+                      </localization-form>
+                    </li>
+                  </ul>
+                </div>
+              </li>             
+              {% endif %}
+              {%- elsif block.settings.language_handle == 'gtranslate' -%}
+              <li>
+                <!-- ltn__language-menu -->
+                <div class="ltn__drop-menu ltn__currency-menu ltn__language-menu">
+                  <ul>
+                    {%- render 'gtranslate_language' -%}
+                  </ul>
+                </div>
+              </li>
+              {%- endif -%}
+              {%- endif -%}
+
+              
+              {%- if block.settings.social_media_enable -%}
+              <li>
+                <!-- ltn__social-media -->
+                <div class="ltn__social-media">
+                  <ul>
+                    {%- render 'social-media' -%}
+                  </ul>
+                </div>
+              </li>
+              {%- endif -%}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ltn__header-top-area end -->
+
+{%- if block.settings.header_top_color_enable -%}
+<style>
+  .ltn__header-4 .ltn__header-top-area, .ltn__header-5 .ltn__header-top-area {
+    border-color: {{ block.settings.border_color }};
+  }
+  .ltn__header-top-area {
+    background-color: {{ block.settings.bg_color }};
+  }
+  .ltn__top-bar-menu {
+    color: {{ block.settings.content_color }};
+  }
+</style>
+{%- endif -%}
+{%- if block.settings.other_pages_header_top_color_enable -%}
+{%- unless template == 'index' -%}
+<style>
+  .ltn__header-4 .ltn__header-top-area, .ltn__header-5 .ltn__header-top-area {
+    border-color: {{ block.settings.other_pages_border_color }};
+  }
+  .ltn__header-top-area {
+    background-color: {{ block.settings.other_pages_bg_color }};
+  }
+  .ltn__top-bar-menu {
+    color: {{ block.settings.other_pages_content_color }};
+  }
+</style>
+{%- endunless -%}
+{%- endif -%}

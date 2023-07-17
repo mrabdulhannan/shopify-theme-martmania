@@ -1,0 +1,298 @@
+{%- render 'section-style' -%}
+<!-- PRODUCT SECTION START -->
+<div class="featured-product" id="section-{{ section.id }}" data-section="featuredProduct">
+  <div class="container">
+    {%- assign product = all_products[section.settings.featured_product_handle] -%}
+    {%- if product == empty -%}
+    <div class="row featured-product-align">
+      <div class="col-lg-6 col-md-6">
+        <div class="featured-product-iamge">
+          {{ 'product-1' | placeholder_svg_tag: 'product-svg-image' }}
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <div class="featured-product-content modal-product-info">
+          <h3>Product title here</h3>
+          <div class="featured-product-price product-price">
+            <span>$69.99</span>
+            <del>$99.99</del>
+          </div>
+          <div class="featured-product-description">
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
+          </div>
+          {%- if section.settings.button_title != '' -%}
+          <div class="featured-product-button">
+            <button type="button" class="theme-default-button">{{ section.settings.button_title }}</button>
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    {%- else -%}
+    <div class="row featured-product-align">
+      <div class="col-lg-6 col-md-6">
+        {%- assign image = product.featured_image -%}
+        <div class="featured-product-iamge image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+          <img srcset="{% if image.width >= 150 %}{{ image | img_url: '152x' }} 152w,{% endif %}
+                   {% if image.width >= 243 %}{{ image | img_url: '266x' }} 266w,{% endif %}
+                   {% if image.width >= 366 %}{{ image | img_url: '366x' }} 366w,{% endif %}
+                   {% if image.width >= 576 %}{{ image | img_url: '576x' }} 576w,{% endif %}
+                   {% if image.width >= 600 %}{{ image | img_url: '600x' }} 600w,{% endif %}"
+           src="{{ image | img_url: '600x' }}"
+           sizes="100vw"
+           width="{{ image.width }}"
+           height="{{ image.height }}"
+           alt="{{ image.alt | escape }}"
+           loading="lazy"
+           class="image-position-size"
+           >
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <div class="featured-product-content modal-product-info">
+          <h3>{{ product.title }}</h3>
+          <div class="featured-product-price product-price">
+            <span>{{ product.variants.first.price | money }}</span>
+            {%- if product.variants.first.compare_at_price > product.variants.first.price -%}
+            <del>{{ product.variants.first.compare_at_price | money }}</del>
+            {%- endif -%}
+          </div>
+          <div class="featured-product-description">
+            {%- if product.description contains '[short_description]' -%} 
+            {%- assign short_description_first = product.description | split:'[/short_description]' | first -%}
+            {%- assign short_description_final = short_description_first | split:'[short_description]' | last -%}
+            {{ short_description_final }}
+            {%- else -%}
+            <p>{{ product.description | strip_html | truncatewords: 35 | split: '[short_description]' | first | split: '[product_description]' | first | split: '[new_products]' | first | split: '[product_video]' | first | split: '[affiliate_link]' | first | split: '[countdown]' | first }}</p>
+            {%- endif -%}
+          </div>
+
+          {%- if product.description contains '[countdown]' -%}
+          {%- assign count_down_first = product.description | split:'[/countdown]' | first -%}
+          {%- assign count_down_final = count_down_first | split:'[countdown]' | last -%}
+          <div data-countdown="{{ count_down_final }}" class="featured-product-countdown ltn__countdown ltn__countdown-2"></div> 
+          {%- endif -%}
+          {%- if section.settings.button_title != '' -%}
+          <div class="featured-product-button">
+            <a class="theme-btn-1 btn btn-effect-1" href="{{ product.url }}">{{ section.settings.button_title }}</a>
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+  </div>
+</div>
+<!-- PRODUCT SECTION END -->
+
+{% schema %}
+  {
+    "name": "Featured Product",
+    "settings": [
+		{
+			"type": "header",
+            "content": "Product"
+        },
+		{
+			"type": "product",
+            "id": "featured_product_handle",
+            "label": "Select Product"
+        },
+		{
+          "type": "text",
+          "id": "button_title",
+          "label": "Button Title",
+          "default": "Shop Now"
+      	}
+    ],
+	"blocks":[
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 100
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 80
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 60
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Featured Product",
+		  "category": "4. product",
+		  "blocks":[
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

@@ -1,0 +1,81 @@
+{% assign grid_results = false %}
+{% assign respond_js_secret_key = shop.domain | md5 %}
+{% unless search.terms == respond_js_secret_key %}
+
+{% paginate search.results by 10 %}
+<div class="theme-default-margin search-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2 col-md-12">
+        {% if search.performed %}
+        {% if search.results_count == 0 %}
+        <h4 class="text-center page-search-title">{{ 'general.search.no_results_html' | t: terms: search.terms }}</h4>
+        {% else %}
+        <h4 class="text-center page-search-title">{{ 'general.search.results_for_html' | t: terms: search.terms }}</h4>
+        {% endif %}
+        {% else %}
+        <h4 class="text-center page-search-title">{{ 'general.search.title' | t }}</h4>
+        {% endif %}
+        
+        <div class="page-search-bar">
+
+          <predictive-search search-open="false">
+            <form class="page-search-form" action="{{ routes.search_url }}" method="get" role="search" class="">
+              <input
+                     id="Search"
+                     type="search"
+                     name="q"
+                     value="{{ search.terms | escape }}"
+                     {%- if settings.predictive_search_enabled -%}
+                     role="combobox"
+                     aria-expanded="false"
+                     aria-owns="predictive-search-results-list"
+                     aria-controls="predictive-search-results-list"
+                     aria-haspopup="listbox"
+                     aria-autocomplete="list"
+                     autocorrect="off"
+                     autocomplete="off"
+                     autocapitalize="off"
+                     spellcheck="false"
+                     {%- endif -%}
+                     class="predictive-search-input"
+                     placeholder="{{ 'general.search.placeholder' | t }}"
+                     >
+              <button type="submit" class="page-search-button theme-default-button">
+                <span class="fallback-text">{{ 'general.search.submit' | t }}</span>
+              </button>
+              <input name="options[prefix]" type="hidden" value="last">
+          
+              {%- if settings.predictive_search_enabled -%}
+              <div id="predictive-search" class="predictive-search-item" tabindex="-1"></div>
+              {%- endif -%}
+            </form>
+          </predictive-search>
+          
+        </div>
+ 
+        {% if search.performed %}
+        <div class="search-list">
+          {% for item in search.results %}
+          {% render 'product-search-item', item: item %}
+          {% endfor %}
+        </div>
+        {% endif %}
+        {%- if paginate.pages > 1 -%}
+        <hr>
+        <div class="ltn__pagination-area text-center">
+          <div class="ltn__pagination theme-default-pagination">
+            {% render 'pagination', paginate: paginate %}
+          </div>
+        </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+{% endpaginate %}
+
+{% else %}
+{% render 'respond' %}
+{% layout none %}
+{% endunless %}

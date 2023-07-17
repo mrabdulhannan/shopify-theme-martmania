@@ -1,0 +1,500 @@
+{%- for block in section.blocks -%}
+{%- case block.type -%}
+{%- when 'banner' -%}
+{%- if block.settings.block_color_enable -%}
+<style>
+  #block-{{ block.id }} .ltn__secondary-color {
+    color: {{ block.settings.sub_title_color }} !important;
+  }
+  #block-{{ block.id }} .white-color {
+    color: {{ block.settings.title_color }};
+  }
+  #block-{{ block.id }}.ltn__banner-style-3 .banner-button a {
+    color: {{ block.settings.button_color }};
+  }
+  #block-{{ block.id }}.ltn__banner-style-3 .banner-button a:hover {
+    color: {{ block.settings.button_hover_color }};
+  }
+</style>
+{%- endif -%}
+{%- when 'time_schedule' -%}
+{%- if block.settings.block_color_enable -%}
+<style>
+  #block-{{ block.id }} .ltn__secondary-bg {
+    background-color: {{ block.settings.schedule_bg_color }};
+  }
+  #block-{{ block.id }} .text-color-white, #block-{{ block.id }} .text-color-white h3, #block-{{ block.id }} .text-color-white li, #block-{{ block.id }} .text-color-white span{
+    color: {{ block.settings.content_color }};
+  }
+  #block-{{ block.id }} .text-color-white h3{
+    border-bottom: 2px solid {{ block.settings.content_color | color_modify: 'alpha', 0.1 }};
+  }
+</style>
+{%- endif -%}
+{%- endcase -%}
+{%- endfor -%}
+
+{%- render 'section-style' -%}
+
+<!-- BANNER AREA START -->
+<div class="ltn__banner-area {% if section.settings.margin_top_minus_enable %}mt--90{% endif %}" data-section="bannerWithtimeSchedule" id="section-{{ section.id }}">
+  <div class="container">
+    <div class="row ltn__custom-gutter justify-content-center">
+      {%- for block in section.blocks -%}
+      {%- case block.type -%}
+      {%- when 'banner' -%}
+      <div class="col-sm-{{ block.settings.banner_column_sm }} col-md-{{ block.settings.banner_column_md }} col-lg-{{ block.settings.banner_column }}">
+        <div class="ltn__banner-item ltn__banner-style-3 {% if block.settings.text_right_enable %}ltn__banner-style-4{% endif %}" id="block-{{ block.id }}">
+          <div class="ltn__banner-img">
+            {%- if block.settings.banner_image -%}
+            {%- assign image = block.settings.banner_image -%}
+            <a href="{{ block.settings.banner_url }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+              <img srcset="{% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                           {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                           {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                           {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                           {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                           {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w,{% endif %}
+                           {% if image.width >= 770 %}{{ image | img_url: '770x' }} 1100w,{% endif %}
+                           {% if image.width >= 900 %}{{ image | img_url: '900x' }} 900w,{% endif %}
+                           {% if image.width >= 970 %}{{ image | img_url: '970x' }} 970w,{% endif %}
+                           {% if image.width >= 1100 %}{{ image | img_url: '1100x' }} 1100w,{% endif %}
+                           {% if image.width >= 1200 %}{{ image | img_url: '1200x' }} 1200w{% endif %}"
+                   loading="lazy"
+                   src="{{ image | img_url: '1200x' }}"
+                   sizes="100vw"
+                   width="{{ image.width }}"
+                   height="{{ image.height }}"
+                   alt="{{ image.alt | escape }}"
+                   class="image-position-size"
+                   >
+            </a>
+            {%- else -%}
+            <img src="https://via.placeholder.com/570x450" alt="Banner">
+            {%- endif -%}
+          </div>
+          {%- if block.settings.banner_sub_title != '' or block.settings.banner_title != '' -%}
+          <div class="ltn__banner-info">
+            {%- if block.settings.banner_sub_title != '' -%}
+            <div class="product-price ltn__secondary-color">
+              <strong><span>{{ block.settings.banner_sub_title }}</span></strong>
+            </div>
+            {%- endif -%}
+            {%- if block.settings.banner_title != '' -%}
+            <h2 class="white-color">
+              <a href="{{ block.settings.banner_url }}">{{ block.settings.banner_title }}</a>
+            </h2>
+            {%- endif -%}
+          </div>
+          {%- endif -%}
+          {%- if block.settings.button_enable -%}
+          <div class="banner-button">
+            <a href="{{ block.settings.banner_url }}"><i class="fas fa-arrow-right"></i> </a>
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- when 'time_schedule' -%}
+      <div class="col-sm-{{ block.settings.banner_column_sm }} col-md-{{ block.settings.banner_column_md }} col-lg-{{ block.settings.banner_column }}" id="block-{{ block.id }}">
+        <div class="ltn__time-schedule-widget ltn__secondary-bg text-color-white mb-30">
+          {%- if block.settings.title != '' -%}
+          <h3>{{ block.settings.title }}</h3>
+          {%- endif -%}
+          <ul>
+            {{ block.settings.time_schedule_content }}
+          </ul>
+        </div>
+      </div>
+      {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+<!-- BANNER AREA END -->
+
+{% schema %}
+  {
+    "name": "Banner with Schedule",
+    "settings": [
+        {
+          "type": "checkbox",
+          "id": "margin_top_minus_enable",
+          "label": "Margin Top Minus Enable",
+          "default": false,
+          "info": "Enable the field for Margin top minus -100px"
+        }
+	],
+	"blocks":[
+          {
+            "type": "banner",
+            "name": "banner",
+            "settings": [
+              {
+                "type": "image_picker",
+                "id": "banner_image",
+                "label": "Image"
+              },
+              {
+                "type": "text",
+                "id": "banner_sub_title",
+                "label": "Sub Title",
+                "default": "FROM $49.00"
+              },
+              {
+                "type": "textarea",
+                "id": "banner_title",
+                "label": "Title",
+                "default": "Latest & Beauty <br> Headlights",
+                "info": "Use '<br>' tag for line break"
+              },
+              {
+                "type": "url",
+                "id": "banner_url",
+                "label": "URL"
+              },
+              {
+                "type": "checkbox",
+                "id": "text_right_enable",
+                "label": "Text Right Enable",
+                "default": false
+              },
+              {
+                "type": "checkbox",
+                "id": "button_enable",
+                "label": "Button Enable",
+                "default": true
+              },
+              {
+                "type": "header",
+                "content": "Banner Column"
+              },
+              {
+                "type": "range",
+                "id": "banner_column",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Desktop",
+                "unit": "/12",
+                "default": 4
+              },
+              {
+                "type": "range",
+                "id": "banner_column_md",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Tablet",
+                "unit": "/12",
+                "default": 6
+              },
+              {
+                "type": "range",
+                "id": "banner_column_sm",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Mobile",
+                "unit": "/12",
+                "default": 12
+              },
+              {
+                "type": "header",
+                "content": "Color"
+              },
+              {
+                "type": "checkbox",
+                "id": "block_color_enable",
+                "label": "Color Enable",
+                "default": false,
+          		"info": "Enable the field for color customization"
+              },
+              {
+                "type": "color",
+                "id": "sub_title_color",
+                "label": "Sub Title Color",
+                "default": "#e53e29"
+              },
+              {
+                "type": "color",
+                "id": "title_color",
+                "label": "Title Color",
+                "default": "#fff"
+              }
+            ]
+         },
+          {
+            "type": "time_schedule",
+            "name": "Time Schedule",
+            "settings": [
+              {
+                "type": "text",
+                "id": "title",
+                "label": "Title",
+                "default": "Opening Hours"
+              },
+              {
+                "type": "html",
+                "id": "time_schedule_content",
+                "label": "Time Schedule",
+                "default": "<li>Sat - Mon <span>10:00 - 23:00</span></li>",
+                "info": "Use HTML tag"
+              },
+              {
+                "type": "header",
+                "content": "Column"
+              },
+              {
+                "type": "range",
+                "id": "banner_column",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Desktop",
+                "unit": "/12",
+                "default": 4
+              },
+              {
+                "type": "range",
+                "id": "banner_column_md",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Tablet",
+                "unit": "/12",
+                "default": 6
+              },
+              {
+                "type": "range",
+                "id": "banner_column_sm",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Large Mobile",
+                "unit": "/12",
+                "default": 12
+              },
+              {
+                "type": "header",
+                "content": "Color"
+              },
+              {
+                "type": "checkbox",
+                "id": "block_color_enable",
+                "label": "Color Enable",
+                "default": false,
+          		"info": "Enable the field for color customization"
+              },
+              {
+                "type": "color",
+                "id": "schedule_bg_color",
+                "label": "BG Color",
+                "default": "#e53e29"
+              },
+              {
+                "type": "color",
+                "id": "content_color",
+                "label": "Content Color",
+                "default": "#fff"
+              }
+            ]
+         },
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 85
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 55
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 35
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Banner with Schedule",
+		  "category": "2. banner",
+		  "blocks":[
+				{
+					"type": "banner"
+				},
+				{
+					"type": "time_schedule"
+				},
+				{
+					"type": "banner"
+				},
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

@@ -1,0 +1,430 @@
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }}.bg-overlay-theme-black-80:before {
+    background: {{ section.settings.overlay_color | color_modify: 'alpha', section.settings.overlay_color_opacity }};
+  }
+  #section-{{ section.id }} .ltn__section-title-2 .section-subtitle,
+  #section-{{ section.id }} .ltn__section-title-2 .section-title,
+  #section-{{ section.id }} .text-color-white span,
+  #section-{{ section.id }} .text-color-white h6
+  {
+    color: {{ section.settings.content_color }};
+  }
+  #section-{{ section.id }}  .ltn__counterup-item-3 .counter-icon {
+    color: {{ section.settings.counter_sub_title_color }};
+  }
+</style>
+{%- endif -%}
+
+{%- render 'section-style' -%}
+
+<div class="ltn__counterup-area bg-overlay-theme-black-80" id="section-{{ section.id }}" data-section="serviceInfoCounter">
+  <div class="container">
+    <div class="row">
+      {%- if section.settings.section_title != '' or section.settings.section_sub_title != '' -%}
+      <div class="col-lg-4 col-md-12">
+        <div class="section-title-area ltn__section-title-2">
+          {%- if section.settings.section_sub_title != '' -%}
+          <h6 class="section-subtitle white-color">{{ section.settings.section_sub_title }}</h6>
+          {%- endif -%}
+          {%- if section.settings.section_title != '' -%}
+          <h1 class="section-title white-color">{{ section.settings.section_title }}</h1>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endif -%}
+      {%- for block in section.blocks -%}
+      {%- case block.type -%}
+      {%- when 'service_info_counter' -%}
+      <div class="col-{{ block.settings.service_column_sm }} col-sm-{{ block.settings.service_column_sm }} col-md-{{ block.settings.service_column_md }} col-lg-{{ block.settings.service_column }} align-self-center">
+        <div class="ltn__counterup-item-3 text-color-white {% if section.settings.text_center_enable %}text-center{% endif %}">
+          {%- if block.settings.sub_title != '' or block.settings.counter_image -%}
+          <div class="counter-icon">
+            {%- if block.settings.counter_image -%}
+            {%- assign image = block.settings.counter_image -%}
+            <span>
+              <img srcset="{% if image.width >= 100 %}{{ image | img_url: '71x' }} 71w,{% endif %}
+                           {% if image.width >= 100 %}{{ image | img_url: '105x' }} 105w,{% endif %}
+                           {% if image.width >= 150 %}{{ image | img_url: '150x' }} 150w,{% endif %}
+                           {% if image.width >= 280 %}{{ image | img_url: '280x' }} 280w,{% endif %}
+                           {% if image.width >= 350 %}{{ image | img_url: '350x' }} 350w,{% endif %}"
+                   src="{{ image | img_url: '105x' }}"
+                   sizes="100vw"
+                   width="{{ image.width }}"
+                   height="{{ image.height }}"
+                   alt="{{ image.alt | escape }}"
+                   loading="lazy"
+                   class=""
+                   >
+            </span>
+            {%- endif -%}
+            {%- if block.settings.sub_title != '' -%}
+            {{ block.settings.sub_title }}
+            {%- endif -%}
+          </div>
+          {%- endif -%}
+          <h1>
+            <span class="counter">{{ block.settings.counter_number }}</span>
+            {%- if block.settings.counter_letter != '' -%}
+            <span class="counterUp-letter">{{ block.settings.counter_letter }}</span>
+            {%- endif -%}
+            {%- if block.settings.counter_icon != '' -%}
+            <span class="counterUp-icon">{{ block.settings.counter_icon }}</span> 
+            {%- endif -%}
+          </h1>
+          {%- if block.settings.title != '' -%}
+          <h6>{{ block.settings.title }}</h6>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endcase -%}
+      {%- endfor -%}      
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Service Info Counter",
+    "settings": [
+		{
+          "type": "text",
+          "id": "section_sub_title",
+          "label": "Section Sub Title",
+          "default": "// Sub Title"
+      	},
+		{
+          "type": "textarea",
+          "id": "section_title",
+          "label": "Section Title",
+		  "default": "Section Title <span>.</span>",
+		  "info": "Use <span> Tag for Highlight text"
+      	},
+        {
+          "type": "checkbox",
+          "id": "text_center_enable",
+          "label": "Text Center Enable",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "content_color",
+          "label": "Content Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "counter_sub_title_color",
+          "label": "Counter Sub Title Color",
+          "default": "#8cb2b2"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overylay Color",
+          "default": "#071c1f"
+        },
+        {
+            "type": "range",
+            "id": "overlay_color_opacity",
+            "min": 0,
+            "max": 1,
+            "step": 0.1,
+            "label": "Overlay Color Opacity",
+            "default": 0.8
+        }
+      ],
+	"blocks":[
+          {
+            "type": "service_info_counter",
+            "name": "Service Info Counter",
+			"limit": 4,
+            "settings": [
+              {
+                "type": "image_picker",
+                "id": "counter_image",
+                "label": "Icon Image",
+        		"info": "Recommended Size: 65 x 70px"
+              },
+              {
+                "type": "text",
+                "id": "sub_title",
+                "label": "Sub Title",
+                "default": "//"
+              },
+              {
+                "type": "text",
+                "id": "title",
+                "label": "Title",
+                "default": "Title"
+              },
+              {
+                "type": "text",
+                "id": "counter_number",
+                "label": "Number",
+                "default": "999"
+              },
+              {
+                "type": "text",
+                "id": "counter_letter",
+                "label": "Letter",
+                "default": "K"
+              },
+              {
+                "type": "text",
+                "id": "counter_icon",
+                "label": "Icon",
+                "default": "+"
+              },
+              {
+                "type": "header",
+                "content": "Column"
+              },
+              {
+                "type": "range",
+                "id": "service_column",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Desktop",
+                "unit": "/12",
+                "default": 2
+              },
+              {
+                "type": "range",
+                "id": "service_column_md",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Tablet",
+                "unit": "/12",
+                "default": 3
+              },
+              {
+                "type": "range",
+                "id": "service_column_sm",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Mobile",
+                "unit": "/12",
+                "default": 6
+              }
+            ]
+         },
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 115
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 70
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 85
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 50
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 60
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 30
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#f2f6f7"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Service Info Counter",
+		  "category": "7. service",
+		  "blocks":[
+				{
+					"type": "service_info_counter"
+				},
+				{
+					"type": "service_info_counter"
+				},
+				{
+					"type": "service_info_counter"
+				},
+				{
+					"type": "service_info_counter"
+				},
+				{
+					"type": "section_padding"
+				},
+				{
+					"type": "section_background"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

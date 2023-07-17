@@ -1,0 +1,258 @@
+{%- if section.settings.topbar_notification_enable -%}
+<style>
+  /* Top Bar Noticfication */
+  {% if section.settings.notification_bg_image %}
+  .announcement-bar {
+    background: url("{{ section.settings.notification_bg_image | img_url: 'master' }}") no-repeat scroll center center / cover;
+      }
+  {% else %}
+  .announcement-bar {
+    background: {{ section.settings.topbar_color_1 }};
+    background: -moz-linear-gradient(left, {{ section.settings.topbar_color_1 }} 0%, {{ section.settings.topbar_color_2 }} 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, {{ section.settings.topbar_color_1 }}), color-stop(100%, {{ section.settings.topbar_color_2 }}));
+    background: -webkit-linear-gradient(left, {{ section.settings.topbar_color_1 }} 0%, {{ section.settings.topbar_color_2 }} 100%);
+    background: -o-linear-gradient(left, {{ section.settings.topbar_color_1 }} 0%, {{ section.settings.topbar_color_2 }} 100%);
+    background: -ms-linear-gradient(left, {{ section.settings.topbar_color_1 }} 0%, {{ section.settings.topbar_color_2 }} 100%);
+    background: linear-gradient(to right, {{ section.settings.topbar_color_1 }} 0%, {{ section.settings.topbar_color_2 }} 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='{{ section.settings.topbar_color_1 }}', endColorstr='{{ section.settings.topbar_color_2 }}', GradientType=1 );
+      }
+  {% endif %}
+  .notification-entry p a.notification-button {
+    background-color: {{ section.settings.notificaction_button_bg_color }};
+    border: 1px solid {{ section.settings.notificaction_button_border_color }};
+    color: {{ section.settings.notificaction_button_color }};
+  }
+  .notification-entry p a.notification-button:hover {
+    background-color: {{ section.settings.notificaction_button_hover_bg_color }};
+    border: 1px solid {{ section.settings.notificaction_button_hover_border_color }};
+    color: {{ section.settings.notificaction_button_hover_color }};
+  }
+  .notification-close-btn {
+    background-color: {{ section.settings.notificaction_close_button_bg_color }};
+    border: 1px solid {{ section.settings.notificaction_close_button_border_color }};
+    color: {{ section.settings.notificaction_close_button_color }};
+  }
+  .notification-close-btn:hover{
+    background-color: {{ section.settings.notificaction_close_button_hover_bg_color }};
+    border: 1px solid {{ section.settings.notificaction_close_button_hover_border_color }};
+    color: {{ section.settings.notificaction_close_button_hover_color }};
+  }
+  {% if section.settings.notification_button_name == '' %}
+  .notification-close-btn {
+    margin-top: 0px;
+  }
+  {% endif %}
+  .notification-entry p {
+    color: {{ section.settings.notification_text_color }};
+  }
+  .announcement-bar::before {
+    background: {{ section.settings.notification_overlay_color | color_modify: 'alpha', section.settings.notification_overlay_opacity }};
+  }
+</style>
+
+{%- capture announcement_bar -%}
+<div class="announcement-bar" data-section="announcementBar">
+  <div class="container">
+    <div class="row">
+      <div class="notification-entry text-center col-12">
+        <div class="notification-entry-inner">
+          {{ section.settings.notification_text }}
+          {%- if section.settings.countdown_date != '' -%}
+          <div class="product-grid-countdown announcement-bar-countdown" data-countdown="{{ section.settings.countdown_date }}"></div>
+          {%- endif -%}
+          
+          {% if section.settings.notification_button_name != '' %}
+          <p><a class="notification-button" href="{{ section.settings.notification_button_url }}">{{ section.settings.notification_button_name }}</a></p>
+          {% endif %}
+        </div>
+        <button class="notification-close-btn"><i class="icon-cancel for-search-close"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+{%- endcapture -%}
+
+{%- if section.settings.topbar_notification == 'topbar_in_index' and template == 'index' -%}
+{{ announcement_bar }}
+{%- elsif section.settings.topbar_notification == 'topbar_in_template' -%}
+{{ announcement_bar }}
+{%- endif -%}
+
+<script defer="defer">
+  var nToggle = $('.notification-close-btn');
+  nToggle.on('click', function(){
+    $('.announcement-bar').slideToggle();
+  })
+</script>
+{%- endif -%}
+
+
+{% schema %}
+  {
+    "name": "Announcement Bar",
+    "settings": [
+		{
+          "type": "checkbox",
+          "id": "topbar_notification_enable",
+          "label": "Show Announcement Bar",
+          "default": false
+        },
+        {
+          "type": "radio",
+          "id": "topbar_notification",
+          "label": "Show -",
+          "options": [
+            {
+              "label": "Home Page",
+              "value": "topbar_in_index"
+            },
+            {
+              "label": "Whole Page",
+              "value": "topbar_in_template"
+            }
+          ],
+          "default": "topbar_in_index"
+        },
+        {
+          "type": "richtext",
+          "id": "notification_text",
+          "label": "Text",
+          "default": "<p>All Featured Product 50% off<\/p>"
+        },
+        {
+          "type": "text",
+          "id": "countdown_date",
+          "label": "Countdown Date",
+          "info": "YYYY-MM-DD"
+        },
+        {
+          "type": "text",
+          "id": "notification_button_name",
+          "label": "Button Name",
+          "default": "Buy Now"
+        },
+        {
+          "type": "url",
+          "id": "notification_button_url",
+          "label": "URL"
+        },
+        {
+          "type": "image_picker",
+          "id": "notification_bg_image",
+          "label": "BG Image"
+        },
+        {
+          "type": "color",
+          "id": "notification_text_color",
+          "label": "Notification Text Color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "topbar_color_1",
+          "label": "BG Grdian Color One",
+          "default": "#F2F6F7"
+        },
+        {
+          "type": "color",
+          "id": "topbar_color_2",
+          "label": "BG Grdian Color Two",
+          "default": "#F2F6F7"
+        },
+        {
+          "type": "color",
+          "id": "notification_overlay_color",
+          "label": "Overlay Color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "notification_overlay_opacity",
+          "min": 0,
+          "max": 1,
+          "step": 0.1,
+          "label": "Overlay Color Opacity",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Shop Button"
+        },
+        {
+          "type": "color",
+          "id": "notificaction_button_bg_color",
+          "label": "BG Color",
+          "default": "#E53E29"
+        },
+        {
+          "type": "color",
+          "id": "notificaction_button_border_color",
+          "label": "Border Color",
+          "default": "#E53E29"
+        },
+        {
+          "type": "color",
+          "id": "notificaction_button_color",
+          "label": "Text Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "notificaction_button_hover_bg_color",
+          "label": "Hover BG Color",
+          "default": "#071C1F"
+        },
+        {
+          "type": "color",
+          "id": "notificaction_button_hover_border_color",
+          "label": "Hover Border Color",
+          "default": "#071C1F"
+        },
+        {
+          "type": "color",
+          "id": "notificaction_button_hover_color",
+          "label": "Hover Text Color",
+          "default": "#fff"
+        },
+        {
+          "type": "header",
+          "content": "Close Button"
+        },
+        {
+          "type": "color",
+          "id": "notificaction_close_button_bg_color",
+          "label": "BG Color"
+        },
+        {
+          "type": "color",
+          "id": "notificaction_close_button_border_color",
+          "label": "Border Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "notificaction_close_button_color",
+          "label": "Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "notificaction_close_button_hover_bg_color",
+          "label": "Hover BG Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "notificaction_close_button_hover_border_color",
+          "label": "Hover Border Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "notificaction_close_button_hover_color",
+          "label": "Hover Color",
+          "default": "#E53E29"
+        }
+	]
+  }
+{% endschema %}

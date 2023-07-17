@@ -1,0 +1,341 @@
+<div class="ltn__contact-address-area" id="section-{{ section.id }}" data-section="contactInfo2">
+  <div class="container">
+    <div class="row">
+      {%- for block in section.blocks -%}
+      {%- case block.type -%}
+      {%- when 'contact_info' -%}
+      <div class="col-lg-4">
+        <div class="ltn__contact-address-item ltn__contact-address-item-3 box-shadow">
+          {%- if block.settings.icon_image_enable -%}
+          {%- if block.settings.icon_image -%}
+          <div class="ltn__contact-address-icon">
+            <img src="{{ block.settings.icon_image | img_url: '80x' }}" alt="{{ block.settings.icon_image.alt }}" loading="lazy">
+          </div>
+          {%- else -%}
+          <div class="ltn__contact-address-icon">
+            {%- case block.settings.icon_image_select -%}
+            {%- when 'call' -%}
+            <img src="{{ 'icon-call-2.png' | asset_url }}" alt="Call Icon" loading="lazy">
+            {%- when 'mail' -%}
+            <img src="{{ 'icon-mail-2.png' | asset_url }}" alt="Mail Icon" loading="lazy">
+            {%- when 'address' -%}
+            <img src="{{ 'icon-address-2.png' | asset_url }}" alt="Address Icon" loading="lazy">
+            {%- endcase -%}
+          </div>
+          {%- endif -%}
+          {%- endif -%}
+          {%- if block.settings.title != '' -%}
+          <h3>{{ block.settings.title }}</h3>
+          {%- endif -%}
+          {%- if block.settings.content != '' -%}
+          {{ block.settings.content }}
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{%- render 'section-style' -%}
+
+{% schema %}
+  {
+    "name": "Contact Info (2)",
+    "settings": [
+	],
+	"blocks":[
+          {
+            "type": "contact_info",
+            "name": "Contact Info",
+			"limit": 4,
+            "settings": [
+              {
+                "type": "header",
+                "content": "Icon"
+              },
+              {
+                "type": "checkbox",
+                "id": "icon_image_enable",
+                "label": "Show Icon Image",
+                "default": true
+              },
+              {
+                "type": "image_picker",
+                "id": "icon_image",
+                "label": "Image",
+              	"info": "Recommended Size: 80 x 80px"
+              },
+              {
+                "type": "select",
+                "id": "icon_image_select",
+                "label": "Select Icon",
+                "options":[
+                      {
+                          "label": "Call",
+                          "value": "call"
+                      },
+                      {
+                          "label": "Mail",
+                          "value": "mail"
+                      },
+                      {
+                          "label": "Address",
+                          "value": "address"
+                      }
+                  ],
+                  "default": "call",
+                  "info": "This field will take effect if you do not add an icon image"
+              },
+              {
+                "type": "header",
+                "content": "Content"
+              },
+              {
+                "type": "textarea",
+                "id": "title",
+                "label": "Title",
+                "default": "Email Address"
+              },
+              {
+                "type": "richtext",
+                "id": "content",
+                "label": "Content",
+				"default": "<p>info@webmail.com <br>jobs@webexample.com</p>"
+              },
+              {
+                "type": "header",
+                "content": "Column"
+              },
+              {
+                "type": "range",
+                "id": "service_column",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Desktop",
+                "unit": "/12",
+                "default": 4
+              },
+              {
+                "type": "range",
+                "id": "service_column_md",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Tablet",
+                "unit": "/12",
+                "default": 6
+              },
+              {
+                "type": "range",
+                "id": "service_column_sm",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "label": "Mobile",
+                "unit": "/12",
+                "default": 12
+              }
+            ]
+         },
+        {
+          "type": "section_padding",
+          "name": "Section Padding",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "header",
+              "content": "Large/Desktop Device"
+            },
+            {
+              "type": "range",
+              "id": "section_padding_top",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Top",
+              "unit": "px",
+              "default": 0
+            },
+            {
+              "type": "range",
+              "id": "section_padding_bottom",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Bottom",
+              "unit": "px",
+              "default": 90
+            },
+            {
+              "type": "header",
+              "content": "Tablet Device"
+            },
+            {
+              "type": "range",
+              "id": "section_padding_top_md",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Top",
+              "unit": "px",
+              "default": 0
+            },
+            {
+              "type": "range",
+              "id": "section_padding_bottom_md",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Bottom",
+              "unit": "px",
+              "default": 55
+            },
+            {
+              "type": "header",
+              "content": "Mobile Device"
+            },
+            {
+              "type": "range",
+              "id": "section_padding_top_xs",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Top",
+              "unit": "px",
+              "default": 0
+            },
+            {
+              "type": "range",
+              "id": "section_padding_bottom_xs",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Bottom",
+              "unit": "px",
+              "default": 30
+            }
+          ]
+        },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Contact Info (2)",
+		  "category": "9. contact",
+		  "blocks":[
+				{
+					"type": "contact_info"
+				},
+				{
+					"type": "contact_info"
+				},
+				{
+					"type": "contact_info"
+				},
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

@@ -1,0 +1,337 @@
+{%- assign ssfbi = section.settings.footer_top_bg_image -%}
+{%- assign sslwe = section.settings.large_width_enable -%}
+
+<div class="footer-top-area section-bg-1 {% if sslwe %}plr--9{% endif %} {% if ssfbi %}bg-image{% endif %}" {% if ssfbi %}data-bg="{{ ssfbi | img_url: 'master' }}"{% endif %}>
+  <div class="{% if sslwe %}container-fluid{% else %}container{% endif %}">
+    <div class="row"> 
+      {%- for block in section.blocks -%}
+      {%- case block.type -%}
+      {%- when 'time_schedule' -%}
+      <div class="col-sm-{{ block.settings.widget_column_sm }} col-md-{{ block.settings.widget_column_md }} col-lg-{{ block.settings.widget_column }}">
+        <div class="footer-widget ltn__footer-timeline-widget ltn__footer-timeline-widget-1 {% if block.settings.time_schedule_bg_image %}bg-image{% endif %}" {% if block.settings.time_schedule_bg_image %}data-bg="{{ block.settings.time_schedule_bg_image | img_url: '1024x1024' }}"{% endif %}>
+          {%- if block.settings.widget_sub_title != '' -%}
+          <h6 class="ltn__secondary-color">{{ block.settings.widget_sub_title }}</h6>
+          {%- endif -%}
+          {%- if block.settings.widget_title != '' -%}
+          <h4 class="footer-title">{{ block.settings.widget_title }}</h4>
+          {%- endif -%}
+          <ul>
+            {{ block.settings.time_schedule }}
+          </ul>
+        </div>
+        {%- if block.settings.color_enable -%}
+        <style>
+          .ltn__footer-timeline-widget-1:before {
+            background: {{ block.settings.time_schedule_bg_color | color_modify: 'alpha', block.settings.time_schedule_bg_color_opacity }};
+          }
+          .ltn__footer-timeline-widget ul li {
+            border-color: {{ block.settings.time_schedule_border_color }};
+            color: {{ block.settings.time_schedule_color }};
+          }
+          .ltn__footer-timeline-widget .footer-title{
+            color: {{ block.settings.time_schedule_color }};
+          }
+          .ltn__footer-timeline-widget ul li span {
+            color: {{ block.settings.time_schedule_time_color }};
+          }
+        </style>
+        {%- endif -%}
+      </div>
+      {%- when 'double_menu' -%}
+      <div class="col-sm-{{ block.settings.widget_column_sm }} col-md-{{ block.settings.widget_column_md }} col-lg-{{ block.settings.widget_column }}">
+        <div class="footer-widget footer-menu-widget footer-menu-widget-2-column clearfix">
+          {%- if block.settings.widget_title != '' -%}
+          <h4 class="footer-title">{{ block.settings.widget_title }}</h4>
+          {%- endif -%}
+          <div class="footer-menu">
+            <ul>
+              {%- assign menu = block.settings.menu_handle -%}
+              {%- for link in linklists[menu].links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+          <div class="footer-menu">
+            <ul>
+              {%- assign menu_2 = block.settings.menu_2_handle -%}
+              {%- for link in linklists[menu_2].links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        </div>
+      </div>
+      {%- when 'blog' -%}
+      <div class="col-sm-{{ block.settings.widget_column_sm }} col-md-{{ block.settings.widget_column_md }} col-lg-{{ block.settings.widget_column }}">
+        <div class="footer-widget footer-blog-widget">
+          {%- if block.settings.widget_title != '' -%}
+          <h4 class="footer-title">{{ block.settings.widget_title }}</h4>
+          {%- endif -%}
+
+          {% assign blog = blogs[block.settings.blog_handle] %}
+          {% assign blog_limit = block.settings.blog_limit_handle %}
+          {% for article in blog.articles limit: blog_limit %}
+          <div class="ltn__footer-blog-item">
+            <div class="ltn__blog-meta">
+              <ul>
+                <li class="ltn__blog-date"><i class="far fa-calendar-alt"></i> {{ article.published_at | date: '%B %d' }}, {{ article.published_at | date: '%Y' }}</li>
+              </ul>
+            </div>
+            <h4 class="ltn__blog-title"><a href="{{ article.url }}">{{ article.title }}</a></h4>
+          </div>
+          {%- endfor -%}
+        </div>
+      </div>     
+      {%- when 'contact' -%}
+      <div class="col-sm-{{ block.settings.widget_column_sm }} col-md-{{ block.settings.widget_column_md }} col-lg-{{ block.settings.widget_column }}">
+        <div class="footer-widget footer-about-widget">
+          <div class="footer-logo">
+            {%- if block.settings.logo -%}
+            <div class="site-logo">
+              {%- assign logo_size = block.settings.logo_width | append: 'x' -%}
+              <a href="{{ routes.root_url }}">
+                <img srcset="{{ block.settings.logo | img_url: logo_size }} 1x, {{ block.settings.logo | img_url: logo_size, scale: 2 }} 2x"
+                     src="{{ block.settings.logo | img_url: logo_size }}"
+                     loading="lazy"
+                     width="{{ block.settings.logo.width }}"
+                     height="{{ block.settings.logo.height }}"
+                     alt="{{ block.settings.logo.alt | default: shop.name | escape }}"
+                     >
+              </a>
+            </div>
+            {% endif %}
+          </div>
+          {%- if block.settings.contact_content != '' -%}
+          {{ block.settings.contact_content }}
+          {%- endif -%}
+          <div class="footer-address">
+            <ul>
+              {%- if block.settings.contact_info_1 != '' -%}
+              <li>
+                <div class="footer-address-icon">
+                  <i class="icon-placeholder"></i>
+                </div>
+                <div class="footer-address-info">
+                  {{ block.settings.contact_info_1 }}
+                </div>
+              </li>
+              {%- endif -%}
+              {%- if block.settings.contact_info_2 != '' -%}
+              <li>
+                <div class="footer-address-icon">
+                  <i class="icon-call"></i>
+                </div>
+                <div class="footer-address-info">
+                  {{ block.settings.contact_info_2 }}
+                </div>
+              </li>
+              {%- endif -%}
+              {%- if block.settings.contact_info_3 != '' -%}
+              <li>
+                <div class="footer-address-icon">
+                  <i class="icon-mail"></i>
+                </div>
+                <div class="footer-address-info">
+                  {{ block.settings.contact_info_3 }}
+                </div>
+              </li>
+              {%- endif -%}
+            </ul>
+          </div>
+          {%- if block.settings.social_media_enable -%}
+          <div class="ltn__social-media mt-20">
+            <ul>
+              {%- render 'social-media' -%}
+            </ul>
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- when 'contact_2' -%}
+      <div class="col-sm-{{ block.settings.widget_column_sm }} col-md-{{ block.settings.widget_column_md }} col-lg-{{ block.settings.widget_column }}">
+        <div class="footer-widget footer-about-widget text-center">
+          <div class="footer-logo">
+            {%- if block.settings.logo -%}
+            <div class="site-logo">
+              {%- assign logo_size = block.settings.logo_width | append: 'x' -%}
+              <a href="{{ routes.root_url }}">
+                <img srcset="{{ block.settings.logo | img_url: logo_size }} 1x, {{ block.settings.logo | img_url: logo_size, scale: 2 }} 2x"
+                     src="{{ block.settings.logo | img_url: logo_size }}"
+                     loading="lazy"
+                     width="{{ block.settings.logo.width }}"
+                     height="{{ block.settings.logo.height }}"
+                     alt="{{ block.settings.logo.alt | default: shop.name | escape }}"
+                     >
+              </a>
+            </div>
+            {% endif %}
+          </div>
+          {%- if block.settings.contact_content != '' -%}
+          {{ block.settings.contact_content }}
+          {%- endif -%}
+          <div class="footer-address">
+            <ul>
+              {%- if block.settings.contact_info_1 != '' -%}
+              <li>
+                <div class="footer-address-info">
+                  {{ block.settings.contact_info_1 }}
+                </div>
+              </li>
+              {%- endif -%}
+              {%- if block.settings.contact_info_2 != '' -%}
+              <li>
+                <div class="footer-address-info">
+                  {{ block.settings.contact_info_2 }}
+                </div>
+              </li>
+              {%- endif -%}
+              {%- if block.settings.contact_info_3 != '' -%}
+              <li>
+                <div class="footer-address-info">
+                  {{ block.settings.contact_info_3 }}
+                </div>
+              </li>
+              {%- endif -%}
+            </ul>
+          </div>
+          {%- if block.settings.social_media_enable -%}
+          <div class="ltn__social-media mt-20">
+            <ul>
+              {%- render 'social-media' -%}
+            </ul>
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- when 'menu' -%}
+      <div class="col-sm-{{ block.settings.widget_column_sm }} col-md-{{ block.settings.widget_column_md }} col-lg-{{ block.settings.widget_column }}">
+        <div class="footer-widget footer-menu-widget clearfix">
+          {%- if block.settings.widget_title != '' -%}
+          <h4 class="footer-title">{{ block.settings.widget_title }}</h4>
+          {%- endif -%}
+          <div class="footer-menu">
+            <ul>
+              {%- assign menu = block.settings.menu_handle -%}
+              {%- for link in linklists[menu].links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        </div>
+      </div>
+      {%- when 'about' -%}
+      <div class="col-sm-{{ block.settings.widget_column_sm }} col-md-{{ block.settings.widget_column_md }} col-lg-{{ block.settings.widget_column }}">
+        <div class="footer-widget footer-about-widget clearfix">
+          {%- if block.settings.widget_title != '' -%}
+          <h4 class="footer-title">{{ block.settings.widget_title }}</h4>
+          {%- endif -%}
+          {%- if block.settings.about_content != '' -%}
+          {{ block.settings.about_content }}
+          {%- endif -%}
+          {%- if block.settings.social_media_enable -%}
+          <div class="ltn__social-media-4">
+            <ul>
+              {%- render 'social-media' -%}
+            </ul>
+          </div>
+          {%- endif -%}
+        </div>
+        {%- if block.settings.color_enable -%}
+        <style>
+          .ltn__social-media-4 ul li a {
+            background-color: {{ block.settings.social_bg_color }};
+            color: {{ block.settings.social_color }};
+          }
+        </style>
+        {%- endif -%}
+      </div>
+      {%- when 'newsletter' -%}
+      <div class="col-sm-{{ block.settings.widget_column_sm }} col-md-{{ block.settings.widget_column_md }} col-lg-{{ block.settings.widget_column }}">
+        <div class="footer-widget footer-newsletter-widget">
+          {%- if block.settings.widget_title != '' -%}
+          <h4 class="footer-title">{{ block.settings.widget_title }}</h4>
+          {%- endif -%}
+          {%- if block.settings.newsletter_content != '' -%}
+          {{ block.settings.newsletter_content }}
+          {%- endif -%}
+          
+          
+          {%- if settings.newsletter_system == 'by_shopify_form' -%}
+          {%- assign formId = 'Contact_' | append: section.id -%}
+          {%- form 'customer', id: formId -%} 
+          {%- if form.posted_successfully? -%}
+          <p class="form-message form-message--success form-success">{{ 'general.newsletter_form.confirmation'| t }}</p>
+          {%- endif -%}
+          {%- if form.errors -%}
+          <div class="form-message form-message--error">
+            {{ form.errors | default_errors }}
+          </div>
+          {%- endif -%}
+          <div class="footer-newsletter">
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input class="" type="email" name="contact[email]" id="Email" value="{% if customer %}{{ customer.email }}{% endif %}"
+                   placeholder="{{ 'general.newsletter_form.newsletter_email'| t }}" aria-label="{{ 'general.newsletter_form.newsletter_email'| t }}" {% if form.errors %}aria-invalid="true"{% endif %} autocorrect="off" autocapitalize="off">
+            <div class="btn-wrapper">
+              <button class="theme-btn-1 btn" type="submit" name="commit" id="Subscribe"><i class="fas fa-location-arrow"></i></button>
+            </div>
+          </div>
+          {%- endform -%}
+
+          {%- elsif settings.newsletter_system == 'by_mailchimp' -%}
+          <div class="footer-newsletter">
+            <form {% if settings.newsletter_action != '' %}action="{{ settings.newsletter_action }}"{% else %}action="#"{% endif %} method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" class="ltn__form-box">
+              <input type="email" class="" id="mail" value="{% if customer %}{{ customer.email }}{% endif %}" name="EMAIL" placeholder="{{ 'general.newsletter_form.newsletter_email'| t }}">
+              <div class="btn-wrapper">
+                <button class="theme-btn-1 btn" type="submit" id="subscribe"><i class="fas fa-location-arrow"></i></button>
+              </div>
+            </form>
+          </div>
+          {%- endif -%}
+          
+          {%- if block.settings.payment_widget_title != '' -%}
+          <h5 class="mt-30">{{ block.settings.payment_widget_title }}</h5>
+          {%- endif -%}
+          {%- if block.settings.payment_image -%}
+          {%- assign image = block.settings.payment_image -%}
+          <div class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+            <img srcset="{% if image.width >= 260 %}{{ image | img_url: '260x' }} 260w,{% endif %}
+                         {% if image.width >= 290 %}{{ image | img_url: '298x' }} 298w,{% endif %}
+                         {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}"
+                 loading="lazy"
+                 src="{{ image | img_url: '370x' }}"
+                 sizes: "100vw"
+                 width="{{ image.width }}"
+                 height="{{ image.height }}"
+                 alt="{{ image.alt | escape }}"
+                 class="image-position-size"
+                 >
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- when 'blank_column' -%}
+      <div class="d-none d-lg-block col-lg-{{ block.settings.widget_column }}">
+        
+      </div>
+      {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }} .section-bg-1{
+    background-color: {{ section.settings.footer_bg_color }};
+  }
+  .footer-widget .footer-title{
+    color: {{ section.settings.footer_widget_title_color }};
+  }
+  .footer-widget, .footer-widget p, .ltn__footer-blog-item .ltn__blog-title, .footer-widget h5{
+    color: {{ section.settings.footer_color }};
+  }
+  .ltn__footer-blog-item {
+    border-color: {{ section.settings.footer_blog_border_color }};
+  }
+</style>
+{% endif %}

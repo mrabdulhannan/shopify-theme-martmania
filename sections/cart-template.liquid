@@ -1,0 +1,348 @@
+<!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script><!--<![endif]-->
+<!--[if lte IE 9]><script src="{{ 'shopify_common.js' | shopify_asset_url }}"></script><![endif]-->
+
+<!-- PAGE SECTION START -->
+<div class="cart-page theme-default-margin">
+  <div class="container">
+    {%- if cart.item_count > 0 -%}
+    <form action="/cart" method="post" novalidate class="cart" name="cart-ajax-update">
+      <div class="row">
+        <div class="col-lg-12 col-12">
+          <div class="cart-table table-responsive mb-40">
+            <table>
+              <tbody>
+                {% for item in cart.items %}
+                <tr>
+                  <td class="pro-thumbnail"><a href="{{ item.url }}"><img src="{{ item | img_url: 'compact' }}" alt="{{ item.title | escape }}" loading="lazy"/></a></td>
+                  <td class="pro-title">
+                    <a href="{{ item.url }}">{{ item.product.title }}</a>
+                    {%- unless item.variant.title contains 'Default' -%}
+                    <span>{{ item.variant.title }}</span>
+                    {%- endunless -%}
+                    {% if section.settings.cart_vendor_enable %}
+                    <p>{{ item.vendor }}</p>
+                    {% endif %}
+                  </td>
+                  <td class="pro-price"><span class="amount">{{ item.price | money }}</span></td>
+                  <td class="pro-quantity cart-product-quantity">
+                    <div class="product-quantity cart-plus-minus">
+                      <input class="cart-plus-minus-box" type="text" value="{{ item.quantity }}" name="updates[]" />
+                    </div>
+                  </td>
+                  <td class="pro-subtotal">{{ item.line_price | money }}</td>
+                  <td class="pro-remove"><a href="/cart/change?line={{ forloop.index }}&amp;quantity=0">×</a></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-lg-12 col-12">
+          <div class="cart-buttons">
+            {%- if section.settings.update_button_title != '' -%}
+            <input class="theme-default-button" name="update" type="submit" value="{{ section.settings.update_button_title }}" />
+            {%- endif -%}
+            <a class="theme-default-button" href="javascript:history.back()">{{ section.settings.continue_shopping_title }}</a>
+            <a class="theme-default-button" href="/cart/clear">{{ section.settings.clear_cart_title }}</a>
+          </div>
+        </div>
+        <div class="col-lg-12 col-12">
+          <div class="cart-payment">
+            <div class="row">
+              {%- unless section.settings.cart_feature == 'without_both' -%}
+              <div class="col-lg-6">  
+                {%- if section.settings.cart_feature == 'cart_note' -%}
+                <div class="cart-coupon">
+                  <h3>{{ section.settings.cart_note_title }}</h3>
+                  <textarea name="note" class="" id="CartSpecialInstructions">{{ cart.note }}</textarea>
+                </div>
+                {%- endif -%}
+                {%- if section.settings.cart_feature == 'shipping_calculator' -%}
+                {%- render 'cart-shipping-calculator' -%}
+                {%- endif -%}
+              </div>
+              {%- endunless -%}
+              <div class="col-lg-6{% if section.settings.cart_feature == 'without_both' %} offset-lg-6{% endif %}">
+                <div class="cart-total">
+                  <h3>{{ section.settings.cart_total_heading_title }}</h3>
+                  <table class="table">
+                    <tbody>
+                      <tr class="cart-subtotal">
+                        <th>{{ section.settings.cart_subtotal_title }}</th>
+                        <td><span class="amount"><span id="bk-cart-subtotal-price">{{ cart.total_price | money }}</span></span></td>
+                      </tr>
+                      <tr class="order-total">
+                        <th>{{ section.settings.cart_total_title }}</th>
+                        <td>
+                          <strong><span class="amount"><span id="bk-cart-subtotal-price">{{ cart.total_price | money }}</span></span></strong>
+                        </td>
+                      </tr>											
+                    </tbody>
+                  </table>
+                  {%- if cart.total_discounts > 0 -%}
+                  {% assign savings = cart.total_discounts | money %}
+                  <p>
+                    <span class="cart-subtotal__savings"><em>{{ 'cart.general.savings_html' | t: price: savings }}</em></span>
+                  </p>
+                  {%- endif -%}
+                  <div class="proceed-to-checkout">
+                    <button type="submit" class="theme-default-button" name="checkout">{{ section.settings.checkout_button_title }}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    {%- else -%}
+    <div class="row">
+      <div class="col-lg-12 col-12">
+        <div class="empty-cart-page">
+          <h2>{{ section.settings.shopping_cart_title }}</h2>
+          <h3>{{ section.settings.cart_empty_title }}</h3>
+          <p>{{ section.settings.cart_continue_title }} <a href="/collections/all">{{ section.settings.here_title }}</a></p>
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+  </div>
+</div>
+<!-- PAGE SECTION END -->
+
+<script>
+  setTimeout(function() {
+    $('.product-quantity .qtybutton').click(function() {
+      $('form[name="cart-ajax-update"]').submit();
+    });
+  }, 500);
+</script>
+
+<style>
+  @media (max-width: 767px) {
+    /* Force table to not be like tables anymore */
+    .cart-table table, .cart-table thead, .cart-table tbody, .cart-table th, .cart-table td, .cart-table tr { 
+      display: block; 
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    .cart-table thead tr { 
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+
+    .cart-table tr { border: 1px solid #dee2e6; }
+
+    .cart-table td { 
+      /* Behave  like a "row" */
+      border: none;
+      border-bottom: 1px solid #dee2e6; 
+      position: relative;
+      padding-left: 50%; 
+    }
+
+    .cart-table td:before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding-right: 0;
+      white-space: nowrap;
+    }
+
+    /*
+    Label the data
+    
+    td:nth-of-type(1):before { content: "{{ section.settings.table_image_title }}"; }
+    td:nth-of-type(2):before { content: "{{ section.settings.table_product_title }}"; }
+    td:nth-of-type(3):before { content: "{{ section.settings.table_price_title }}"; }
+    td:nth-of-type(4):before { content: "{{ section.settings.table_quantity_title }}"; }
+    td:nth-of-type(5):before { content: "{{ section.settings.table_total_title }}"; }
+    td:nth-of-type(6):before { content: "{{ section.settings.table_reomove_title }}"; }
+    */
+    .cart-table table tbody tr td.pro-thumbnail {
+      width: auto;
+    }
+    .cart-table table tbody tr td.pro-thumbnail {
+      width: auto;
+      max-width: 100%;
+      min-width: 100%;
+      text-align: center;
+    }
+    .cart-table table tbody tr td.pro-thumbnail a {
+      display: block;
+      min-width: unset;
+      width: auto;
+    }
+    .cart-table table tbody tr td.pro-thumbnail a img {
+      width: auto;
+      max-width: 100%;
+    }
+    .cart-table table tbody tr td.pro-title {
+      width: auto;
+    }
+    .cart-table table tbody tr td.pro-price {
+      width: auto;
+    }
+    .cart-table table tbody tr td.pro-quantity {
+      width: auto;
+    }
+    .cart-table table tbody tr td.pro-subtotal {
+      width: auto;
+    }
+    .cart-table table tbody tr td.pro-remove {
+      width: auto;
+    }
+    .cart-table table tbody tr td.pro-remove a {
+      width: auto;
+    }
+    .cart-table table tbody tr td {
+      padding: 5px 5px;
+    }
+    .cart-table td.pro-thumbnail a {
+      border: 0px solid #eee;
+    }
+    .cart-table table tbody tr td {
+      border-bottom: 0px solid #ddd;
+    }
+    .cart-table table tbody tr td {
+      border-top: 0px solid #dee2e6;
+    }
+  }
+</style>
+
+
+{% schema %}
+  {
+    "name": "Cart Page",
+    "settings": [
+		{
+			"type": "header",
+			"content": "Button Title"
+		},
+		{
+			"type": "text",
+			"id": "update_button_title",
+			"label": "Update Button Title",
+			"default": "Update Cart"
+		},
+		{
+			"type": "text",
+			"id": "continue_shopping_title",
+			"label": "Continue Shopping Button Title",
+			"default": "Continue Shopping"
+		},
+		{
+			"type": "text",
+			"id": "clear_cart_title",
+			"label": "Clear Cart Button Title",
+			"default": "Clear Cart"
+		},
+		{
+			"type": "checkbox",
+			"id": "cart_vendor_enable",
+			"label": "Show Product Vendor",
+			"default": false
+		},
+		{
+			"type": "header",
+			"content": "Cart Note / Shipping Calculator"
+		},
+		{
+            "type": "radio",
+            "id": "cart_feature",
+            "label": "Show Any One",
+            "options": [
+                {
+                    "value": "shipping_calculator",
+                    "label": "Shipping Calculator"
+                },
+                {
+                    "value": "cart_note",
+                    "label": "Cart Note"
+                },
+                {
+                    "value": "without_both",
+                    "label": "Without Both"
+                }
+            ],
+            "default": "shipping_calculator"
+        },
+		{
+			"type": "text",
+			"id": "shipping_calculator_heading",
+			"label": "Shipping Calculator Title",
+			"default": "Get shipping estimates"
+		},
+		{
+			"type": "text",
+			"id": "shipping_calculator_button_title",
+			"label": "Shipping Calculator Button Title",
+			"default": "Calculate shipping"
+		},
+		{
+			"type": "text",
+			"id": "cart_note_title",
+			"label": "Cart Note Title",
+			"default": "Special instructions for seller"
+		},
+		{
+			"type": "header",
+			"content": "Cart Totals"
+		},
+		{
+			"type": "text",
+			"id": "cart_total_heading_title",
+			"label": "Cart Total Heading Title",
+			"default": "Cart Totals"
+		},
+		{
+			"type": "text",
+			"id": "cart_subtotal_title",
+			"label": "Cart Subtotal Title",
+			"default": "Subtotal"
+		},
+		{
+			"type": "text",
+			"id": "cart_total_title",
+			"label": "Cart Total Title",
+			"default": "Total"
+		},
+		{
+			"type": "text",
+			"id": "checkout_button_title",
+			"label": "Checkout Button Title",
+			"default": "Proceed to Checkout"
+		},
+		{
+			"type": "header",
+			"content": "Cart Empty"
+		},
+		{
+			"type": "text",
+			"id": "shopping_cart_title",
+			"label": "Shopping Cart Title",
+			"default": "Shopping Cart"
+		},
+		{
+			"type": "text",
+			"id": "cart_empty_title",
+			"label": "Cart Empty Title",
+			"default": "Your cart is currently empty."
+		},
+		{
+			"type": "text",
+			"id": "cart_continue_title",
+			"label": "Continue Browsing Title",
+			"default": "Continue browsing"
+		},
+		{
+			"type": "text",
+			"id": "here_title",
+			"label": "Here Title",
+			"default": "here"
+		}
+	]
+  }
+{% endschema %}

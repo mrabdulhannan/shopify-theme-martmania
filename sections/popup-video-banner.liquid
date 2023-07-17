@@ -1,0 +1,277 @@
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }} .ltn__video-icon-2-border {
+    outline: 4px solid {{ section.settings.video_button_border_color }};
+  }
+  #section-{{ section.id }} .ltn__video-icon-2-border:hover {
+    outline: 4px solid {{ section.settings.video_button_hover_border_color }};
+  }
+</style>
+{%- endif -%}
+
+{%- render 'section-style' -%}
+
+<!-- VIDEO AREA START -->
+<div class="ltn__video-popup-area {% if section.settings.margin_bottom_minus %}ltn__video-popup-margin{% endif %} {% if section.settings.margin_top_minus %}ltn__video-popup-margin-2{% endif %}" id="section-{{ section.id }}" data-section="popupVideoBanner">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ltn__video-bg-img ltn__video-popup-height-600 bg-overlay-black-10-- bg-image" 
+             {% if section.settings.banner_image %}
+             data-bg="{{ section.settings.banner_image | img_url: '1170x' }}"{% else %}data-bg="https://via.placeholder.com/1170x600"{% endif %}>
+          <a class="ltn__video-icon-2 ltn__video-icon-2-border" href="https://www.youtube.com/embed/{{ section.settings.video_url.id }}" data-rel="lightcase:lightcase:section-{{ section.id }}-myCollection">
+            <i class="fa fa-play"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- VIDEO AREA END 01316 008516 -->
+
+{% schema %}
+  {
+    "name": "Popup Video Banner",
+    "settings": [
+		{
+          "type": "image_picker",
+          "id": "banner_image",
+          "label": "Banner Image",
+          "info": "Recommended Size: 1170 x 600px"
+      	},
+        {
+          "id": "video_url",
+          "type": "video_url",
+          "label": "Video URL",
+          "accept": ["youtube"],
+          "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+        },
+        {
+          "type": "checkbox",
+          "id": "margin_top_minus",
+          "label": "Margin Top Minus Enable",
+          "default": false,
+          "info": "Enable the field for Margin bottom minus -295px"
+        },
+        {
+          "type": "checkbox",
+          "id": "margin_bottom_minus",
+          "label": "Margin Bottom Minus Enable",
+          "default": false,
+          "info": "Enable the field for Margin bottom minus -180px"
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "video_button_border_color",
+          "label": "Video Button Border Color",
+          "default": "#e4ecf2"
+        },
+        {
+          "type": "color",
+          "id": "video_button_hover_border_color",
+          "label": "Video Button Hover Border Color",
+          "default": "#e53e29"
+        }
+	],
+	"blocks":[
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 115
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 80
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 60
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#ffffff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Popup Video Banner",
+		  "category": "2. banner",
+		  "blocks":[
+				{
+					"type": "section_margin"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}

@@ -1,0 +1,52 @@
+{%- style -%}
+  #section-{{ section.id }}{
+    {%- for block in section.blocks -%}
+    {%- case block.type -%}
+    {%- when 'section_margin' -%}
+	{%- assign bset = block.settings -%}
+    margin-top: {{ bset.section_margin_top }}px;
+    margin-bottom: {{ bset.section_margin_bottom }}px;
+    {%- when 'section_padding' -%}
+	{%- assign bset = block.settings -%}
+    padding-top: {{ bset.section_padding_top }}px;
+    padding-bottom: {{ bset.section_padding_bottom }}px;
+    {%- when 'section_background' -%}
+	{%- assign bset = block.settings -%}
+    background: {{ bset.section_bg_color }} 
+      {%- if bset.section_bg_image -%}url("{{ bset.section_bg_image | img_url: 'master' }}"){%- endif -%} no-repeat scroll center center / cover;
+    {%- endcase -%}
+    {%- endfor -%}
+  }
+  @media (min-width: 768px) and (max-width: 991px) {
+    #section-{{ section.id }}{
+      {%- for block in section.blocks -%}
+      {% case block.type %}
+      {%- when 'section_margin' -%}
+	  {%- assign bset = block.settings -%}
+      margin-top: {{ bset.section_margin_top_md }}px;
+      margin-bottom: {{ bset.section_margin_bottom_md }}px;
+      {%- when 'section_padding' -%}
+	  {%- assign bset = block.settings -%}
+      padding-top: {{ bset.section_padding_top_md }}px;
+      padding-bottom: {{ bset.section_padding_bottom_md }}px;
+      {%- endcase -%}
+      {%- endfor -%}
+    }
+  }
+  @media (max-width: 767px) {
+    #section-{{ section.id }}{
+      {%- for block in section.blocks -%}
+      {%- case block.type -%}
+      {%- when 'section_margin' -%}
+	  {%- assign bset = block.settings -%}
+      margin-top: {{ bset.section_margin_top_xs }}px;
+      margin-bottom: {{ bset.section_margin_bottom_xs }}px;
+      {%- when 'section_padding' -%}
+	  {%- assign bset = block.settings -%}
+      padding-top: {{ bset.section_padding_top_xs }}px;
+      padding-bottom: {{ bset.section_padding_bottom_xs }}px;
+      {%- endcase -%}
+      {%- endfor -%}
+    }
+  }
+{%- endstyle -%}

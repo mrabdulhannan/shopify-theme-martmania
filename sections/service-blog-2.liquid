@@ -1,0 +1,350 @@
+<!-- IMAGE SLIDER AREA START (img-slider-3) -->
+<div class="ltn__img-slider-area" id="section-{{ section.id }}" data-section="serviceBlogTwo">
+  <div class="container-fluid">
+        {%- capture data_slick_activation -%}
+        data-slick='{
+            {%- if section.settings.autoplay_true -%}
+            "autoplay": true,
+            "autoplaySpeed": {{ section.settings.autoplay_speed }},
+            {%- endif -%}
+             "slidesToShow": {{ section.settings.blog_column }},
+              "responsive":[
+                  {"breakpoint":992, "settings": {"slidesToShow": {{ section.settings.blog_column_md }}, "arrows": false, "dots": true} },
+                  {"breakpoint":768, "settings": {"slidesToShow": {{ section.settings.blog_column_sm }}, "arrows": false, "dots": true} },
+                  {"breakpoint":480, "settings": {"slidesToShow": 1, "arrows": false, "dots": true} }
+                ]
+        }'
+        {%- endcapture -%}
+    {% assign blog = blogs[section.settings.blog_handle] %}
+    {% assign blog_limit = section.settings.blog_limit_handle %}
+    <div class="row ltn__image-slider-4-active slick-arrow-1 slick-arrow-1-inner ltn__no-gutter-all" {{ data_slick_activation }}>
+      {% for article in blog.articles limit: blog_limit %}
+      <div class="col-lg-12">
+        <div class="ltn__img-slide-item-4">
+          {%- assign image = article.image -%}
+          <a href="{{ article | img_url: '1024x1024' }}" data-rel="lightcase:section-{{ section.id }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+            <img srcset="{% if image.width >= 240 %}{{ image | img_url: '240x' }} 240w,{% endif %}
+                         {% if image.width >= 270 %}{{ image | img_url: '270x' }} 270w,{% endif %}
+                         {% if image.width >= 300 %}{{ image | img_url: '300x' }} 300w,{% endif %}
+                         {% if image.width >= 340 %}{{ image | img_url: '340x' }} 340w,{% endif %}
+                         {% if image.width >= 370 %}{{ image | img_url: '370x' }} 370w,{% endif %}
+                         {% if image.width >= 470 %}{{ image | img_url: '470x' }} 470w,{% endif %}
+                         {% if image.width >= 570 %}{{ image | img_url: '570x' }} 570w,{% endif %}
+                         {% if image.width >= 670 %}{{ image | img_url: '670x' }} 670w,{% endif %}
+                         {% if image.width >= 770 %}{{ image | img_url: '770x' }} 1100w,{% endif %}
+                         {% if image.width >= 900 %}{{ image | img_url: '900x' }} 900w,{% endif %}
+                         {% if image.width >= 970 %}{{ image | img_url: '970x' }} 970w,{% endif %}
+                         {% if image.width >= 1100 %}{{ image | img_url: '1100x' }} 1100w,{% endif %}
+                         {% if image.width >= 1200 %}{{ image | img_url: '1200x' }} 1200w{% endif %}"
+                 loading="lazy"
+                 src="{{ image | img_url: '1200x' }}"
+                 sizes="100vw"
+                 width="{{ image.width }}"
+                 height="{{ image.height }}"
+                 alt="{{ image.alt | escape }}"
+                 class="image-position-size"
+                 >
+          </a>
+          <div class="ltn__img-slide-info">
+            <div class="ltn__img-slide-info-brief">
+              {%- if section.settings.tag_enable and article.tags.size > 0 -%}
+              <h6>
+                {%- for tag in article.tags limit: 1 -%}
+                {{ tag }}
+                {%- endfor -%}
+              </h6>
+              {%- endif -%}
+              <h1><a href="{{ article.url }}">{{ article.title }}</a></h1>
+            </div>
+            <div class="btn-wrapper">
+              <a href="{{ article.url }}" class="btn theme-btn-1 btn-effect-1 text-uppercase">{{ section.settings.details_title }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<!-- IMAGE SLIDER AREA END -->
+
+{%- render 'section-style' -%}
+
+{% schema %}
+  {
+    "name": "Service Blog (2)",
+    "settings": [
+		{
+			"type": "header",
+            "content": "Blog"
+        },
+		{
+          "type": "blog",
+          "id": "blog_handle",
+          "label": "Select Blog"
+        },
+		{
+            "type": "range",
+            "id": "blog_limit_handle",
+            "min": 2,
+            "max": 12,
+            "step": 1,
+            "label": "Limit",
+            "default": 6
+        },
+		{
+          "type": "checkbox",
+          "id": "tag_enable",
+          "label": "Show Tag",
+          "default": true
+      	},
+		{
+          "type": "text",
+          "id": "details_title",
+          "label": "Details Title",
+          "default": "Details"
+      	},
+		{
+			"type": "header",
+            "content": "Blog Column"
+        },
+		{
+            "type": "range",
+            "id": "blog_column",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "label": "Desktop",
+            "default": 4
+        },
+		{
+            "type": "range",
+            "id": "blog_column_md",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "label": "Tablet",
+            "default": 3
+        },
+		{
+            "type": "range",
+            "id": "blog_column_sm",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "label": "Mobile",
+            "default": 1
+        },
+		{
+			"type": "header",
+            "content": "Options"
+        },
+		{
+          "type": "checkbox",
+          "id": "autoplay_true",
+          "label": "Autoplay Enable",
+          "default": false
+      	},
+		{
+            "type": "range",
+            "id": "autoplay_speed",
+            "min": 1000,
+            "max": 9000,
+            "step": 1000,
+            "label": "Autoplay Speed",
+            "unit": "ms",
+            "default": 7000
+        }
+    ],
+	"blocks":[
+        {
+          "type": "section_padding",
+          "name": "Section Padding",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "header",
+              "content": "Large/Desktop Device"
+            },
+            {
+              "type": "range",
+              "id": "section_padding_top",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Top",
+              "unit": "px",
+              "default": 0
+            },
+            {
+              "type": "range",
+              "id": "section_padding_bottom",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Bottom",
+              "unit": "px",
+              "default": 85
+            },
+            {
+              "type": "header",
+              "content": "Tablet Device"
+            },
+            {
+              "type": "range",
+              "id": "section_padding_top_md",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Top",
+              "unit": "px",
+              "default": 0
+            },
+            {
+              "type": "range",
+              "id": "section_padding_bottom_md",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Bottom",
+              "unit": "px",
+              "default": 50
+            },
+            {
+              "type": "header",
+              "content": "Mobile Device"
+            },
+            {
+              "type": "range",
+              "id": "section_padding_top_xs",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Top",
+              "unit": "px",
+              "default": 0
+            },
+            {
+              "type": "range",
+              "id": "section_padding_bottom_xs",
+              "min": 0,
+              "max": 150,
+              "step": 5,
+              "label": "Padding Bottom",
+              "unit": "px",
+              "default": 25
+            }
+          ]
+        },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#fff"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Service Blog (2)",
+		  "category": "8. blog",
+		  "blocks":[
+				{
+					"type": "section_padding"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}
+

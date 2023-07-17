@@ -1,0 +1,515 @@
+<!-- SERVICE AREA START (Service 1) -->
+<div class="ltn__service-area ltn__primary-bg before-bg-1" id="section-{{ section.id }}" data-section="serviceSectionSix">
+  <div class="container">
+    {%- if section.settings.section_title != '' or section.settings.section_sub_title != '' -%}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-title-area ltn__section-title-2 text-center">
+          {%- if section.settings.section_sub_title != '' -%}
+          <h6 class="section-subtitle ltn__secondary-color">{{ section.settings.section_sub_title }}</h6>
+          {%- endif -%}
+          {%- if section.settings.section_title != '' -%}
+          <h1 class="section-title white-color">{{ section.settings.section_title }}</h1>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+    <div class="row justify-content-center">
+      {%- for block in section.blocks -%}
+      {%- case block.type -%}
+      {%- when 'service' -%}
+      <div class="col-{{ block.settings.service_column_sm }} col-sm-{{ block.settings.service_column_sm }} col-md-{{ block.settings.service_column_md }} col-lg-{{ block.settings.service_column }}" id="block-{{ block.id }}">
+        <div class="ltn__service-item-1">
+          <div class="service-item-img">
+            {%- if block.settings.service_image -%}
+            <img src="{{ block.settings.service_image | img_url: 'large' }}" alt="{{ block.settings.service_image.alt }}" loading="lazy">
+            {%- else -%}
+            <img src="https://via.placeholder.com/600x360" alt="Image">
+            {%- endif -%}
+            {%- if block.settings.service_icon_enable -%}
+            <div class="service-item-icon">            
+              {%- if block.settings.service_icon_select == 'parts' -%}
+              <i class="icon-car-parts"></i>
+              {%- elsif block.settings.service_icon_select == 'parts_2' -%}
+              <i class="icon-car-parts-1"></i>
+              {%- elsif block.settings.service_icon_select == 'parts_3' -%}
+              <i class="icon-car-parts-3"></i>
+              {%- elsif block.settings.service_icon_select == 'mechanic_one' -%}
+              <i class="icon-car"></i>
+              {%- elsif block.settings.service_icon_select == 'mechanic_two' -%}
+              <i class="icon-mechanic"></i>
+              {%- elsif block.settings.service_icon_select == 'car_service' -%}
+              <i class="icon-car-service"></i>
+              {%- elsif block.settings.service_icon_select == 'settings' -%}
+              <i class="icon-cog"></i>
+              {%- elsif block.settings.service_icon_select == 'automobile' -%}
+              <i class="icon-automobile"></i>
+              {%- elsif block.settings.service_icon_select == 'maintenance' -%}
+              <i class="icon-maintenance-1"></i>
+              {%- elsif block.settings.service_icon_select == 'repair' -%}
+              <i class="icon-repair"></i>
+              {%- endif -%}
+            </div>
+            {%- endif -%}
+          </div>
+          {%- if block.settings.service_title != '' or block.settings.service_content != '' -%}
+          <div class="service-item-brief">
+            {%- if block.settings.service_title != '' -%}
+            <h3><a href="{{ block.settings.service_url }}">{{ block.settings.service_title }}</a></h3>
+            {%- endif -%}
+            {%- if block.settings.service_content != '' -%}
+            {{ block.settings.service_content }}
+            {%- endif -%}
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+<!-- SERVICE AREA END -->
+
+
+{%- for block in section.blocks -%}
+{%- case block.type -%}
+{%- when 'service' -%}
+{%- if block.settings.block_color_enable -%}
+<style>
+  #block-{{ block.id }} h3 {
+    color: {{ block.settings.title_color }};
+  }
+  #block-{{ block.id }} h3:hover{
+    color: {{ block.settings.title_hover_color }};
+  }
+  #block-{{ block.id }} p{
+    color: {{ block.settings.content_color }};
+  }
+</style>
+{%- endif -%}
+{%- endcase -%}
+{%- endfor -%}
+
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }} .ltn__section-title-2 .section-subtitle.ltn__secondary-color {
+    color: {{ section.settings.sub_title_color }}!important;
+  }
+  #section-{{ section.id }} .ltn__section-title-2 .section-title {
+    color: {{ section.settings.title_color }};
+  }
+  #section-{{ section.id }} .section-title span{
+    color: {{ section.settings.title_highlight_color }};
+  }
+  #section-{{ section.id }}.before-bg-1:before {
+    background-color: {{ section.settings.half_bg_color }};
+  }
+</style>
+{%- endif -%}
+
+{%- render 'section-style' -%}
+
+{% schema %}
+{
+  "name": "Service (6)",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_sub_title",
+      "label": "Section Sub Title",
+      "default": "// Sub Title"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Section Title <span>.</span>",
+      "info": "Use <span> Tag for Highlight text"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "checkbox",
+      "id": "section_color_enable",
+      "label": "Color Enable",
+      "default": false,
+      "info": "Enable the field for color customization"
+    },
+    {
+      "type": "color",
+      "id": "sub_title_color",
+      "label": "Sub Title Color",
+      "default": "#e53e29"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "title_highlight_color",
+      "label": "Title Highlight Color",
+      "default": "#e53e29"
+    },
+    {
+      "type": "color",
+      "id": "half_bg_color",
+      "label": "Half BG Color",
+      "default": "#F2F6F7"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "service",
+      "name": "Service",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "service_image",
+          "label": "Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "service_icon_enable",
+          "label": "Service Icon Enable",
+          "default": true
+        },
+              {
+                "type": "select",
+                "id": "service_icon_select",
+                "label": "Select Icon",
+                "options":[
+                      {
+                          "label": "Parts",
+                          "value": "parts"
+                      },
+                      {
+                          "label": "Parts (Two)",
+                          "value": "parts_2"
+                      },
+                      {
+                          "label": "Parts (Three)",
+                          "value": "parts_3"
+                      },
+                      {
+                          "label": "Mechanic One",
+                          "value": "mechanic_one"
+                      },
+                      {
+                          "label": "Mechanic Two",
+                          "value": "mechanic_two"
+                      },
+                      {
+                          "label": "Car Service",
+                          "value": "car_service"
+                      },
+                      {
+                          "label": "Settings",
+                          "value": "settings"
+                      },
+                      {
+                          "label": "Automobile",
+                          "value": "automobile"
+                      },
+                      {
+                          "label": "Maintenance",
+                          "value": "maintenance"
+                      },
+                      {
+                          "label": "Repair",
+                          "value": "repair"
+                      }
+                  ],
+                  "default": "parts"
+              },
+        {
+          "type": "text",
+          "id": "service_title",
+          "label": "Title",
+          "default": "Free Shipping"
+        },
+        {
+          "type": "richtext",
+          "id": "service_content",
+          "label": "Content",
+          "default": "<p>Provide free home delivery for all product over $100</p>"
+        },
+        {
+          "type": "url",
+          "id": "service_url",
+          "label": "URL"
+        },
+        {
+          "type": "header",
+          "content": "Column"
+        },
+        {
+          "type": "range",
+          "id": "service_column",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "label": "Desktop",
+          "unit": "/12",
+          "default": 4
+        },
+        {
+          "type": "range",
+          "id": "service_column_md",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "label": "Tablet",
+          "unit": "/12",
+          "default": 6
+        },
+        {
+          "type": "range",
+          "id": "service_column_sm",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "label": "Mobile",
+          "unit": "/12",
+          "default": 12
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "block_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#071c1f"
+        },
+        {
+          "type": "color",
+          "id": "title_hover_color",
+          "label": "Title Hover Color",
+          "default": "#e53e29"
+        },
+        {
+          "type": "color",
+          "id": "content_color",
+          "label": "Content Color",
+          "default": "#071c1f"
+        }
+      ]
+    },
+    {
+      "type": "section_padding",
+      "name": "Section Padding",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Large/Desktop Device"
+        },
+        {
+          "type": "range",
+          "id": "section_padding_top",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "label": "Padding Top",
+          "unit": "px",
+          "default": 115
+        },
+        {
+          "type": "range",
+          "id": "section_padding_bottom",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "label": "Padding Bottom",
+          "unit": "px",
+          "default": 70
+        },
+        {
+          "type": "header",
+          "content": "Tablet Device"
+        },
+        {
+          "type": "range",
+          "id": "section_padding_top_md",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "label": "Padding Top",
+          "unit": "px",
+          "default": 75
+        },
+        {
+          "type": "range",
+          "id": "section_padding_bottom_md",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "label": "Padding Bottom",
+          "unit": "px",
+          "default": 35
+        },
+        {
+          "type": "header",
+          "content": "Mobile Device"
+        },
+        {
+          "type": "range",
+          "id": "section_padding_top_xs",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "label": "Padding Top",
+          "unit": "px",
+          "default": 55
+        },
+        {
+          "type": "range",
+          "id": "section_padding_bottom_xs",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "label": "Padding Bottom",
+          "unit": "px",
+          "default": 10
+        }
+      ]
+    },
+    {
+      "type": "section_margin",
+      "name": "Section Margin",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Large/Desktop Device"
+        },
+        {
+          "type": "range",
+          "id": "section_margin_top",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "label": "Margin Top",
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "section_margin_bottom",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "label": "Margin Bottom",
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Tablet Device"
+        },
+        {
+          "type": "range",
+          "id": "section_margin_top_md",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "label": "Margin Top",
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "section_margin_bottom_md",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "label": "Margin Bottom",
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Mobile Device"
+        },
+        {
+          "type": "range",
+          "id": "section_margin_top_xs",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "label": "Margin Top",
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "section_margin_bottom_xs",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "label": "Margin Bottom",
+          "unit": "px",
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "section_background",
+      "name": "Section Background",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "section_bg_image",
+          "label": "BG Image"
+        },
+        {
+          "type": "color",
+          "id": "section_bg_color",
+          "label": "BG Color",
+          "default": "#071c1f"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Service (6)",
+      "category": "7. service",
+      "blocks": [
+        {
+          "type": "service"
+        },
+        {
+          "type": "service"
+        },
+        {
+          "type": "service"
+        },
+        {
+          "type": "section_background"
+        },
+        {
+          "type": "section_padding"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

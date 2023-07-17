@@ -1,0 +1,70 @@
+<div class="ltn__shop-options">
+  <ul>
+    {%- if section.settings.tab_bar_enable -%}
+    <li>
+      <div class="ltn__grid-list-tab-menu ">
+        <div class="nav">
+          <a class="active show" data-toggle="tab" href="#liton_product_grid"><i class="fas fa-th-large"></i></a>
+          <a data-toggle="tab" href="#liton_product_list"><i class="fas fa-list"></i></a>
+        </div>
+      </div>
+    </li>
+    {%- endif -%}
+    {%- if section.settings.short_by_enable -%}
+    <li>
+      <div class="short-by text-center">
+        <select class="nice-select" name="SortBy" id="SortBy">
+          <option value="manual">{{ 'collections.sorting.featured' | t }}</option>
+          <option value="best-selling">{{ 'collections.sorting.best_selling' | t }}</option>
+          <option value="title-ascending">{{ 'collections.sorting.az' | t }}</option>
+          <option value="title-descending">{{ 'collections.sorting.za' | t }}</option>
+          <option value="price-ascending">{{ 'collections.sorting.price_ascending' | t }}</option>
+          <option value="price-descending">{{ 'collections.sorting.price_descending' | t }}</option>
+          <option value="created-descending">{{ 'collections.sorting.date_descending' | t }}</option>
+          <option value="created-ascending">{{ 'collections.sorting.date_ascending' | t }}</option>
+        </select>
+      </div> 
+    </li>
+    {%- endif -%}
+    {%- if section.settings.showing_product_counter_enable -%}
+    {%- assign paginate_checker = paginate.current_page | times: products_limit -%}
+    {%- if paginate.items > paginate_checker -%}
+    {%- assign paginate_final = paginate_checker -%}
+    {%- else -%}
+    {%- assign paginate_final = paginate.items -%}
+    {%- endif -%}
+    {% assign showing_title = section.settings.showing_title_handle | split: "|" %}
+    <li>
+      <div class="showing-product-number text-right">
+        <span>
+          {{ showing_title | slice: 0 }} 
+          {{ paginate.current_offset | plus: 1 }} - {{ paginate_final }} 
+          {{ showing_title | slice: 1 }} 
+          {{ paginate.items }} 
+          {{ showing_title | slice: 2 }} 
+        </span>
+      </div> 
+    </li>
+    {%- endif -%}
+  </ul>
+</div>
+<script>
+  Shopify.queryParams = {};
+  if (location.search.length) {
+    for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+      aKeyValue = aCouples[i].split('=');
+      if (aKeyValue.length > 1) {
+        Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+      }
+    }
+  }
+  $(function() {
+    $('#SortBy')
+    .val('{{ collection.sort_by | default: collection.default_sort_by }}')
+         .bind('change', function() {
+      Shopify.queryParams.sort_by = jQuery(this).val();
+      location.search = jQuery.param(Shopify.queryParams);
+    }
+    );
+  });
+</script>

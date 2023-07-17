@@ -1,0 +1,124 @@
+<!-- Utilize Mobile Menu Start -->
+<div id="ltn__utilize-mobile-menu" class="ltn__utilize ltn__utilize-mobile-menu">
+  <div class="ltn__utilize-menu-inner ltn__scrollbar">
+    <div class="ltn__utilize-menu-head">
+      <div class="site-logo">
+        {% capture logo_size %}{{ section.settings.logo_width | escape }}x{% endcapture %}
+        {%- if section.settings.logo_3 -%}
+        <a href="{{ routes.root_url }}" class="theme-logo">
+          <img loading="lazy" src="{{ section.settings.logo_3 | img_url: logo_size }}" alt="{{ section.settings.logo_3.alt | default: shop.name }}"
+               {%- if section.settings.ratina_logo_enable -%}
+               srcset="{{ section.settings.logo_3 | img_url: logo_size }} 1x, {{ section.settings.logo_3 | img_url: logo_size, scale: 2 }} 2x"
+               {%- endif -%}>
+        </a>
+        {%- elsif section.settings.logo -%}
+        <a href="{{ routes.root_url }}" class="theme-logo">
+          <img loading="lazy" src="{{ section.settings.logo | img_url: logo_size }}" alt="{{ section.settings.logo.alt | default: shop.name }}"
+               {%- if section.settings.ratina_logo_enable -%}
+               srcset="{{ section.settings.logo | img_url: logo_size }} 1x, {{ section.settings.logo | img_url: logo_size, scale: 2 }} 2x"
+               {%- endif -%}>
+        </a>
+        {%- else -%}
+        <a href="{{ routes.root_url }}">
+          <strong>{{ shop.name }}</strong>
+        </a>
+        {%- endif -%}
+      </div>
+      <button class="ltn__utilize-close">×</button>
+    </div>
+    {%- if section.settings.mobile_search_field_enable -%}
+    <div class="ltn__utilize-menu-search-form">
+      {%- render 'search-bar' -%}
+    </div>
+    {%- endif -%}
+    <div class="ltn__utilize-menu">
+      <ul>
+        {%- for link in linklists.main-menu.links -%}
+        {%- assign childlink_handle = link.title | handle -%}
+        {%- if linklists[childlink_handle] and linklists[childlink_handle].links.size > 0 -%}
+        {%- if link.levels == 1 -%}
+        <li><a href="{{ link.url }}">{{ link.title }}</a>
+          <ul class="sub-menu">
+            {%- for childlink in linklists[childlink_handle].links -%}
+            <li><a href="{{ childlink.url }}">{{ childlink.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </li>
+        {%- elsif link.levels == 2 -%}
+        <li><a href="{{ link.url }}">{{ link.title }}</a>
+          <ul class="sub-menu">
+            {%- for childlink in linklists[childlink_handle].links -%}
+            {%- assign grand_childlink_handle = childlink.title | handle -%}
+            {%- if linklists[grand_childlink_handle] and linklists[grand_childlink_handle].links.size > 0 -%}
+            <li><a href="{{ childlink.url }}">{{ childlink.title }}</a>
+              <ul class="sub-menu">
+                {%- for grand_childlink in linklists[grand_childlink_handle].links -%}
+                <li><a href="{{ grand_childlink.url }}">{{ grand_childlink.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            </li>
+            {%- elsif childlink.type == "collection_link" and childlink.object.image -%}
+            <li><a href="{{ childlink.url }}"><img loading="lazy" src="{{ childlink.object.image | img_url: 'large' }}" alt="" /></a></li>
+            {%- endif -%}  
+            {%- endfor -%}
+          </ul>
+        </li>
+        {%- endif -%}
+        {%- else -%}
+        <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- endif -%}
+        {%- endfor -%}
+        {%- if section.settings.extra_menu_item_enable -%}
+        <li>
+          <a {% if section.settings.target_blank_enable %}target="_blank"{% endif %} href="{{ section.settings.extra_menu_item_url }}">{{ section.settings.extra_menu_item_title }}</a>
+        </li>
+        {%- endif -%}
+      </ul>
+    </div>
+    {%- if section.settings.header_option_enable -%}
+    <div class="ltn__utilize-buttons ltn__utilize-buttons-2">
+      <ul>
+        {%- if section.settings.user_menu_title != '' -%}
+        <li>
+          <a href="{{ routes.account_url }}" title="{{ section.settings.user_menu_title }}">
+            <span class="utilize-btn-icon">
+              <i class="far fa-user"></i>
+            </span>
+            {{ section.settings.user_menu_title }}
+          </a>
+        </li>
+        {%- endif -%}
+        {%- if section.settings.wishlit_title != '' -%}
+        <li>
+          <a href="{{ pages[section.settings.wishlist_page_handle].url }}" title="{{ section.settings.wishlit_title }}">
+            <span class="utilize-btn-icon">
+              <i class="far fa-heart"></i>
+            </span>
+            {{ section.settings.wishlit_title }}
+          </a>
+        </li>
+        {%- endif -%}
+        {%- if section.settings.shopping_cart_title != '' -%}        
+        <li>
+          <a href="{{ routes.cart_url }}" title="Shoping Cart">
+            <span class="utilize-btn-icon">
+              <i class="fas fa-shopping-cart"></i>
+              <sup><span class="bigcounter">{{ cart.item_count }}</span></sup>
+            </span>
+            {{ section.settings.shopping_cart_title }}
+          </a>
+        </li>
+        {%- endif -%}
+      </ul>
+    </div>
+    {%- endif -%}
+    {%- if section.settings.mobile_social_midea_enable -%}
+    <div class="ltn__social-media-2">
+      <ul>
+        {%- render 'social-media' -%}
+      </ul>
+    </div>
+    {%- endif -%}
+  </div>
+</div>
+<!-- Utilize Mobile Menu End -->

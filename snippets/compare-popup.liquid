@@ -1,0 +1,27 @@
+<div class="loading-modal compare_modal">{{ 'general.search.loading' | t }}</div>
+<div class="ajax-success-compare-modal compare_modal" id="moda-compare" tabindex="-1" role="dialog" style="display:none">
+  <div class="overlay"> </div>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content content" id="compare-modal">
+      <div class="modal-header">
+        <div class="modal-close">
+          <span class="compare-modal-close"><i class="icon-cancel for-search-close"></i></span>
+        </div>
+        <h4 class="modal-title">{{ settings.compare_popup_title }}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="table-wrapper">
+          <table class="table table-hover table-responsive">
+            <thead>
+              <tr class="th-compare">
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="table-compare">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+{%- form 'new_comment', article -%}
+
+{{ form.errors | default_errors }}
+
+{%- if blog.moderated? -%}
+<p>{{ 'blogs.comments.moderated' | t }}</p>
+{%- endif -%}
+
+<div class="input-item input-item-textarea ltn__custom-icon">
+  <textarea name="comment[body]" id="commentBody" placeholder="{{ 'blogs.comments.message' | t }}">{{ form.body }}</textarea>
+</div>
+<div class="input-item input-item-name ltn__custom-icon">
+  <input type="text" class="{% if form.errors contains 'author' %}error{% endif %}" name="comment[author]" id="commentAuthor" value="{{ form.author }}" placeholder="{{ 'blogs.comments.name' | t }}">
+</div>
+<div class="input-item input-item-email ltn__custom-icon">
+  <input type="email" class="{% if form.errors contains 'email' %}error{% endif %}" name="comment[email]" id="commentEmail" value="{{ form.email }}" placeholder="{{ 'blogs.comments.email' | t }}">
+</div>
+<div class="btn-wrapper">
+  <button class="btn theme-btn-1 btn-effect-1 text-uppercase" type="submit" name="submit"><i class="far fa-comments"></i> {{ section.settings.button_title }}</button>
+</div>
+{% endform %}

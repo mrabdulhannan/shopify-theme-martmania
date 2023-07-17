@@ -1,0 +1,380 @@
+<div class="modal fade productModal ltn__sp-modal" id="quickViewModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-12">
+            <div class="qwick-view-left">
+              <div class="quick-view-learg-img">
+                <div class="quick-view-tab-content tab-content">
+                  <div class="product-main-image__item">
+                    <div class="img_box_1"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-12">
+            <div class="qwick-view-right modal-product-info">
+              <div class="qwick-view-content">
+                <div class="product-rating spr-badge-caption-none">
+                  <div class="quick-view-rating rating">FROM_JS</div>
+                </div>
+                <h1 class="product_title">FROM_JS</h1>
+                <div class="product-price product-info__price price-part">
+                  <span class="main">jsprice</span>
+                  <span class="price-box__new">jsprice</span>
+                </div>
+
+                <div class="short-description product-des">FROM_JS</div>
+
+                <form id="add-item-qv" action="/cart/add" method="post">
+                  <div class="quick-view-select variants select-option-part"></div>
+                  <div class="quickview-plus-minus">
+                    <div class="cart-plus-minus">
+                      <input type="text" value="01" name="quantity" class="cart-plus-minus-box">
+                    </div>
+                    <div class="quickview-btn-cart">
+                      <button type="submit" class="addtocartqv theme-default-button----  theme-btn-1 btn btn-effect-1">{{ settings.qcv_add_to_cart_text }}</button>
+                    </div>
+                  </div>
+                  <script>
+                    jQuery('.addtocartqv').click(function(e) {
+                      e.preventDefault();
+                      Shopify.addItemFromFormStart('add-item-qv', jQuery(this).attr('id'));
+                    });
+                  </script> 
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span class="close-icon" aria-hidden="true"><i class="icon-cancel  for-search-close"></i></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="quickViewModal_info" style="display: none;">
+  <div class="button">{{ settings.qcv_add_to_cart_text }}</div>
+  <div class="button_added">{{ settings.qcv_cart_added_text }}</div>
+  <div class="button_error">{{ settings.qcv_cart_error_text }}</div>
+  <div class="button_wait">{{ settings.qcv_cart_wait_text }}</div>
+</div>
+
+<script async="async">  
+  var mainImage = '';
+  jQuery(function ($) {
+
+    quiqview = function(product_handle) {
+      Shopify.getProduct(product_handle);
+    }
+    Shopify.onProduct = function(product) {
+      $('.viewfullinfo').attr('href', product.url);
+
+      // product description without shortcode
+      text_truncate = function(str, length, ending) {
+        if (length == null) {
+          length = 500;
+        }
+        if (ending == null) {
+          ending = '...';
+        }
+        if (str.length > length) {
+          return str.substring(0, length - ending.length) + ending;
+        } else {
+          return str;
+        }
+      };
+
+      var _parent = '#quickViewModal';
+      $(_parent+' .product_title').text(product.title);
+     
+
+
+      // product rating
+      $(_parent+' .rating').empty();
+      $(_parent+' .rating').append("<span class=\"shopify-product-reviews-badge\" data-id=\""+product.id+"\"></span>");
+
+
+      //check variants
+      var variant = '';
+
+      for (i = 0; i < product.variants.length; i++) {
+        if(product.variants[i].inventory_quantity > 0) {
+          variant = product.variants[i];
+          break;
+        }
+      }
+
+      if(variant == '') {
+        for (i = 0; i < product.variants.length; i++) {
+          if(product.variants[i].inventory_policy == "continue") {
+            variant = product.variants[i];
+            break;
+          }
+        }
+        if(variant == '') {
+          variant = product.variants[0];
+        }
+      }
+
+      mainImage = product.featured_image;
+      var shopifyimgurl = variant.featured_image ? variant.featured_image.src : product.featured_image;
+      var imgurl = "<img class=\"full-width\" alt=\"\" src = \""+shopifyimgurl+"\" >";
+      jQuery(_parent+' .product-main-image__item .img_box_1').empty();
+      jQuery(_parent+' .product-main-image__item .img_box_1').append(imgurl);
+      jQuery(_parent+' .product-main-image__item .img_box_2').empty();
+      jQuery(_parent+' .product-main-image__item .img_box_2').append(imgurl);
+
+      // product description with shortcode
+      var desc = product.description;
+      if (desc.indexOf("[short_description]") >= 0) {
+        desc = desc.split("[short_description]");
+        desc = desc[1].split("[/short_description]");
+        $(_parent+' .product-des').show();
+        $(_parent+' .product-des').html(desc[0]);
+      }
+      else {
+        $(_parent+' .product-des').html(text_truncate(product.description,250));
+      }
+
+      //set variants property
+      var inv_qua = variant.inventory_quantity;
+      //price
+      if(variant.price < variant.compare_at_price) {
+        $('.price-part .main').addClass('amount');
+        $('.price-part .price-box__new').show();
+        changePriceValue('.price-part .main', variant.compare_at_price);
+        changePriceValue('.price-part .price-box__new', variant.price);
+      }
+      else {
+        $('.price-part .price-box__new').hide();
+        $('.price-part .main').removeClass('amount');
+        changePriceValue('.price-part .main', variant.price);
+      }
+
+      // Variants select
+      if(product.variants.length > 1) {
+        var variants_margin = product.options.length == 2 ? 'variants_margin' : '';
+
+        var select = '<select id="product-select-qv" name="id">';
+        var selected = 'selected';
+        for (i = 0; i < product.variants.length; i++) {
+          var _var = product.variants[i];
+          if(_var.available) {
+            select += '<option value="' + _var.id + '"' + selected +'>' + _var.title + ' - ' + Shopify.formatMoney(_var.price, "{{ shop.money_format }}") + '</option>'
+                                                                                                                   selected = '';
+                                                                                                                   }
+                                                                                                                   }
+                                                                                                                   select += '</select>';
+
+                                                                                                                   var variant_select = '<div class="variants_selects ' + variants_margin + '">';
+                                                                                                                   variant_select += select;
+                                                                                                                   variant_select += '</div><div class="divider divider--sm"></div>';
+                                                                                                                   select = variant_select;
+                                                                                                                   }
+                                                                                                                   else {
+                                                                                                                   var select = '<input type="hidden" name="id" value="' + product.variants[0].id + '" />';
+                                                                                                                   }
+                                                                                                                   $('.variants').empty();
+            $('.variants').html(select);
+
+            //parametres
+            setParametresText(_parent+' .product-sku', variant.sku);
+            if(jQuery(_parent + ' .product-sku').length) {
+              var $ava = jQuery(_parent + " .product-info__availabilitu");
+              if(variant.sku != "") {
+                if($ava.hasClass('pull-left')){ $ava.removeClass('pull-left') }
+              } else {
+                if(!$ava.hasClass('pull-left')){ $ava.addClass('pull-left') }
+              }
+            }
+
+            //quantity
+            var out_of_stock = false;
+            if(variant.inventory_management) {
+              if(inv_qua > 0) {
+                $(_parent+' .product-availability').text(inv_qua + " {{ 'popup_quick_view.general.in_stock' | t }}");
+                                                         }
+                                                         else {
+                                                         out_of_stock = true;
+                                                         $(_parent+' .product-availability').text("{{ 'popup_quick_view.general.in_stock' | t }}");
+                                                                                                  }
+                                                                                                  }
+                                                                                                  else {
+                                                                                                  $(_parent+' .product-availability').text("{{ 'popup_quick_view.general.many_in_stock' | t }}");
+                                                                                                                                           }
+
+                                                                                                                                           // button
+                                                                                                                                           if(!out_of_stock || variant.inventory_policy == "continue") {        
+                  $('.product-available').show();
+                  $('.product-disable').hide();
+                  $('.addtocartqv').attr('id', product.id );
+                }
+                else {
+                  $('.product-available').hide();
+                  $('.product-disable').show();
+                }
+
+                if (product.available && product.variants.length > 1) {
+                  new Shopify.OptionSelectors("product-select-qv", { product: product, onVariantSelected: selectCallbackQv, enableHistoryState: true });
+
+                  if($('#quickViewModal .variants_selects .selector-wrapper').length > 0) {
+                    $.each( jQuery('#quickViewModal .variants_selects .selector-wrapper'), function(index) {
+                      $(this).find('label').text(product.options[index].name);
+                    });
+                  }
+                }
+                else {
+                  jQuery('.currency .active').trigger('click');
+                }
+                selectGrid(_parent);
+
+                if($(".spr-badge").length > 0) {
+                  $.getScript(window.location.protocol + "//productreviews.shopifycdn.com/assets/v4/spr.js");
+                }
+
+                if($(".selector-wrapper label").length) {
+                  $(".selector-wrapper label").each(function( index ) {
+                    $(this).text(jQuery(this).text() + ":");
+                  });
+                }
+
+                $(_parent).modal('show');
+
+                if( !( 'ontouchstart' in window ) &&
+                   !navigator.msMaxTouchPoints &&
+                   !navigator.userAgent.toLowerCase().match( /windows phone os 7/i ) ) return false;
+
+                $j('body').css("top", -$j('body').scrollTop());
+                $j('body').addClass("no-scroll");
+                $j('.close').click(function(){
+                  var top = parseInt($j('body').css("top").replace("px", ""))*-1;
+                  $j('body').removeAttr("style");
+                  $j('body').removeClass("no-scroll");
+                  $j('body').scrollTop(top);
+                });
+              }
+
+              function setParametresText(obj, value) {
+                if(value != '') {
+                  $(obj).parent().show();
+                  $(obj).text(value);
+                }
+                else {
+                  $(obj).parent().hide();
+                }
+              }
+
+              function changePriceValue (cell, value) {
+                $(cell).html(Shopify.formatMoney(value, "{{ shop.money_format }}"));
+                                                 };
+
+                                                 });
+
+
+
+                             var selectCallbackQv = function(variant, selector) {
+
+                  var _parent = '#quickViewModal';
+                  var _parentprice = _parent + ' .price-part';
+                  if (!variant) {
+                    jQuery(_parent + " .price-box").hide();
+                    jQuery(_parent + " .qwt").hide();
+                    jQuery(_parent + " .control-console").hide();
+                    jQuery(_parent + ' .addtocartqv').attr('disabled','disabled');
+                    jQuery(_parent + ' .addtocartqv').text('{{ 'products.product.unavailable' | t }}');
+                                                           return false;
+                                                           }
+
+                                                           jQuery(_parent + " .price-box").show();
+                    jQuery(_parent + " .qwt").show();
+                    jQuery(_parent + " .control-console").show();
+
+                    if(variant.price < variant.compare_at_price){
+                      jQuery(_parentprice + ' .main').addClass('price-box__old');
+                      jQuery(_parentprice + ' .price-box__new').show();
+                      changePriceValue(_parentprice + ' .main', variant.compare_at_price);
+                      changePriceValue(_parentprice + ' .price-box__new', variant.price);
+                    } else {
+                      jQuery(_parentprice + ' .price-box__new').hide();
+                      jQuery(_parentprice + ' .main').removeClass('price-box__old');
+                      changePriceValue(_parentprice + ' .main', variant.price);
+                    }
+
+                    newVariantTextDataQv(_parent + ' .product-sku', variant.sku);
+
+                    if(jQuery(_parent + ' .product-sku').length) {
+                      var $ava = jQuery(_parent + " .product-info__availabilitu");
+                      if(variant.sku != "") {
+                        if($ava.hasClass('pull-left')){ $ava.removeClass('pull-left') }
+                      } else {
+                        if(!$ava.hasClass('pull-left')){ $ava.addClass('pull-left') }
+                      }
+                    }
+
+                    if (variant.available) {
+                      if (variant.inventory_management == null) {
+                        jQuery(_parent + " .product-availability").text("{{ 'popup_quick_view.general.many_in_stock' | t }}");
+                                                                        } else {
+                                                                        jQuery(_parent + " .product-availability").text(" {{ 'popup_quick_view.general.many_in_stock' | t }}");
+                                                                                                                        }
+                                                                                                                        } else {
+                                                                                                                        jQuery(_parent + " .product-availability").text("{{ 'products.product.sold_out' | t }}");
+      }
+
+	  var shopifyimgurl = variant.featured_image ? variant.featured_image.src : mainImage;
+      var imgurl = "<img class=\"full-width\" alt=\"\" src = \""+shopifyimgurl+"\" >";
+	  if(jQuery(_parent+' .product-main-image__item .img_box_1').children().length > 0) {
+                          var detach = jQuery(_parent+' .product-main-image__item .img_box_1 img').detach();
+                          jQuery(_parent+' .product-main-image__item .img_box_2').empty();
+                          jQuery(_parent+' .product-main-image__item .img_box_2').append(detach);
+                        }
+                        jQuery(_parent+' .product-main-image__item .img_box_1').empty();
+                        jQuery(_parent+' .product-main-image__item .img_box_1').append(imgurl);
+
+                        if (variant && variant.available) {
+                          jQuery(_parent + ' .addtocartqv').removeAttr('disabled');
+                          jQuery(_parent + ' .addtocartqv').html('{{ 'products.product.add_to_cart' | t }}');
+                                                                 jQuery(_parent + " .control-console").show();
+                        } else {
+                          jQuery(_parent + ' .addtocartqv').attr('disabled','disabled');
+                          jQuery(_parent + ' .addtocartqv').text('{{ 'products.product.unavailable' | t }}');
+                                                                 jQuery(_parent + " .control-console").hide();
+                        }
+
+                        jQuery('.currency .active').trigger('click');
+                      };
+
+                      function changePriceValue (cell, value) {
+                        jQuery(cell).html(Shopify.formatMoney(value, "{{ shop.money_format }}"));
+                                                              };
+
+                                                              function newVariantTextDataQv (obj, value) {
+                                          if(value != '') {
+                          jQuery(obj).parent().show();
+                          jQuery(obj).text(value);
+                        }
+                        else {
+                          jQuery(obj).parent().hide();
+                        }
+                      };
+
+
+                      function selectGrid(_parent) {
+                        setTimeout(timeout, 5);
+                        function timeout() {
+                          if(jQuery(_parent + " .selector-wrapper").length > 2){
+                            jQuery(_parent + " .single-option-selector").addClass("select--wd");
+                          } else if(jQuery(_parent + " .selector-wrapper").length == 1){
+                            jQuery(_parent + " .single-option-selector").before("<label>{{ product.options.first }}</label>");
+                                                                                jQuery(_parent + " .single-option-selector").addClass("select--wd");
+                          }
+                        }
+                      };
+</script>
+
+<!-- END QUICKVIEW PRODUCT -->

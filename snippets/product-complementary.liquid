@@ -1,0 +1,175 @@
+<div
+  class="product-complementary" {{ block.shopify_attributes }}
+  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=4&intent=complementary"
+>
+  {%- if recommendations.performed? and recommendations.products_count > 0 -%}
+    <hr>
+      <h6>Pairs well with</h6>
+      <div class="row product-complementary__carousel slick-arrow-1">
+        {%- for product in recommendations.products -%}
+          {%- assign on_sale = false -%}
+          {%- if product.compare_at_price > product.price -%}
+          {%- assign on_sale = true -%}
+          {%- endif -%}
+          {%- assign sold_out = true -%}
+          {%- if product.available -%}
+          {%- assign sold_out = false -%}
+          {%- endif -%}
+          {%- assign variant = product.selected_or_first_available_variant -%}
+          {%- if product.available -%}
+          {%- assign func = "Shopify.addItem(" | append: variant.id | append: ", 1)" -%}
+          {%- endif -%}
+          <div class="col-lg-12">
+            <div class="ltn__product-item ltn__product-item-3 text-center {{ variant.id }}">
+              <div class="product-img">
+                {%- assign image = product.featured_image.src -%}
+                <a href="{{ product.url | within: collection }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+                  <img srcset="{% if image.width >= 150 %}{{ image | img_url: '152x' }} 152w,{% endif %}
+                               {% if image.width >= 243 %}{{ image | img_url: '266x' }} 266w,{% endif %}
+                               {% if image.width >= 366 %}{{ image | img_url: '366x' }} 366w,{% endif %}
+                               {% if image.width >= 576 %}{{ image | img_url: '576x' }} 576w,{% endif %}
+                               {% if image.width >= 600 %}{{ image | img_url: '600x' }} 600w,{% endif %}"
+                       src="{{ image | img_url: '600x' }}"
+                       sizes="100vw"
+                       width="{{ image.width }}"
+                       height="{{ image.height }}"
+                       alt="{{ image.alt | escape }}"
+                       loading="lazy"
+                       class="image-position-size popup_cart_image"
+                       >
+                </a>
+                <div class="product-hover-action">
+                  <ul>
+                    {%- unless product.description contains '[affiliate_link]' -%}
+                    <li>
+                      {%- if product.available -%}
+                      {%- if settings.product_cart_type == 'ajax_spin_cart' -%}
+                      <a href="javascript:void(0);" onclick="{{ func }}; return false;" class="ajax-spin-cart" title="{{ settings.cart_button_title }}">
+                        <span>
+                          <span class="cart-title"><i class="fas fa-shopping-cart"></i></span>
+                          <span class="cart-loading"><i class="fas fa-spinner fa-pulse"></i></span>
+                          <span class="cart-added"><i class="fas fa-check"></i></span>
+                          <span class="cart-unavailable"><i class="fas fa-exclamation-triangle"></i></span>
+                        </span>
+                      </a>
+                      {%- elsif settings.product_cart_type == 'ajax_popup_cart' -%}
+                      <a href="javascript:void(0);" onclick="{{ func }}; return false;" class="" title="{{ settings.cart_button_title }}">
+                        <span>
+                          <span class="cart-title"><i class="fas fa-shopping-cart"></i></span>
+                        </span>
+                      </a>
+                      {%- elsif settings.product_cart_type == 'without_ajax_cart' -%}
+                      <form action="/cart/add" method="post" enctype="multipart/form-data">
+                        <select name="id" style="display:none;">
+                          {% for variant in product.variants %}
+                          <option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price | money }}</option>
+                          {% endfor %}
+                        </select>
+                        <button type="submit" class="" title="{{ settings.cart_button_title }}">
+                          <span>
+                            <span class="cart-title"><i class="fas fa-shopping-cart"></i></span>
+                          </span>
+                        </button>
+                      </form>
+                      {%- endif -%}
+                      {%- else -%}
+                      <button class="cart-disable" title="{{ settings.soldout_button_title }}">
+                        <span class="cart-text"><i class="fas fa-shopping-cart"></i></span>
+                      </button>
+                      {%- endif -%}
+                    </li>
+                    {%- endunless -%}
+                    {%- if settings.wishlist_enable -%}
+                    <li>
+                      {%- render 'wishlist-button-2' with product as product -%}
+                    </li>
+                    {%- endif -%}
+                  </ul>
+                </div>
+                {%- if product.metafields.countdown != empty -%}
+                <div class="product-grid-countdown" data-countdown="{{ product.metafields.countdown.date }}"></div>
+                {%- elsif product.description contains '[countdown]' -%}
+                {%- assign count_down_first = product.description | split:'[/countdown]' | first -%}
+                {%- assign count_down_final = count_down_first | split:'[countdown]' | last -%}
+                <div class="product-grid-countdown" data-countdown="{{ count_down_final }}"></div> 
+                {%- endif -%}
+              </div>
+              <div class="product-info">
+                {%- if settings.product_review_enable -%}
+                <div class="product-ratting">
+                  <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+                </div>
+                {%- endif -%}
+                <h2 class="product-title popup_cart_title"><a href="{{ product.url | within: collection }}">{{ product.title }}</a></h2>
+                <div class="product-price">
+                  <span>{{ product.variants.first.price | money }}</span> 
+                  {%- if product.variants.first.compare_at_price > product.variants.first.price -%}
+                  <del>{{ product.variants.first.compare_at_price | money }}</del>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+  
+  {%- endif -%}
+</div>
+
+<script>
+  const handleIntersection = (entries, observer) => {
+    if (!entries[0].isIntersecting) return;
+
+    observer.unobserve(productRecommendationsSection);
+
+    const url = productRecommendationsSection.dataset.url;
+
+    fetch(url)
+      .then(response => response.text())
+      .then(text => {
+        const html = document.createElement('div');
+        html.innerHTML = text;
+        const recommendations = html.querySelector('.product-complementary');
+
+        if (recommendations && recommendations.innerHTML.trim().length) {
+          productRecommendationsSection.innerHTML = recommendations.innerHTML;
+          $('.product-complementary__carousel').slick({
+        		speed: 1000,
+        		autoplay: false,
+        		slidesToShow: 2,
+        		adaptiveHeight: true,
+        		prevArrow: '<a class="slick-prev"><i class="fas fa-arrow-left" alt="Arrow Icon"></i></a>',
+                nextArrow: '<a class="slick-next"><i class="fas fa-arrow-right" alt="Arrow Icon"></i></a>',
+        		responsive: [{
+        			breakpoint: 992,
+        			settings: {
+        				slidesToShow: 2
+        			}
+        		},
+        		{
+        			breakpoint: 768,
+        			settings: {
+        				slidesToShow: 2,
+        				arrows: true
+        			}
+        		},
+        		{
+        			breakpoint: 480,
+        			settings: {
+        				slidesToShow: 2,
+        				arrows: true
+        			}
+        		}]
+        	});
+        }
+      })
+      .catch(e => {
+        console.error(e);
+      });
+  };
+
+  const productRecommendationsSection = document.querySelector('.product-complementary');
+  const observer = new IntersectionObserver(handleIntersection, {rootMargin: '0px 0px 200px 0px'});
+
+  observer.observe(productRecommendationsSection);
+</script>

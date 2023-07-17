@@ -1,0 +1,50 @@
+<nav>
+  <div class="ltn__main-menu">
+    <ul>
+      {%- for link in linklists.main-menu.links -%}
+      {%- assign childlink_handle = link.title | handle -%}
+      {%- if linklists[childlink_handle] and linklists[childlink_handle].links.size > 0 -%}
+      {%- if link.levels == 1 -%}
+      <li class="menu-icon"><a href="{{ link.url }}">{{ link.title }}</a>
+        <ul>
+          {%- for childlink in linklists[childlink_handle].links -%}
+          <li><a href="{{ childlink.url }}">{{ childlink.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </li>
+      {%- elsif link.levels == 2 -%}
+      <li class="menu-icon"><a href="{{ link.url }}">{{ link.title }}</a>
+        <ul class="mega-menu">
+          {%- for childlink in linklists[childlink_handle].links -%}
+          {%- assign grand_childlink_handle = childlink.title | handle -%}
+          {%- if linklists[grand_childlink_handle] and linklists[grand_childlink_handle].links.size > 0 -%}
+          <li><a href="{{ childlink.url }}">{{ childlink.title }}</a>
+            <ul>
+              {%- for grand_childlink in linklists[grand_childlink_handle].links -%}
+              <li><a href="{{ grand_childlink.url }}">{{ grand_childlink.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </li>
+          {%- elsif childlink.type == "collection_link" and childlink.object.image -%}
+          <li>
+            <a href="{{ childlink.url }}">
+              <img src="{{ childlink.object.image | img_url: 'large' }}" alt="" loading="lazy"/>
+            </a>
+          </li>
+          {%- endif -%}  
+          {%- endfor -%}
+        </ul>
+      </li>
+      {%- endif -%}
+      {%- else -%}
+      <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+      {%- endif -%}
+      {%- endfor -%}
+      {%- if section.settings.extra_menu_item_enable -%}
+      <li class="special-link">
+        <a {% if section.settings.target_blank_enable %}target="_blank"{% endif %} href="{{ section.settings.extra_menu_item_url }}">{{ section.settings.extra_menu_item_title }}</a>
+      </li>
+      {%- endif -%}
+    </ul>
+  </div>
+</nav>

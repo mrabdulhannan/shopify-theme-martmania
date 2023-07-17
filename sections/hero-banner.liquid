@@ -1,0 +1,471 @@
+{%- if section.settings.section_color_enable -%}
+<style>
+  #section-{{ section.id }} .ltn__section-title-2 .section-subtitle.ltn__secondary-color {
+    color: {{ section.settings.sub_title_color }}!important;
+  }
+  #section-{{ section.id }} .ltn__section-title-2 .slide-title {
+    color: {{ section.settings.title_color }};
+  }
+  #section-{{ section.id }} .theme-btn-1 {
+    background-color: {{ section.settings.button_bg_color }};
+    color: {{ section.settings.button_text_color }};
+  }
+  #section-{{ section.id }} .btn-effect-1:hover {
+    color: {{ section.settings.button_text_hover_color }};
+  }
+  #section-{{ section.id }} .theme-btn-1:hover {
+    background-color: {{ section.settings.button_bg_hover_color }};
+  }
+  #section-{{ section.id }} .btn-effect-1:after{
+    background-color: {{ section.settings.button_bg_hover_active_color }};
+  }
+  #section-{{ section.id }} .btn-transparent {
+    background-color: {{ section.settings.button_2_bg_color }};
+    color: {{ section.settings.button_2_text_color }};
+    border-color: {{ section.settings.button_2_border_color }};
+  }
+  #section-{{ section.id }} .btn-effect-2:hover {
+    color: {{ section.settings.button_2_text_hover_color }};
+  }
+  #section-{{ section.id }} .btn-transparent:hover{
+  	background-color: {{ section.settings.button_2_bg_hover_color }};
+  }
+  #section-{{ section.id }} .btn-effect-2:after {
+    background-color: {{ section.settings.button_2_bg_hover_active_color }};
+  }
+</style>
+{%- endif -%}
+{%- render 'section-style' -%}
+<!-- SLIDER AREA START (slider-4) -->
+<div class="ltn__slider-area ltn__slider-4 " id="section-{{ section.id }}" data-section="heroBanner">
+  <div class="ltn__slide-one-active----- slick-slide-arrow-1----- slick-slide-dots-1----- arrow-white----- ltn__slide-animation-active">
+    <!-- ltn__slide-item -->
+    <div class="ltn__slide-item ltn__slide-item-2 ltn__slide-item-4 text-color-white">
+      <div class="ltn__slide-item-inner text-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12 align-self-center">
+              {%- if section.settings.content_enable -%}
+              <div class="slide-item-info">
+                <div class="slide-item-info-inner ltn__slide-animation">
+                  {%- if section.settings.sub_title != '' -%}
+                  <h6 class="slide-sub-title ltn__secondary-color animated text-uppercase">{{ section.settings.sub_title }}</h6>
+                  {%- endif -%}
+                  {%- if section.settings.title != '' -%}
+                  <h1 class="slide-title animated ">{{ section.settings.title }}</h1>
+                  {%- endif -%}
+                  <div class="btn-wrapper animated">
+                    {%- if section.settings.button_title != '' -%}
+                    <a href="{{ section.settings.button_url }}" class="theme-btn-1 btn btn-effect-1">{{ section.settings.button_title }}</a>
+                    {%- endif -%}
+                    {%- if section.settings.button_2_title != '' -%}
+                    <a href="{{ section.settings.button_2_url }}" class="btn btn-transparent btn-effect-2 white-color">{{ section.settings.button_2_title }}</a>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+              {%- endif -%}
+              {%- if section.settings.banner_enable -%}
+              <div class="ltn__slide-animation">
+                <div class="slide-item-img">
+                  {%- assign image = section.settings.banner_image -%}
+                  {%- if section.settings.banner_image -%}
+                  <a href="{{ section.settings.banner_url }}" class="image-position-wrapper" style="padding-bottom: {{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+                    <img srcset="{% if image.width >= 288 %}{{ image | img_url: '288x' }} 288w,{% endif %}
+                               {% if image.width >= 320 %}{{ image | img_url: '330x' }} 330w,{% endif %}
+                               {% if image.width >= 585 %}{{ image | img_url: '585x' }} 585w,{% endif %}
+                               {% if image.width >= 690 %}{{ image | img_url: '690x' }} 690w,{% endif %}
+                               {% if image.width >= 850 %}{{ image | img_url: '850x' }} 850w,{% endif %}
+                               {% if image.width >= 930 %}{{ image | img_url: '1503x' }} 1503w,{% endif %}
+                               {% if image.width >= 1170 %}{{ image | img_url: '1503x' }} 1503w,{% endif %}
+                               {% if image.width >= 1503 %}{{ image | img_url: '1503x' }} 1503w{% endif %}"
+                       loading="lazy"
+                       src="{{ image | img_url: '1503x' }}"
+                       sizes: "100vw"
+                       width="{{ image.width }}"
+                       height="{{ image.height }}"
+                       alt="{{ image.alt | escape }}"
+                       class="image-position-size"
+                       >
+                  </a>
+                  {%- else -%}
+                  <img src="https://via.placeholder.com/1503x409" alt="Banner">
+                  {%- endif -%}
+                </div>
+              </div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- SLIDER AREA END -->
+
+{% schema %}
+  {
+    "name": "Hero Banner",
+    "settings": [
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "checkbox",
+          "id": "content_enable",
+          "label": "Content Enable",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "sub_title",
+          "label": "Sub Title",
+          "default": "// Sub Title"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title",
+		  "default": "Title <br> Another title",
+		  "info": "Use <br> Tag for line break"
+        },
+        {
+          "type": "text",
+          "id": "button_title",
+          "label": "Button Title",
+          "default": "OUR SERVICES"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button URL"
+        },
+        {
+          "type": "text",
+          "id": "button_2_title",
+          "label": "Button 2 Title",
+          "default": "LEARN MORE"
+        },
+        {
+          "type": "url",
+          "id": "button_2_url",
+          "label": "Button 2 URL"
+        },
+        {
+          "type": "header",
+          "content": "Banner"
+        },
+        {
+          "type": "checkbox",
+          "id": "banner_enable",
+          "label": "Banner Enable",
+          "default": true
+        },
+		{
+          "type": "image_picker",
+          "id": "banner_image",
+          "label": "Image",
+          "info": "Recommended Size: 1503 x 409px"
+        },
+        {
+          "type": "url",
+          "id": "banner_url",
+          "label": "URL"
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "checkbox",
+          "id": "section_color_enable",
+          "label": "Color Enable",
+          "default": false,
+          "info": "Enable the field for color customization"
+        },
+        {
+          "type": "header",
+          "content": "Section Title"
+        },
+        {
+          "type": "color",
+          "id": "sub_title_color",
+          "label": "Sub Title Color",
+          "default": "#e53e29"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#071c1f"
+        },
+        {
+          "type": "header",
+          "content": "Button One"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color",
+          "label": "Button text Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_color",
+          "label": "Button BG Color",
+          "default": "#e53e29"
+        },
+        {
+          "type": "color",
+          "id": "button_text_hover_color",
+          "label": "Button text Hover Color",
+          "default": "#071c1f"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_hover_color",
+          "label": "Button BG Hover Color",
+          "default": "#071c1f"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_hover_active_color",
+          "label": "Button BG Hover Active Color",
+          "default": "#fff"
+        },
+        {
+          "type": "header",
+          "content": "Button Two"
+        },
+		{
+          "type": "color",
+          "id": "button_2_text_color",
+          "label": "Button text Color",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "button_2_bg_color",
+          "label": "Button BG Color"
+        },
+        {
+          "type": "color",
+          "id": "button_2_border_color",
+          "label": "Button Border Color",
+          "default": "#ddd"
+        },
+        {
+          "type": "color",
+          "id": "button_2_text_hover_color",
+          "label": "Button text Hover Color",
+          "default": "#071c1f"
+        },
+        {
+          "type": "color",
+          "id": "button_2_bg_hover_color",
+          "label": "Button BG Hover Color",
+          "default": "#e53e29"
+        },
+        {
+          "type": "color",
+          "id": "button_2_bg_hover_active_color",
+          "label": "Button BG Hover Active Color",
+          "default": "#fff"
+        }
+	],
+	"blocks":[
+	   {
+          "type": "section_padding",
+          "name": "Section Padding",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_padding_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Padding Bottom",
+			  "unit": "px",
+			  "default": 0
+			}
+          ]
+       },
+	   {
+          "type": "section_margin",
+          "name": "Section Margin",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "header",
+			  "content": "Large/Desktop Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 115
+			},
+			{
+			  "type": "header",
+			  "content": "Tablet Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_md",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 75
+			},
+			{
+			  "type": "header",
+			  "content": "Mobile Device"
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_top_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Top",
+			  "unit": "px",
+			  "default": 0
+			},
+			{
+			  "type": "range",
+			  "id": "section_margin_bottom_xs",
+			  "min": 0,
+			  "max": 150,
+			  "step": 5,
+			  "label": "Margin Bottom",
+			  "unit": "px",
+			  "default": 55
+			}
+          ]
+       },
+	   {
+          "type": "section_background",
+          "name": "Section Background",
+		  "limit": 1,
+          "settings": [
+            {
+			  "type": "image_picker",
+			  "id": "section_bg_image",
+			  "label": "BG Image"
+			},
+			{
+			  "type": "color",
+			  "id": "section_bg_color",
+			  "label": "BG Color",
+			  "default": "#071c1f"
+			}
+          ]
+       }
+	],
+	"presets": [
+		{
+		  "name": "Hero Banner",
+		  "category": "1. hero/slideshow",
+		  "blocks":[
+				{
+					"type": "section_background"
+				},
+				{
+					"type": "section_margin"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}
+

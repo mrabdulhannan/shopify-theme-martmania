@@ -1,0 +1,180 @@
+{%- unless section.settings.sidebar_handle == 'without_sidebar' -%}
+{% render 'collection-sidebar' %}
+
+{%- if section.settings.sidebar_handle == 'left_sidebar_handle' -%}
+<script>
+  $(".shop-sidebar").parent().addClass("col-lg-3 product-sidebar");
+  $(".product-sidebar").siblings().removeClass("col-12").addClass("col-lg-9 product-left-sidebar");
+  $(".product-left-sidebar").parent().addClass("flex-row-reverse");
+</script>
+{%- elsif section.settings.sidebar_handle == 'right_sidebar_handle' -%}
+<script>
+  $(".shop-sidebar").parent().addClass("col-lg-3 product-sidebar");
+  $(".product-sidebar").siblings().removeClass("col-12").addClass("col-lg-9");
+</script>
+{%- endif -%}
+
+{%- endunless -%}
+
+{% schema %}
+  {
+    "name": "Product Sidebar",
+    "settings": [
+		{
+              "type": "radio",
+              "id": "sidebar_handle",
+              "label": "Sidebar Position -",
+              "options": [
+                  {
+                      "label": "Left Sidebar",
+                      "value": "left_sidebar_handle"
+                  },
+                  {
+                      "label": "Right Sidebar",
+                      "value": "right_sidebar_handle"
+                  },
+                  {
+                      "label": "Without Sidebar",
+                      "value": "without_sidebar"
+                  }
+              ],
+              "default": "without_sidebar",
+			  "info": "Save after position change then check it."
+          }
+	],
+	"blocks":[
+		{
+          "type": "search",
+          "name": "Search",
+		  "limit": 1,
+          "settings": [
+            {
+              "type": "text",
+              "id": "widget_title",
+              "label": "Title",
+              "default": "Search"
+            }
+          ]
+       },
+	   {
+          "type": "category",
+          "name": "Category",
+		  "limit": 1,
+          "settings": [
+            {
+              "type": "text",
+              "id": "widget_title",
+              "label": "Title",
+              "default": "Categories"
+            },
+            {
+              "type": "range",
+              "id": "categories_list_limit_hanlde",
+              "min": 5,
+              "max": 20,
+              "step": 1,
+              "label": "Category Limit",
+              "default": 5
+            }
+          ]
+       },
+	   {
+          "type": "menu",
+          "name": "Menu",
+          "settings": [
+            {
+              "type": "text",
+              "id": "widget_title",
+              "label": "Title",
+              "default": "Custom Menu"
+            },
+			{
+              "type": "link_list",
+              "id": "menu_handle",
+              "label": "Menu",
+              "info": "Dropdown menu applicable"
+            }
+          ]
+       },
+	   {
+          "type": "banner",
+          "name": "Banner",
+          "settings": [
+            {
+              "type": "text",
+              "id": "widget_title",
+              "label": "Title",
+              "default": "Banner"
+            },
+            {
+              "type": "image_picker",
+              "id": "banner_image",
+              "label": "Image"
+            },
+			{
+              "type": "url",
+              "id": "banner_image_url",
+              "label": "URL"
+            }
+          ]
+       },
+	   {
+          "type": "collection",
+          "name": "Collection",
+          "settings": [
+            {
+              "type": "text",
+              "id": "widget_title",
+              "label": "Title",
+              "default": "Top Rated"
+            },
+            {
+                "type": "collection",
+                "id": "featured_product_handle",
+                "label": "Select Collection"
+            },
+            {
+                "type": "range",
+                "id": "featured_product_limit_handle",
+                "min": 2,
+                "max": 20,
+                "step": 1,
+                "label": "Limit",
+                "default": 3
+            }
+          ]
+       },
+	   {
+          "type": "recent-view",
+          "name": "Recent View Product",
+		  "limit": 1,
+          "settings": [
+            {
+              "type": "text",
+              "id": "recent_view_title",
+              "label": "Title",
+              "default": "Recently Viewed"
+            },
+            {
+              "type": "range",
+              "id": "product_limit",
+              "min": 1,
+              "max": 5,
+              "step": 1,
+              "label": "Product Limit",
+              "default": 3
+            },
+            {
+              "type": "range",
+              "id": "product_memory_limit",
+              "min": 4,
+              "max": 12,
+              "step": 2,
+              "label": "Product Memory Limit",
+              "default": 10
+            }
+          ]
+       }
+	]
+  }
+{% endschema %}
