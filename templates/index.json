@@ -725,6 +725,7 @@
     },
     "instagrid-1689156773": {
       "type": "instagrid",
+      "disabled": true,
       "custom_css": [
         "div#instagrid-feed-container {padding-top: 30px; padding-bottom: 30px;}"
       ],
