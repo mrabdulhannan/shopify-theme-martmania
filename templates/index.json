@@ -3,17 +3,17 @@
     "16430443280d3b9b59": {
       "type": "slideshow-category-menu",
       "blocks": {
-        "1643044328a4331ed6-1": {
+        "bbd14f99-1aee-45e5-8ec3-493476b13142": {
           "type": "slide",
           "settings": {
             "slide_image_enable": true,
-            "slide_image": "shopify:\/\/shop_images\/Untitled_design_17.png",
-            "slide_sub_title": "Barbieheimer iPhone Case",
+            "slide_image": "shopify:\/\/shop_images\/Untitled_design_10.png",
+            "slide_sub_title": "Barbie Airpods Case",
             "slide_title": "Get upto 30% off on Barbie Products!",
             "slide_content": "",
             "slide_button_title": "Shop Now",
-            "slide_button_url": "https:\/\/martmania.store\/collections\/barbie\/products\/tough-case-for-iphone%C2%AE",
-            "slide_content_position": "content_right",
+            "slide_button_url": "https:\/\/martmania.store\/collections\/barbie\/products\/kawaii-barbie-bluetooth-earphone-case-for-airpods-pro-1-2-3-anime-cartoon-cute-silicone-protective-soft-cover-with-plush-pendant",
+            "slide_content_position": "content_left",
             "block_color_enable": false,
             "slide_bg_color": "#f2f6f7",
             "sub_title_color": "#e53e29",
@@ -25,17 +25,17 @@
             "button_bg_hover_color": "#071c1f"
           }
         },
-        "bbd14f99-1aee-45e5-8ec3-493476b13142": {
+        "1643044328a4331ed6-1": {
           "type": "slide",
           "settings": {
             "slide_image_enable": true,
-            "slide_image": "shopify:\/\/shop_images\/Untitled_design_10.png",
-            "slide_sub_title": "Barbie Airpods Case",
-            "slide_title": "Get 30% off on Barbie Products!",
+            "slide_image": "shopify:\/\/shop_images\/Untitled_design_17.png",
+            "slide_sub_title": "Barbieheimer iPhone Case",
+            "slide_title": "Get upto 30% off on Barbie Products!",
             "slide_content": "",
             "slide_button_title": "Shop Now",
-            "slide_button_url": "https:\/\/zxun6jll4634l7za-78919795010.shopifypreview.com\/products_preview?preview_key=6dc0e62ed54bfc23fc5f927ae1306490",
-            "slide_content_position": "content_left",
+            "slide_button_url": "https:\/\/martmania.store\/collections\/barbie\/products\/tough-case-for-iphone%C2%AE",
+            "slide_content_position": "content_right",
             "block_color_enable": false,
             "slide_bg_color": "#f2f6f7",
             "sub_title_color": "#e53e29",
@@ -82,8 +82,8 @@
         }
       },
       "block_order": [
-        "1643044328a4331ed6-1",
         "bbd14f99-1aee-45e5-8ec3-493476b13142",
+        "1643044328a4331ed6-1",
         "1643044328a4331ed6-0",
         "1643044328a4331ed6-2"
       ],
