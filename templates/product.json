@@ -127,6 +127,9 @@
         "f35f858d-dc63-40fd-9c88-2be28aa5bc36",
         "a39b564c-c19e-4752-88c4-a8b946b124fb"
       ],
+      "custom_css": [
+        "iframe#trust-bar {height: 100%;}"
+      ],
       "settings": {
         "product_media_enable": true,
         "content_handle": "content_in_right",
