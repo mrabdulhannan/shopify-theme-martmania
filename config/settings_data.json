@@ -1633,7 +1633,7 @@
           "menu_handle": "footer",
           "logo_width": 150,
           "copyright_title": "Copyright & Design By",
-          "copyright_content": "Autixir -",
+          "copyright_content": "",
           "copyright_year_enable": true,
           "copy_ritht_text": "<p>Copyright© MartMania All Right Reserved.<\/p>",
           "section_color_enable": false,
