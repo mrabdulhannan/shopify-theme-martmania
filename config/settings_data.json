@@ -1552,8 +1552,8 @@
           "checkout_title": "Checkout",
           "cart_inforation": "<p>Free Shipping on All Orders Over $100!<\/p>",
           "mobile_search_field_enable": true,
-          "user_menu_title": "My Account",
-          "wishlit_title": "Wishlist",
+          "user_menu_title": "",
+          "wishlit_title": "",
           "wishlist_page_handle": "wishlist",
           "shopping_cart_title": "Shopping Cart",
           "mobile_social_midea_enable": false
