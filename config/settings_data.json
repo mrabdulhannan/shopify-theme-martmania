@@ -1611,7 +1611,8 @@
             "settings": {
               "widget_title": "Newsletter",
               "newsletter_content": "<p>Subscribe to our weekly Newsletter and receive updates via email.<\/p>",
-              "payment_widget_title": "",
+              "payment_widget_title": "We Accept",
+              "payment_image": "shopify:\/\/shop_images\/for_insta_10.png",
               "widget_column": 3,
               "widget_column_md": 6,
               "widget_column_sm": 12
