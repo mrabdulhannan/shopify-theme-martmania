@@ -1599,7 +1599,7 @@
           "9e0798b3-544d-4066-ad02-40d06c53417e": {
             "type": "menu",
             "settings": {
-              "widget_title": "",
+              "widget_title": "Collection",
               "menu_handle": "collection-footer-2",
               "widget_column": 2,
               "widget_column_md": 6,
