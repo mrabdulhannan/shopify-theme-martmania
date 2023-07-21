@@ -1536,7 +1536,7 @@
           "header_transparent_enable": false,
           "other_page_header_transparent_enable": false,
           "sticky_header_enable": false,
-          "logo": "shopify:\/\/shop_images\/mart_logo_ng_1.png",
+          "logo": "shopify:\/\/shop_images\/mart_logo_ng_web_size.png",
           "custom_logo_width_enable": true,
           "logo_width": 240,
           "ratina_logo_enable": true,
