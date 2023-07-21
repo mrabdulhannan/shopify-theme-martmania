@@ -1531,6 +1531,7 @@
           ".ltn__header-middle-area.ltn__sticky-bg-white {padding-bottom: 0; margin-bottom: -5%;}",
           ".search-icon {font-size: 22px !important;}",
           "i.icon-shopping-cart {font-size: 22px;}",
+          ".ltn__header-middle-area.ltn__sticky-bg-white {margin-bottom: 20px }",
           "@media only screen and (min-width: 600px) {.ltn__header-middle-area.ltn__sticky-bg-white {padding-top: 0 !important; } .ltn__header-options {margin: 0 0 20px 0 !important; }}"
         ],
         "settings": {
